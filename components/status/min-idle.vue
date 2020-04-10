@@ -1,0 +1,132 @@
+<template>
+  <view class="idle platform-detail">
+	  <view class="m-bottom-20">
+	  		<min-cell-item  :border="false" img="../../static/images/headurl60.png" title="夜乐俱乐部" label="广州市天河区元岗元岗横路智汇parkB3333"></min-cell-item>
+	  </view>
+    <view class="card p-lr-20 m-bottom-20">
+        <view class="p-tb-30 min-border-bottom">基本信息</view>
+        <view class="main p-tb-20">
+          <view class="status">空闲中</view>
+          <view>
+            台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：<text class="emp">{{data.baseInfo.desk_name}}</text>
+          </view>
+          <view>
+            分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：{{data.baseInfo.group_name}}
+          </view>
+          <view>
+            低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：{{data.baseInfo.is_minim_charge === 1 ? '￥'+ data.baseInfo.minim_charge :'否' }}
+          </view>
+          <view>
+            座&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{$minCommon.getSeats(data.baseInfo.seats)}}
+          </view>
+          <view>
+            开台条件：{{data.baseInfo.enable_minimum_consume === 1 ? data.baseInfo.minimum_consume_percent+'成低消'+ (data.baseInfo.finally_minimum_price) : '否'}}
+          </view>
+        </view>
+    </view>
+
+     <view class="btns">
+      <view :class="index === 0 ? 'btn active' : 'btn' "   @click="book">预约</view>
+      <view :class="index === 1 ? 'btn active' : 'btn' "  @click="startOrder">开台</view>
+      <view :class="index === 2 ? 'btn active' : 'btn' " @click="saveWine">存酒</view>
+      <view class="badge" @click="showToastTxt">
+          <text class="more" style="color: #CCCCCC;">&#xe61c;</text>
+          <view class="toast anmatiin " v-if="toast">
+              <view class="bag_btn"  @click="goGetHistory">历史</view>
+              <view  class="bag_btn"  @click="stopUse">停用</view>
+             <view class="bag"></view>
+          </view>
+      </view>
+    </view>
+    <min-modal ref='show'></min-modal>
+  </view>
+</template>
+
+<script>
+export default {
+  // 空闲中
+  props: {
+    idNum: Number,
+    status: Number,
+    data: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data () {
+    return {
+      toast: false,
+      index: Number
+    }
+  },
+  methods: {
+    goGetHistory () {
+      this.$minRouter.push({
+        name: 'platform-history',
+        params: { id: this.idNum }
+      })
+    },
+    // 预约
+    book () {
+      this.index = 0
+      this.$minRouter.push({
+        name: 'order-make',
+        params: { id: this.idNum }
+      })
+    },
+    // 开台
+    startOrder () {
+      this.index = 1
+      // console.log(this.idNum)
+      this.$minRouter.push({
+        name: 'start-stage',
+        params: { desk_id: this.idNum, status: this.data.baseInfo.status }
+      })
+    },
+    // 停用
+    stopUse () {
+      this.$refs.show.handleShow({
+        title: '',
+        content: '是否确认停用此台',
+        contentCenter: true,
+        cancelText: '点错了',
+        confirmText: '停用',
+        confirmColor: 'red',
+        cancelColor: '#0090ff',
+        success: (e) => {
+          if (e.id === 1) {
+            this.$minApi.stopUse({ id: this.idNum })
+            // 停用成功
+              .then(res => {
+                console.log(res)
+                if (res.length === 0) {
+                  this.$showToast('停用成功')
+                  setTimeout(() => {
+                    this.$minRouter.push({
+                      name: 'platform-admin'
+                    })
+                  }, 2000)
+                }
+              })
+          }
+        }
+      })
+    },
+    // 存酒
+    saveWine () {
+      this.index = 2
+      // 跳转到选择客户页面（存酒）
+      this.$minRouter.push({
+        name: 'select-customers'
+      })
+    },
+    // 展示剩余按钮
+    showToastTxt () {
+      this.toast = !this.toast
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import './index.scss';
+</style>
