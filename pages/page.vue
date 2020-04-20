@@ -30,15 +30,45 @@
 						}
 					},
 					{
+						path: 'pages/lead-users/index',
+						style: {
+							navigationBarTitleText: '线索用户'
+						}
+					},
+					{
+						path: 'pages/batch-editing/index',
+						style: {
+							navigationBarTitleText: '线索用户（批量编辑）'
+						}
+					},
+					{
+						path: 'pages/lead-search/index',
+						style: {
+							navigationBarTitleText: '线索用户（搜索）'
+						}
+					},
+					{
+						path: 'pages/my-clue/index',
+						style: {
+							navigationBarTitleText: '我的线索'
+						}
+					},
+					{
+						path: 'pages/platform-activities/index',
+						style: {
+							navigationBarTitleText: '平台活动'
+						}
+					},
+					{
 						path: 'pages/my-downline/index',
 						style: {
 							navigationBarTitleText: '我的下线'
 						}
 					},
 					{
-						path: 'pages/select-customers/index',
+						path: 'pages/personal-task/index',
 						style: {
-							navigationBarTitleText: '客户选择'
+							navigationBarTitleText: '个人任务'
 						}
 					},
 					{

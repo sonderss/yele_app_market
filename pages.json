@@ -25,6 +25,44 @@
          }
     },
 	{
+	      "path": "pages/lead-users/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"线索用户",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001",
+				"buttons": [
+				  {
+				    "text": "批量编辑",
+				    "fontSize": "14px",
+					"width": "auto"
+				  }
+				]
+	          }
+	        }
+	      }
+	},
+	{
+	      "path": "pages/batch-editing/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"线索用户(批量编辑)",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001",
+				"buttons": [
+				  {
+				    "text": "完成",
+				    "fontSize": "14px",
+				    "width": "auto"
+				  }
+				]
+	          }
+	        }
+	      }
+	},
+	{
 	      "path": "pages/platform-detail/index",
 	      "style": {
 	        "app-plus":{
@@ -35,7 +73,55 @@
 	          }
 	        }
 	      }
-	    },
+	},
+	{
+	      "path": "pages/lead-search/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"线索用户（搜索）",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001"
+	          }
+	        }
+	      }
+	},
+	{
+	      "path": "pages/platform-activities/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"平台活动",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001"
+	          }
+	        }
+	      }
+	},
+	{
+	      "path": "pages/personal-task/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"个人任务",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001"
+	          }
+	        }
+	      }
+	},
+	{
+	  "path": "pages/my-clue/index",
+	  "style": {
+		"app-plus":{
+		  "titleNView":{
+			"titleText":"我的线索",
+			"backgroundColor":"#030313",
+			"titleColor":"#FFE001"
+		  }
+		}
+	  }
+	},
     {
       "path": "pages/index/index",
       "style": {

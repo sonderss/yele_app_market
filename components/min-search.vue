@@ -5,6 +5,7 @@
       <input class="search min-flex-1" type="text" confirm-type="search" :placeholder="placeholder"
         @input="handleInput"
         :value="value"
+		@focus="onfocus"
       >
       <view v-show="String(value)" @click="handleClose" class="search-close-box min-flex">
         <image class="search-close" src="/static/images/close.png"></image>
@@ -39,7 +40,10 @@ export default {
     },
     handleInput (e) {
       this.$emit('input', e.target.value)
-    }
+    },
+	onfocus(){
+		this.$emit('focus')
+	}
   }
 }
 </script>
