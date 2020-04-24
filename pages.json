@@ -111,6 +111,18 @@
 	      }
 	},
 	{
+	      "path": "pages/team-task/index",
+	      "style": {
+	        "app-plus":{
+	          "titleNView":{
+	            "titleText":"团队任务",
+	            "backgroundColor":"#030313",
+	            "titleColor":"#FFE001"
+	          }
+	        }
+	      }
+	},
+	{
 	  "path": "pages/my-clue/index",
 	  "style": {
 		"app-plus":{

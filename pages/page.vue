@@ -72,6 +72,12 @@
 						}
 					},
 					{
+						path: 'pages/team-task/index',
+						style: {
+							navigationBarTitleText: '团队任务'
+						}
+					},
+					{
 						path: 'pages/mine-info/index',
 						style: {
 							navigationBarTitleText: '个人资料'
