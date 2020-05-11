@@ -1,226 +1,272 @@
 {
 	"pages": [
-    
-   
-   
-   {
-     "path": "pages/page",
-     "style": {
-       "app-plus": {"titleNView": false}
-     }
-   },
-   {
-         "path":"pages/platform-admin/index",
-         "style": {
-           "navigationBarTitleText": "桌台管理",
-           "titleNView": {
-             "buttons": [
-               {
-                 "text": "选择日期",
-                 "fontSize": "14px",
-                 "width": "70px"
-               }
-             ]
-           }
-         }
-    },
-	{
-	      "path": "pages/lead-users/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"线索用户",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001",
-				"buttons": [
-				  {
-				    "text": "批量编辑",
-				    "fontSize": "14px",
-					"width": "auto"
-				  }
-				]
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/batch-editing/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"线索用户(批量编辑)",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001",
-				"buttons": [
-				  {
-				    "text": "完成",
-				    "fontSize": "14px",
-				    "width": "auto"
-				  }
-				]
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/platform-detail/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"台详情",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/lead-search/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"线索用户（搜索）",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/platform-activities/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"平台活动",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/personal-task/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"个人任务",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	},
-	{
-	      "path": "pages/team-task/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"团队任务",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	},
-	{
-	  "path": "pages/my-clue/index",
-	  "style": {
-		"app-plus":{
-		  "titleNView":{
-			"titleText":"我的线索",
-			"backgroundColor":"#030313",
-			"titleColor":"#FFE001"
-		  }
+
+
+
+		{
+			"path": "pages/page",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/platform-admin/index",
+			"style": {
+				"navigationBarTitleText": "桌台管理",
+				"titleNView": {
+					"buttons": [{
+						"text": "选择日期",
+						"fontSize": "14px",
+						"width": "70px"
+					}]
+				}
+			}
+		},
+		{
+			"path": "pages/lead-users/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "线索用户",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001",
+						"buttons": [{
+							"text": "批量编辑",
+							"fontSize": "14px",
+							"width": "auto"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/batch-editing/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "线索用户(批量编辑)",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001",
+						"buttons": [{
+							"text": "完成",
+							"fontSize": "14px",
+							"width": "auto"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/platform-detail/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "台详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/select-store/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "选择门店",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/clue-management/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "线索管理",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/lead-search/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "线索用户（搜索）",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/platform-activities/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "平台活动",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/personal-task/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "个人任务",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/team-task/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "团队任务",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/invite-rebate/index",
+
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/my-clue/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "我的线索",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001",
+						"buttons": [{
+							"text": "新线索",
+							"fontSize": "14px",
+							"width": "auto"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/invitation-record/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "邀请记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/my-downline/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "我的下线",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/drawing-way/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提现方式",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/verify-name/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "实名认证",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/mine-info/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "个人资料",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/modify-mobile/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "修改手机号码",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+
+		{
+			"path": "pages/login/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
 		}
-	  }
-	},
-    {
-      "path": "pages/index/index",
-      "style": {
-        "app-plus": {"titleNView": false}
-      }
-    },
-    {
-     "path": "pages/my-downline/index",
-     "style": {
-          "app-plus":{
-            "titleNView":{
-              "titleText":"我的下线",
-              "backgroundColor":"#030313",
-              "titleColor":"#FFE001"
-            }
-          }
-        }
-    },
-	{
-	      "path": "pages/drawing-way/index",
-	      "style": {
-	        "app-plus":{
-	          "titleNView":{
-	            "titleText":"提现方式",
-	            "backgroundColor":"#030313",
-	            "titleColor":"#FFE001"
-	          }
-	        }
-	      }
-	    },
-    {
-      "path": "pages/verify-name/index",
-      "style": {
-        "app-plus":{
-          "titleNView":{
-            "titleText":"实名认证",
-            "backgroundColor":"#030313",
-            "titleColor":"#FFE001"
-          }
-        }
-      }
-    },
-    {
-      "path": "pages/mine-info/index",
-      "style": {
-        "app-plus":{
-          "titleNView":{
-            "titleText":"个人资料",
-            "backgroundColor":"#030313",
-            "titleColor":"#FFE001"
-          }
-        }
-      }
-    },
-    {
-      "path": "pages/modify-mobile/index",
-      "style": {
-        "app-plus":{
-          "titleNView":{
-            "titleText":"修改手机号码",
-            "backgroundColor":"#030313",
-            "titleColor":"#FFE001"
-          }
-        }
-      }
-    },
-   
-    {
-      "path": "pages/login/index",
-      "style": {
-        "app-plus": {"titleNView": false}
-      }
-    }
 	],
 	"globalStyle": {
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#030313",
 		"backgroundColor": "#F7F7F7"
 	},
-	"condition" : {
-		"current": 0, 
-		"list": [
-			{
-				"name": "",
-				"path": "",
-				"query": ""
-			}
-		]
+	"condition": {
+		"current": 0,
+		"list": [{
+			"name": "",
+			"path": "",
+			"query": ""
+		}]
 	}
 }

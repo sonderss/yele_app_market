@@ -17,6 +17,7 @@ export default {
 </script>
 
 <style>
+
 page {
   background: #F7F7F7;
 }

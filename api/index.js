@@ -5,7 +5,7 @@ const minRequest = new MinRequest()
 
 // 设置默认配置
 minRequest.setConfig((config) => {
-  config.baseURL = 'http://api.app-store.dev.yeleonline.com/api'
+  config.baseURL = 'http://api.app-market.dev.yeleonline.com/api/'
   return config
 })
 
@@ -13,7 +13,7 @@ minRequest.setConfig((config) => {
 minRequest.interceptors.request((request) => {
   const userInfo = store.state.user.userInfo
   if (userInfo) request.header['api-auth'] = userInfo.apiAuth
-  request.header['access-token'] = 'HPkSFqbVhWpCRxVRpOTkyEubusFxBEEd'
+  request.header['access-token'] = 'AQtlDwvmBDqWFcebiSpFAJCoUeKeTjtp'
   return request
 })
 

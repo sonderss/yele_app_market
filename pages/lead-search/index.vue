@@ -1,34 +1,35 @@
 <template>
 	<view class="lead-search p-lr-20 p-tb-20">
-		<min-search  @input="getSearch"  bgColor="#EEEEEE" placeholder="请输入营销姓名/手机号搜索" style="border-radius:5px;"></min-search>
+		<min-search  @input="getSearch"   placeholder="请输入营销姓名/手机号搜索" style="border-radius:5px;"></min-search>
 		 <view class="main">
-		 	<view class="title-view">
-		 	   <text class="t">姓名</text>
-		 	   <text class="t">贡献</text>
-		 	   <text class="t">分成比例</text>
-		 	</view>
-		 	<view class="main-content min-border-top" v-for="(item,index) in newData" :key="index">
-		 		<view class="creat-info t">
-		 			<text v-html="item.name">{{}}</text>
-		 			<text class="p-top-10">{{item.phone}}</text>
-		 		</view>
-		 		
-		 		<view class="creat-info t">
-		 			<text>{{item.num}}</text>
-		 			<text class="p-top-10">￥{{item.money}}</text>
-		 		</view>
-		 		
-		 		<view class="t">
-		 			<text >{{item.code}}%</text>
-		 			<image @click="edit(index)" style="width: 34rpx;height: 34rpx;" class="m-left-20" src="../../static/images/set.png"/>
-		 			<!-- <text class="iconfont icon-xiugai" style="font-size: 34rpx;">&#xe66f;</text> -->
-		 		</view>
-		 	</view>
+		  <view class="title-view">
+		     <text class="t">姓名</text>
+		     <text class="t">贡献</text>
+		     <text class="t">分成比例</text>
+		  </view>
+		  <view class="main-content min-border-top" v-for="(item,index) in newData" :key="index">
+		    <view class="creat-info t">
+		      <text v-html="item.user_name"></text>
+		      <text class="p-top-10">{{item.mobile}}</text>
+		    </view>
+		    
+		    <view class="creat-info t">
+		      <text>{{item.count}}</text>
+		      <text class="p-top-10">￥{{item.performance}}</text>
+		    </view>
+		    
+		    <view class="t">
+		      <text >{{item.commission_proportion}}%</text>
+		      <image @click="edit(index)" style="width: 34rpx;height: 34rpx;" class="m-left-20" src="../../static/images/set.png"/>
+		      <!-- <text class="iconfont icon-xiugai" style="font-size: 34rpx;">&#xe66f;</text> -->
+		    </view>
+		  </view>
 		 </view>
 		 <min-modal ref="show">
 			<view>线索用户：{{name}}</view>
-			<view class="content_model">
-				<input type="number" @input="getValue" placeholder="100"/>&nbsp; %
+			<view class="content_model  m-top-20">
+				<input type="number"   @input="getValue" maxlength="3" :placeholder="price" />
+				<text>%</text>
 			</view>
 		 </min-modal>
 	</view>
@@ -36,53 +37,67 @@
 
 <script>
 	export default {
+		name:'lead-search',
+		navigate:["navigateTo"],
 		computed:{
 			getContent(){
-				
-				 
 			}
 		},
 		mounted(){
-			this.newData = this.data
+			this.newData = this.$parseURL().data.clue_list
+			this.data = this.data.concat(this.$parseURL().data.clue_list)
+			console.log(this.newData ===  this.data)
 		},
 		watch:{
 			keyword(a){
 			 if(a.length === 0){
-				 return this.newData = this.data
-			 } 
+				
+				 return  this.newData =  this.data
+			 } // clone_item.user_name.replace(this.keyword,`<text style='color:red'>${this.keyword}</text>`)
 			 let content = ''
 			 if(this.data.length <= 0) return
-			
 			 if(this.keyword.length !== 0 ){
-				this.data.filter((item,index) => {
-					 if(item.name.indexOf(this.keyword) !== -1){
-						 let clone_item = {}
-						 Object.assign(clone_item,item)
-						 clone_item.name = clone_item.name.replace(this.keyword,`<text style='color:red'>${this.keyword}</text>`)
-						this.newData = []
-						this.newData.push(clone_item)
-					 }
-					 
+				this.newData = this.newData.filter(this.test)
+				this.newData.map(item =>{
+					item.user_name = item.user_name.replace(this.keyword,`<text style='color:red'>${this.keyword}</text>`)
 				})
-				return content
 			 }
 			}
 		},
 		methods:{
+			test(item){
+				console.log()
+				let data =  item.user_name.split('')
+				return data.includes(this.keyword)
+			},
 			getSearch(e){
+				console.log(e)
 				this.keyword = e
-				
 			},
 			getValue(e){
 				this.value = e.target.value
 			},
 			edit(n){
-				this.name = this.data[n].name
+				this.name = this.$parseURL().data.clue_list[n].user_name
+				this.price =  this.$parseURL().data.clue_list[n].commission_proportion+''
 				this.$refs.show.handleShow({
+					title:"修改分成比例",
 					success: (e) => {
 					  if (e.id === 1) {
 						  if(!this.value) return;
-					   	 this.data[n].code = this.value
+						  // 确认修改
+					    this.$minApi.commissionProportion({
+							ids:this.$parseURL().data.clue_list[n].id,
+							proportion:this.value
+						}).then(res=>{
+							console.log(res)
+							this.$showToast('修改成功')
+							setTimeout(() =>{
+								 uni.navigateTo({
+									  url:'../lead-users/index'
+								});
+							},2000)
+						})
 					  }
 					}
 				})
@@ -91,14 +106,11 @@
 		data(){
 			return{
 				newData:[],
+				price:"",
 				name:'',
 				keyword:'',
 				value:'',
-				data:[
-					{time:'1585016257518',name:"令狐冲",phone:'15811112222',money:312,num:'20',code:10},
-					{time:'1585016257518',name:"任盈盈",phone:'15712348521',money:348,num:'20',code:10},
-					{time:'1585016257518',name:"林平之",phone:'15811111457',money:500,num:'20',code:10}
-				]
+				data:[]
 			}
 		}
 	}

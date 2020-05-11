@@ -30,9 +30,33 @@
 						}
 					},
 					{
+						path: 'pages/clue-management/index',
+						style: {
+							navigationBarTitleText: '线索管理'
+						}
+					},
+					{
 						path: 'pages/lead-users/index',
 						style: {
 							navigationBarTitleText: '线索用户'
+						}
+					},
+					{
+						path: 'pages/select-store/index',
+						style: {
+							navigationBarTitleText: '选择门店'
+						}
+					},
+					{
+						path: 'pages/invite-rebate/index',
+						style: {
+							navigationBarTitleText: '邀请返利'
+						}
+					},
+					{
+						path: 'pages/invitation-record/index',
+						style: {
+							navigationBarTitleText: '邀请记录'
 						}
 					},
 					{

@@ -3,65 +3,32 @@ import { minRequest } from './index'
 export default {
   // 获取验证码
   getVerificationCode: data => minRequest.get('/5e1d7e2b7dac6', data),
-  // 登录
-  login: data => minRequest.post('/5e1d5bf907854', data),
-  // 获取充公酒列表
-  getWineList: () => minRequest.get('/5e424cc4ded0a'),
-  // 获取充公酒记录5e424f7f8c0c0?page=1&limit=100
-  getConfiscatedWinereCords: (data) => minRequest.get('/5e424f7f8c0c0', data),
-  // 获取充公酒详情
-  getWinereDetail: (data) => minRequest.get('/5e424fd3c4f69?id=', data),
-
-  // 添加充公酒记录
-  addWinePubList: data => minRequest.post('/5e424fff89293', data),
-  // 获取桌台列表
-  GetTableList: data => minRequest.get('/5e1da2053a047?date=', data),
-  // 获取台位历史
-  getStationHistory: (data) => minRequest.get('/5e1eae7d5198f', data),
-  // 获取营销列表
-  getMarketingList: () => minRequest.get('/5e2156e70e285'),
-  // 预约 （订台预览）
-  getBookingPreview: (data) => minRequest.get('/5e1ed699a2e11', data),
-  // 订台
-  addBooked: (data) => minRequest.post('/5e1edf43a5e78', data),
-  // 获取桌台详情
-  getOrderDetail: data => minRequest.get('/5e1da82751805', data),
-  // 获取预约记录
-  getBookList: data => minRequest.get('/5e7334b369aae', data),
-  // 取消订台
-  cancelBooked: data => minRequest.post('/5e708fbae877f', data),
-  // 推迟到店
-  backBooked: data => minRequest.post('/5e71d3ee848e2', data),
-  // 启用
-  startUse: data => minRequest.get('/5e71c9488f983', data),
-  // 开台
-  startOrder: data => minRequest.post('/5e1ef9d780d5e', data),
-  // 停用
-  stopUse: data => minRequest.get('/5e1efa0402ded', data),
-  // 转台
-  changeOrder: data => minRequest.post('/5e73119ddb7eb', data),
-  // 清台
-  clearOrder: data => minRequest.get('/5e71d5877cf60', data),
-  // 销台
-  delOrder: data => minRequest.get('/5e71d58cd6f3c', data),
-  // 获取预约详情
-  getBookedDetail: data => minRequest.get('/5e7985d26f15e', data),
-  // 账单汇总
-  billAllin: data => minRequest.get('/5e79c3d01c709', data),
-  /**
-   * @description post请求
-   */
-  puniapp (data) {
-    return minRequest.post('/s', data)
-  },
-
-  // 获取门店列表
-  getStoreList: data => minRequest.get('/5e5e2a5b3c50a', data),
-  // 获取其他门店列表
-  getElseStoreList: data => minRequest.get('/5e5e30f3809da', data),
-  // 申请加入门店
-  applyStores: data => minRequest.get('/5e5f1fc84a61b', data),
-  // 申请门店记录
-  applyLog: data => minRequest.get('/5e5f4935600ae', data)
-
+  // 登录 1
+  login: data => minRequest.post('/5e1d2d4b04423', data),
+ // 更新用户信息
+ uoDateuserInfo:data => minRequest.post('/5ea00df043f69',data),
+  // 选择门店
+  chooseStore:data =>minRequest.get('/5eb229fe5b435',data),
+  // 桌台列表 
+  TableList:data => minRequest.get('/5eaa7beaa6bb0',data),
+  // 个人资料 1
+  userInfo:data =>minRequest.get('/5ea1110c67573',data),
+  // 门店公告列表
+  storMentList:() =>minRequest.get('/5ea152001c50e'),
+  // 门店公告详情 ?notice_id=1
+  storMentDetail:data => minRequest.get('/5ea1520706393',data),
+  // 平台活动  {{hosts}}5eb4d3fc8f631?page=1&limit=20 1
+  platformActivities:data => minRequest.get('/5eb4d3fc8f631',data),
+  // 邀请记录 5ea7edad4669a?condition=55 1
+  invitationRecord:data=>minRequest.get('/5ea7edad4669a',data),
+  // 我的线索 5ea3eea43f747 1
+  getMyClue:() => minRequest.get('/5ea3eea43f747'),
+  // 线索管理 5ea3eea95408e 1
+  getClueManagement: () =>minRequest.get('/5ea3eea95408e'),
+  // 选择门店 5ea3ee94e1c5c 1
+  getSeletStore:() => minRequest.get('/5ea3ee94e1c5c'),
+  // 线索用户管理 5ea7d70a43079
+  getClueUser:data => minRequest.get('/5ea7d70a43079',data),
+  // 修改提成比例  5ea7d7209b052
+  commissionProportion:data => minRequest.post('/5ea7d7209b052',data)
 }

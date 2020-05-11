@@ -200,17 +200,17 @@ export default {
     },
     // 获取数据
     getData (date) {
-      this.$minApi.GetTableList({ date })
-        .then(res => {
-          this.list = res
-          this.desks = res.desks
-          // this.mines = res.mines
-          this.title = res.title
-        })
-        // eslint-disable-next-line handle-callback-err
-        .catch(err => {
-          console.log('桌台列表获取失败')
-        })
+      // this.$minApi.GetTableList({ date })
+      //   .then(res => {
+      //     this.list = res
+      //     this.desks = res.desks
+      //     // this.mines = res.mines
+      //     this.title = res.title
+      //   })
+      //   // eslint-disable-next-line handle-callback-err
+      //   .catch(err => {
+      //     console.log('桌台列表获取失败')
+      //   })
     },
     // 台详情
     goDetail (id, status) {
@@ -247,5 +247,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
+@import  './index.scss';
 </style>

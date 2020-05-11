@@ -1,6 +1,6 @@
 {
     "name" : "平台",
-    "appid" : "__UNI__36AD11E",
+    "appid" : "__UNI__1EAB138",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -52,7 +52,8 @@
             "ios" : {},
             /* ios打包配置 */
             "sdkConfigs" : {}
-        }
+        },
+        "compilerVersion" : 2
     },
     /* SDK配置 */
     "quickapp" : {},
