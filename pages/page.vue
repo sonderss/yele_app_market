@@ -102,6 +102,18 @@
 						}
 					},
 					{
+						path: 'pages/regional-tasks/index',
+						style: {
+							navigationBarTitleText: '区域任务'
+						}
+					},
+					{
+						path: 'pages/submit-leads/index',
+						style: {
+							navigationBarTitleText: '提交线索'
+						}
+					},
+					{
 						path: 'pages/mine-info/index',
 						style: {
 							navigationBarTitleText: '个人资料'

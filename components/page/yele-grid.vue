@@ -26,6 +26,13 @@ export default {
   },
   methods: {
     goTo (n) {
+      if(this.list[n].url){
+        uni.navigateTo({
+          url:this.list[n].url
+        })
+        return
+      }
+      
       this.$minRouter.push({
         name: this.list[n].name,
         type: 'navigateTo',

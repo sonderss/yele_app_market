@@ -1,9 +1,9 @@
 <template>
-	<view class="team-task  p-tb-20 p-lr-30">
+	<view class="regional-tasks  p-tb-20 p-lr-30">
 		<view class="top-view">
 		  <view class="t-view">
 			<view class="money">
-			  <text :class="list.mission_status === 5 ? 'td':'tr'" >{{status[list.mission_status]}}</text>
+			  <text :class="list.mission_status === 5 ? 'td':'tr'" >{{status[list.status]}}</text>
 			</view>
 			<text class="price f22">{{list.mission_name}}</text>
 			<view class="selcontent">
@@ -30,11 +30,12 @@
 		  </view>
 		  <view class="main p-top-20" v-if="index === 0">
 			<view class="item">任务名称：{{list.mission_name}}</view>
-			<view class="item">团队名称：{{list.team_name}}</view>
-			<view class="item">团队组长：{{list.leader_name}}</view>
+			<view class="item">区域组织名称：{{list.region_name}}</view>
+			<view class="item">区域代表：{{list.leader_name}}</view>
 			<view class="item">任务额度：￥{{list.mission_amount}}</view>
-			<view class="item">任务周期：{{list.mission_start_time}} 至 {{list.mission_end_time}}</view>
-			<view class="item">任务状态：{{status[list.mission_status]}}</view>
+			<view class="item">任务周期：{{$minCommon.formatDate(new Date(list.mission_start_time*1000),' yyyy/MM/dd hh:mm:ss')}} 至 
+            {{$minCommon.formatDate(new Date(list.mission_end_time*1000),' yyyy/MM/dd hh:mm:ss') }}</view>
+			<view class="item">任务状态：{{status[list.status]}}</view>
 			<view class="item">分红比例：{{list.mission_ratio}}%</view>
 		  </view>
 		  
@@ -57,7 +58,7 @@
 <script>
 const status = ['','待开启','执行中','已完成','已结束','已到期']
 	export default {
-		name:'team-task',
+		name:'regional-tasks',
 		navigate:['navigateTo'],
 		data(){
 			return{
@@ -74,12 +75,13 @@ const status = ['','待开启','执行中','已完成','已结束','已到期']
 			}
 		},
 		mounted(){
-			this.$minApi.getTeamTask().then(res=>{
+			this.$minApi.getAreaTask().then(res=>{
 				this.list = res
+                console.log(res)
 				let a = Math.ceil((this.list.mission_achievement / this.list.mission_amount)*100)
 				this.width_color = a+'%'
 			})
-			this.$minApi.getTeamUserJobs().then(res=>{
+			this.$minApi.getAreaTaskUserJob().then(res=>{
 				console.log(res)
 				this.users = res
 			})

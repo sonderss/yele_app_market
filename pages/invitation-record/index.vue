@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "batch-editing",
+  name: "invitation-record",
   navigate: ["navigateTo"],
   data() {
     return {

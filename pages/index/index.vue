@@ -16,6 +16,7 @@
         <text>邀请码</text>
       </view>
     </view>
+    <min-notice-bar :text="msg" @more="view_more"></min-notice-bar>
     <yele-grid :list="item.grid" v-for="(item,index) in list" :key="index"></yele-grid>
   </view>
 </template>
@@ -24,6 +25,7 @@
 import back from "@/static/images/back_admin.png";
 import MinAvatar from "@/components/min-avatar";
 import YeleGrid from "@/components/page/yele-grid";
+
 export default {
   navigate: ["navigateTo"],
   name: "index",
@@ -38,7 +40,7 @@ export default {
         {
           grid: [
             {
-              name: "select-store",
+              url:'../store/apin-store',
               img: "/static/images/index/order_person.png",
               text: "预约"
             },
@@ -64,6 +66,7 @@ export default {
               text: "预约记录"
             },
             {
+              name:"invitation-record",
               img: "/static/images/index/set_list.png",
               text: "邀请记录"
             }
@@ -72,14 +75,17 @@ export default {
         {
           grid: [
             {
+              name:"personal-task",
               img: "/static/images/index/person_.png",
               text: "个人任务"
             },
             {
+              name:"team-task",
               img: "/static/images/index/team_.png",
               text: "团队任务"
             },
             {
+              name:'regional-tasks',
               img: "/static/images/index/area_.png",
               text: "区域任务"
             }
@@ -135,7 +141,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      msg:[]
     };
   },
   computed: {
@@ -161,10 +168,23 @@ export default {
         type: "navigateTo",
         path: "/pages/platform-admin/index"
       });
+    },
+    // 获取门店公告列表
+    getStoreList(){
+      this.$minApi.storMentList().then(res=>{
+        this.msg=res.data
+        console.log(this.msg)
+
+      })
+    },
+    // 查看更多
+    view_more(){
+      console.log(213)
     }
   },
   onLoad() {
     this.back = back;
+    this.getStoreList()
   }
 };
 </script>

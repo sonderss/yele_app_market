@@ -131,6 +131,18 @@
 			}
 		},
 		{
+			"path": "pages/regional-tasks/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "区域任务",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/team-task/index",
 			"style": {
 				"app-plus": {
@@ -167,11 +179,88 @@
 			}
 		},
 		{
+			"path": "pages/submit-leads/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提交线索",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/reservation-date/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "预约日期",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/store/apin-store",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "选择门店",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001",
+						"buttons":[{
+							"text":"按线索订台",
+							"fontSize": "14px",
+							"width": "auto"
+						}]
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/invitation-record/index",
 			"style": {
 				"app-plus": {
 					"titleNView": {
 						"titleText": "邀请记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/appointment-information/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "预约信息",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/choose-table/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "选择桌台",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/reservation/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "预约订台",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}

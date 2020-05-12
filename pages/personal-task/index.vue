@@ -3,21 +3,21 @@
 		<view class="top-view">
 		  <view class="t-view">
 			<view class="money">
-			  <text class="tr">进行中</text>
+			  <text :class="list.mission_status === 5 ? 'td':'tr'">{{status[list.status]}}</text>
 			</view>
-			<text class="price f22">可提现金额</text>
+			<text class="price f22">{{list.mission_amount}}业绩任务</text>
 			<view class="selcontent">
-				<view class="selcontent-color" :style="{width:width_color}"></view>
+				<view :class="list.mission_status === 5 ? 'selcontent-color-grey':'selcontent-color'" :style="{width:width_color}"></view>
 			</view>
 		  </view>
 		  <view class="b-view">
 			<view class="left-view">
 			  <text class="f22">任务额度</text>
-			  <text class="f28 c">￥1000</text>
+			  <text class="f28 c">￥{{list.mission_amount}}</text>
 			</view>
 			<view class="right-view">
 			  <text class="f22">已完成额度</text>
-			  <text class="f28 c">￥1000</text>
+			  <text class="f28 c">￥{{list.mission_achievement}}</text>
 			</view>
 		  </view>
 		</view>
@@ -27,22 +27,41 @@
 			<view>任务介绍</view>
 		  </view>
 		  <view class="main p-top-20">
-			<view class="item">任务名称：50000业绩任务</view>
-			<view class="item">任务额度：￥650055256.00</view>
-			<view class="item">任务周期：2019-11-01  15:32:00</view>
-			<view class="item">任务状态：进行中</view>
-			<view class="item">首付比例：100%</view>
+			<view class="item">任务名称：{{list.mission_name}}</view>
+			<view class="item">任务额度：￥{{list.mission_amount}}</view>
+			<view class="item">任务周期：{{$minCommon.formatDate(new Date(list.mission_start_time*1000),' yyyy/MM/dd hh:mm:ss') }} 至
+			 {{ $minCommon.formatDate(new Date(list.mission_end_time*1000),' yyyy/MM/dd hh:mm:ss') }}</view>
+			<view class="item">任务状态：{{status[list.status]}}</view>
+			<view class="item">首付比例：{{list.mission_ratio}}%</view>
 		  </view>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default{
+// ，1待开启，2执行中，3已完成，4已结束，5已到期
+const status = ['','待开启','执行中','已完成','已结束','已到期']
+	export default {
+		name:"personal-task",
+		navigate:["navigateTo"],
 		data(){
 			return{
-				width_color:"50%"
+				width_color:"",
+				list:{},
+				status
 			}
+		},
+		onShow(){
+			
+		},
+		mounted(){
+			this.$minApi.getPersonTask().then(res=>{
+				console.log(res)
+				this.list = res
+				let a = Math.ceil((this.list.mission_achievement / this.list.mission_amount)*100)
+				this.width_color = a+'%'
+				 
+			})
 		}
 	}
 	
@@ -79,11 +98,15 @@
 		border-radius:6rpx;
 	}
 	.selcontent-color{
-		width:100%;
 		height:12rpx;
 		background:linear-gradient(-90deg,rgba(255,224,1,1) 0%,rgba(255,119,0,1) 100%);
 		border-radius:6rpx;
 	}
+	.selcontent-color-grey{
+          height:12rpx;
+          background:#CCCCCC;
+          border-radius:6rpx;
+     }
 	.money {
 	  display: flex;
 	  justify-content: center;
@@ -95,6 +118,13 @@
 		font-weight: bold;
 		color: rgba(255, 224, 1, 1);
 	  }
+	  .td{
+            display: block;
+              font-size: 58rpx;
+              font-family: PingFang SC;
+              font-weight: bold;
+              color: #fff;
+        }
 	  .icon {
 		display: block;
 		font-size: 48rpx;
@@ -122,7 +152,10 @@
 	  justify-content: center;
 	  align-items: center;
 	  flex-direction: column;
+	  position: relative;
+	  border-right: 1rpx solid #CCCCCC;
 	}
+	
 	.right-view {
 	  width: 50%;
 	  display: flex;
