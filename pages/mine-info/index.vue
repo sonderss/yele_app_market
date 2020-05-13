@@ -8,6 +8,7 @@
           tail="编辑头像"
           imgSize="sm"
           :border="true"
+           @eventParent="changeHeadImg"
           arrow
         ></min-cell-item>
         <min-cell-item
@@ -100,18 +101,37 @@ export default {
   methods: {
     bindPickerChange1 (e) {
       this.index1 = e.target.value
+      this.setUserInfo()
+
     },
     bindPickerChange: function (e) {
       this.index = e.target.value
+      this.setUserInfo()
+
     },
     bindPickerChange2: function (e) {
       this.date = e.target.value.replace(/-/g, '/')
+      this.setUserInfo()
     },
     setPhone () {
       this.$minRouter.push({
         name: 'modify-mobile',
         params: { mobile: this.userInfo.mobile }
       })
+    },
+    changeHeadImg(){
+        uni.chooseImage({
+          count: 1, //默认9
+          success:  res=> {
+              console.log(JSON.stringify(res.tempFilePaths[0]));
+              this.userInfo.head_img =res.tempFilePaths[0]
+              console.log(this.userInfo.head_img)
+              this.setUserInfo()
+          },
+          fail:err=>{
+            console.log(err)
+          }
+      });
     },
     toFace () {
       // verify-name
@@ -125,6 +145,21 @@ export default {
       this.$minRouter.push({
         name: 'drawing-way'
       })
+    },
+    // 修改个人资料
+    setUserInfo(){
+        let data = {
+          head_img:this.userInfo.head_img,
+          sex:this.index,
+          nation:this.minzu[ this.index1],
+          birthday: new Date(this.date).getTime()/1000
+        }
+        // uoDateuserInfo  API
+        console.log('准备修改的信息',data)
+
+        this.$minApi.uoDateuserInfo(data).then(res=>{
+          console.log(res)
+        })
     },
     quit () {
       this.$refs.show.handleShow({

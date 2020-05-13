@@ -5,8 +5,8 @@ export default {
   getVerificationCode: data => minRequest.get('/5e1d7e2b7dac6', data),
   // 登录 1
   login: data => minRequest.post('/5e1d2d4b04423', data),
- // 更新用户信息
- uoDateuserInfo:data => minRequest.post('/5ea00df043f69',data),
+ // 更新用户信息 5ea11102e176d
+ uoDateuserInfo:data => minRequest.post('/5ea11102e176d',data),
   // 选择门店 暂时不用
   chooseStore:data =>minRequest.get('/5eb229fe5b435',data),
   // 桌台列表 
@@ -52,6 +52,18 @@ export default {
   // 空闲桌台 5eb677bfe864f?group_id=1&date=2020-05-07
   getIdelDesk:data =>minRequest.get('/5eb677bfe864f',data),
   // 预约  5eb521c57345a
-  appMent:data => minRequest.post('/5eb521c57345a',data)
+  appMent:data => minRequest.post('/5eb521c57345a',data),
+  // 预约记录 5eb52f40e43f8
+  getBookList:() => minRequest.get('/5eb52f40e43f8'),
+  // 下单记录 5eaa4a95b36c0
+  getOrderList:()=>minRequest.get('/5eaa4a95b36c0'),
+  // 下单详情 5eb621dda3e3f
+  getOrderDetailDown:data => minRequest.get('/5eb621dda3e3f',data),
+  // 取消订单 5eaa4aa6df9f2
+  cancelOrder:data=> minRequest.post('/5eaa4aa6df9f2',data),
+  // 下单 选择门店 lng=113.3282&lat=23.16144
+  chooseStoreLG:data => minRequest.get('/5ea803a0e5d4b',data),
+  // 选择桌台  5eb3802a73a0a?store_id=3
+  getChioceOrderDesk:data => minRequest.get('/5eb3802a73a0a',data)
 
 }

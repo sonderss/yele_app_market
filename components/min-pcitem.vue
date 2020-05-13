@@ -2,21 +2,30 @@
     <view class="min-pcitem">
         <view class="main-item" @click="toEmit">
             <view class="image_view">
-            <image :src="imgerr ? '/static/images/headurl60.png' : list.head_img" @error="imgErro" />
+              <image :src="imgerr ? '/static/images/headurl60.png' : list.head_img" @error="imgErro" />
             </view>
-            <view class="main">
-            <view class="f30" style>
-                {{list.store_name}} |
-                <text
-                class="f24 m-left-10"
-                style="color: #666666;"
-                >营业:{{list.store_config.business_end_time}}--{{list.store_config.business_start_time}}</text>
-            </view>
-            <view class="m-tb-20 f24" style="color: #666666;">{{list.address}}</view>
-             <view v-if="showPrice" class="f24 p-bottom-20" style="color:  #FF0000;font-weight:bold;">订台提成{{list.person_royalty_money}}%</view> 
+            <view class="main p-bottom-20">
+              <view class="f30" v-if="desk">
+                  {{list.store_name}}
+              </view>
+              <view class="f30" v-if="!desk">
+                  {{list.store_name}} |
+                  <text
+                  class="f24 m-left-10"
+                  style="color: #666666;"
+                  > 
+                  营业:{{list.store_config.business_end_time}}--{{list.store_config.business_start_time}}</text>
+                  <text v-if="list.isPrv" class="f20 prv m-left-20">上次选择</text>
+              </view>
+              <view class="m-tb-10 f24" style="color: #666666;">{{list.address}}</view>
+              <view v-if="showPrice" class="f24 " style="color:  #FF0000;font-weight:bold;">订台提成{{list.person_royalty_money}}%</view> 
+              <view v-if="showAddarse" class="f24 ">{{list.distance}}km</view>
             </view>
             <!--<view class="right_view iconjinru" ></view>-->
-            <image v-if="showArray" style="width:24rpx;height:24rpx;padding-right:20rpx" class="arrow" src="/static/images/arrow.png"></image>
+            <view class="right_view" v-if="showArray">
+                <image  style="width:24rpx;height:24rpx;padding-right:20rpx" class="arrow" src="/static/images/arrow.png"></image>
+            </view>
+            
         </view>
         </view>
 </template>
@@ -29,6 +38,18 @@ export default {
             default:true
         },
         showPrice:{
+          type:Boolean,
+          default:false
+        },
+        showAddarse:{
+          type:Boolean,
+          default:false
+        },
+        isPrv:{
+          type:Boolean,
+          default:false
+        },
+        desk:{
           type:Boolean,
           default:false
         }
@@ -72,6 +93,7 @@ uni-page-body {
       width: 80rpx;
       height: 80rpx;
       border-radius: 50%;
+      overflow: hidden;
       image {
         width: 100%;
         height: 100%;
@@ -80,10 +102,16 @@ uni-page-body {
     .main {
       flex: 1;
       padding-left: 20rpx;
+      .prv{
+        width:86rpx;
+        height:26tpx;
+        background:rgba(255,241,0,1);
+        border-radius:4rpx;
+      }
     }
     .right_view {
-      font-family: iconfont;
-      font-size: 50rpx;
+      height: 100%;
+      margin-top: 5%;
       // line-height: 150rpx;
     }
   }

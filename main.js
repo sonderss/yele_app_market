@@ -51,7 +51,8 @@ import MinTerminated from '@/components/status/min-terminated'
 import MinOpened from '@/components/status/min-opened'
 import MinTaichung from '@/components/status/min-taichung'
 import MinPcitem from '@/components/min-pcitem'
-import minNoticeBar from '@/components/min-notice-bar.vue';
+import minNoticeBar from '@/components/min-notice-bar.vue'
+import MinStatus from '@/components/min-status.vue'
 Vue.component('min-avatar', MinAvatar)
 Vue.component('min-btn', MinBtn)
 Vue.component('min-cell', MinCell)
@@ -93,6 +94,7 @@ Vue.component('min-opened', MinOpened)
 Vue.component('min-taichung', MinTaichung)
 Vue.component('min-pcitem',MinPcitem)
 Vue.component('min-notice-bar',minNoticeBar)
+Vue.component('min-status',MinStatus)
 Vue.config.productionTip = false
 App.mpType = 'app'
 

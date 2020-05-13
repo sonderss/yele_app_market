@@ -11,7 +11,7 @@
       </view>
       <view class="f22" v-if="totalLabel">{{totalLabel}}</view>
     </view>
-    <view class="min-right" @click="$emit('submit')" >
+    <view class="min-right" :style="{backgroundColor:bgCor}" @click="$emit('submit')" >
       <view class="min-text">{{buttonText}}</view>
       <view class="min-label" v-if="buttonLabel">{{buttonLabel}}</view>
     </view>
@@ -61,6 +61,10 @@ export default {
     buttonLabel: {
       type: String,
       default: ''
+    },
+    bgCor:{
+      type:String,
+      default:'rgba(255,224,0,1)'
     }
   }
 }

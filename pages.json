@@ -220,11 +220,83 @@
 			}
 		},
 		{
+			"path": "pages/store/order-store",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "选择门店",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/chioce-table/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "选择桌台",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/invitation-record/index",
 			"style": {
 				"app-plus": {
 					"titleNView": {
 						"titleText": "邀请记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/appointment-record/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "预约记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/order-recode/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "下单记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/order-detail/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "订单详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/order-make/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "下单详情",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}

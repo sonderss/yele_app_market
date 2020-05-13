@@ -39,6 +39,11 @@ export default {
       imgUrl: ''
     }
   },
+  watch:{
+      url(a){
+        this.imgUrl = a
+      }
+  },
   methods: {
     handleError (e) {
       this.imgUrl = this.errorUrl

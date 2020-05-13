@@ -45,6 +45,7 @@ export default {
               text: "预约"
             },
             {
+              url:"../store/order-store",
               img: "/static/images/index/my_list.png",
               text: "下单"
             },
@@ -58,10 +59,12 @@ export default {
         {
           grid: [
             {
+              name:"order-recode",
               img: "/static/images/index/order_list.png",
               text: "下单记录"
             },
             {
+              name:'appointment-record',
               img: "/static/images/index/list_.png",
               text: "预约记录"
             },

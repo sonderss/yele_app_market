@@ -44,7 +44,7 @@
 <script>
 	// 线索状态: 0 -待处理 1-已忽略 2-已预约 3-已取消
 	const staus = ['待处理','已忽略','已预约','已取消']
-export default{
+export default {
 	name:'my-clue',
 	navigate:['navigateTo'],
 	data(){
