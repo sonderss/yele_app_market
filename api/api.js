@@ -11,6 +11,8 @@ export default {
   chooseStore:data =>minRequest.get('/5eb229fe5b435',data),
   // 桌台列表 
   TableList:data => minRequest.get('/5eaa7beaa6bb0',data),
+  // 桌台详情 getOrderDetail
+  getOrderDetail:data=>minRequest.get('/5eaa7bf2308c9',data),
   // 个人资料 1
   userInfo:data =>minRequest.get('/5ea1110c67573',data),
   // 门店公告列表
@@ -64,6 +66,36 @@ export default {
   // 下单 选择门店 lng=113.3282&lat=23.16144
   chooseStoreLG:data => minRequest.get('/5ea803a0e5d4b',data),
   // 选择桌台  5eb3802a73a0a?store_id=3
-  getChioceOrderDesk:data => minRequest.get('/5eb3802a73a0a',data)
-
+  getChioceOrderDesk:data => minRequest.get('/5eb3802a73a0a',data),
+  // 修改手机号 5ea1110825698
+  setPhone:data => minRequest.post('/5ea1110825698',data),
+  // 实名认证 5ea11111400f6
+  postFace:data => minRequest.post('/5ea11111400f6',data),
+  // 忽略线索 5ebcea9dd834b?clue_id=20
+  getIgnore:data=> minRequest.get('/5ebcea9dd834b',data),
+  // 商品列表 5eb3aad48546f
+  getOrderProduceList: data => minRequest.get('/5eb3aad48546f',data),
+  // 商品详情 5eb3aada41393?store_id=3&product_id=11
+  getOriderProductDetail:data => minRequest.get('/5eb3aada41393',data),
+  // 服务详情 5eb3aae228c4d?store_id=3&service_id=1
+  getOriderServeDetail:data=>minRequest.get('/5eb3aae228c4d',data),
+  // 套餐详情 5eb3aade317c0?store_id=3&setmeal_id=1
+  getOriderPackageDetails:data => minRequest.get('/5eb3aade317c0',data),
+  // 搜索桌台 5eb52f3a6edbb?group_id=1&condition=A1
+  searchDesk:data => minRequest.get('/5eb52f3a6edbb',data),
+  // 创建订单 5eb52c35b6bc6
+  setOrder:data => minRequest.post('/5eb52c35b6bc6',data),
+  // 预览订单 5eb52c3ac2714
+  previewOrder:data => minRequest.post('/5eb52c3ac2714',data),
+   // 确认订单 confirmOrder 5eb52c3e166a5
+   confirmOrder:data => minRequest.post('/5eb52c3e166a5',data),
+   // 取消预约 5ebe094bcd11e?booking_id=20
+   cancelBooked:data=>minRequest.get('/5ebe094bcd11e',data),
+   // 文件上传 5ebdf239b49c2
+   fileUpLoad:data =>minRequest.post('/5ebdf239b49c2',data),
+   // 我的下线 5eb7b9fc73cb3
+   myDownLine:() => minRequest.get('/5eb7b9fc73cb3'),
+   // 查询订单状态 5ebf582732acc?order_id=404
+   getOrderStatus: data =>minRequest.get('/5ebf582732acc',data)
+   
 }

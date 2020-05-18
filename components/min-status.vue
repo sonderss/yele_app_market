@@ -2,7 +2,7 @@
   <view class="min-status">
         <view class="card p-lr-20 m-bottom-20" v-for="(item,index) in list" :key="index">
             <view class="top p-tb-30 min-border-bottom">
-                <view></view>
+                <view>预约信息</view>
                 <view :class="status[item.status].color ? status[item.status].color+' status'  : 'status' ">{{status[item.status].desc}}</view>
             </view>
             <view class="main p-top-20">
@@ -11,20 +11,12 @@
                 <view class="item">联系电话：{{item.client_mobile}}</view>
                 <view class="item">预抵时间：{{$minCommon.formatDate(new Date(item.arrival_time*1000),'yyyy-MM-dd hh:mm:ss') }}</view>
                 <view class="item"><text>{{status[item.status].timer}}</text>：{{$minCommon.formatDate(new Date(item.operated_time*1000),'yyyy-MM-dd hh:mm:ss')}}</view>
-                
-              <!--
-                <view class="item remake">
-                    <view class="name">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:</view>
-                    <view class="f28 content">
-                    {{"12313112313131232311231313123231123131+''+312323112313131232313123231"}}
-                </view>
-                </view>
-              -->
+
             </view>
             <view class="timer min-border-top m-top-20">
                 <!--已预约-->
-                <view class="btn f26 m-right-20"  v-if="item.status === 1">取消预约</view>
-                <view class="btn f26 m-right-20"  v-if="item.status === 3">桌台详情</view>
+                <view class="btn f26 m-right-20"  v-if="item.status === 1" @click="cancelBooked(item.id)">取消预约</view>
+                <view class="btn f26 m-right-20"  v-if="item.status === 3" @click="deskDetail(item.desk_id)">桌台详情</view>
                 <!--默认-->
                 <view class="btn f26"  @click="makePhone(item.client_mobile)">联系客户</view>
             </view>
@@ -55,6 +47,15 @@ export default {
             uni.makePhoneCall({
                   phoneNumber: phone
             })
+        },
+        // 取消预约
+        cancelBooked(id){
+          this.$emit('cancelBook',id)
+          
+        },
+        // 桌台详情
+        deskDetail(desk_id){
+            // desk_id
         }
     }
 }

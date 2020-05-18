@@ -8,8 +8,8 @@
       <view v-if="img">
         <min-avatar :size="imgSize" :url="img"></min-avatar>
       </view>
-      <view class="m-left-20" style="width:300rpx">
-        <view class="f28">{{title}}</view>
+      <view class="m-left-20 " style="width:300rpx">
+        <view class="f28 min-ellipsis min-ellipsis">{{title}}</view>
         <view class="label m-top-10 f24 assist-text min-ellipsis">{{label}}</view>
       </view>
     </view>

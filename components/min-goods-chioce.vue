@@ -5,7 +5,7 @@
           <!-- @click="goodsAdd(index,index2)" -->
           <view class="image-view-com">
             <view class="badge" v-if="badge">{{badgeTxt}}</view>
-            <image :src="image" mode="" ></image>
+            <image :src="image" mode="" @error="imgErr"></image>
           </view>
           <view class="content-view">
             <view class="right-view-title" >
@@ -46,7 +46,7 @@ export default {
       default: '暂无商品描述'
     },
     price: {
-      type: Number,
+      type: [Number,String],
       default: 0
     },
     value: {
@@ -90,6 +90,9 @@ export default {
       this.count = e
       this.$emit('input', e)
       this.$emit('change', e)
+    },
+    imgErr(e){
+       this.$emit('imgErro',e)
     }
   }
 }

@@ -10,15 +10,18 @@
         "compatible" : {
             "ignoreVersion" : true
         },
-        // "renderer": "native",
         "usingComponents" : true,
+		"compilerVersion" : 3,
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
             "waiting" : true,
             "autoclose" : true,
             "delay" : 0
         },
-        "modules" : {},
+        "modules" : {
+            "Payment" : {},
+            "Share" : {}
+        },
         /* 模块配置 */
         "distribute" : {
             /* 应用发布信息 */
@@ -51,9 +54,10 @@
             },
             "ios" : {},
             /* ios打包配置 */
-            "sdkConfigs" : {}
-        },
-        "compilerVersion" : 2
+            "sdkConfigs" : {
+                "ad" : {}
+            }
+        }
     },
     /* SDK配置 */
     "quickapp" : {},

@@ -3,11 +3,11 @@
 	<min-search class=" m-lr-30" bgColor="#EEEEEE" placeholder="请输入营销姓名/手机号搜索" style="border-radius:5px;"></min-search>
 	<view class="mid-view">
 		<view class="left-view">
-			<text class="txt">56</text>
+			<text class="txt">{{data.offline_count}}</text>
 			<text class="txt1">下线人数</text>
 		</view>
 		<view class="right-view">
-			<text class="txt" style="color:#FE0000">￥56756</text>
+			<text class="txt" style="color:#FE0000">￥{{data.total_rebate}}</text>
 			<text class="txt1">累计返佣</text>
 		</view>
 	</view>
@@ -17,17 +17,16 @@
 		   <text class="t">人员信息</text>
 		   <text class="t">累计返佣</text>
 		</view>
-		<view class="main-content min-border-top" v-for="(item,index) in data" :key="index">
+		<view class="main-content min-border-top" v-for="(item,index) in data.clue_list" :key="index">
 			<view class="creat-time t">
-				<text>{{$minCommon.formatDate(new Date(item.time*1),"yyyy-MM-dd")}}</text>
-				<text class="p-top-10">{{$minCommon.formatDate(new Date(item.time*1),"hh:mm:ss")}}</text>
+				<text>{{$minCommon.formatDate(new Date(item.create_time*1000),"yyyy-MM-dd hh:mm:ss")}}</text>
 			</view>
 			<view class="creat-info t">
-				<text>{{item.name}}</text>
-				<text class="p-top-10">{{item.phone}}</text>
+				<text>{{item.user_name}}</text>
+				<text class="p-top-10">{{item.mobile}}</text>
 			</view>
 			<view class="creat-money t">
-				<text style="color: #FF0000;">￥{{item.money}}</text>
+				<text style="color: #FF0000;">￥{{item.rebate}}</text>
 			</view>
 		</view>
 	</view>
@@ -40,12 +39,14 @@ export default {
 	navigate:["navigateTo"],
 	data(){
 		return{
-			data:[
-				{time:'1585016257518',name:"令狐冲",phone:'15811112222',money:312},
-				{time:'1585016257518',name:"任盈盈",phone:'15712348521',money:348},
-				{time:'1585016257518',name:"林平之",phone:'15811111457',money:500}
-			]
+			data:{}
 		}
+	},
+	mounted(){
+		this.$minApi.myDownLine().then(res=>{
+			console.log(res)
+			this.data = res
+		})
 	}
 }
 	

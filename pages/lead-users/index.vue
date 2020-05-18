@@ -3,7 +3,7 @@
     <min-search
       class="m-lr-30"
       @focus="focus"
-      bgcolor="#EEEEEE"
+      bgColor="#EEEEEE"
       placeholder="请输入营销姓名/手机号搜索"
       style="border-radius:5px;"
     ></min-search>
@@ -39,14 +39,14 @@
         </view>
 
         <view class="t">
-          <text>{{item.commission_proportion}}%</text>
+          <text>{{item.share_ratio}}%</text>
           <image
             style="width: 34rpx;height: 34rpx;"
             class="m-left-20"
             src="../../static/images/set.png"
 			@click="edit(index)"
           />
-          <!-- <text class="iconfont icon-xiugai" style="font-size: 34rpx;">&#xe66f;</text> -->
+         
         </view>
       </view>
     </view>
@@ -91,7 +91,7 @@ export default {
 	},
 	edit(n){
 		this.name = this.list.clue_list[n].user_name
-		this.price = this.list.clue_list[n].commission_proportion+''
+		this.price = this.list.clue_list[n].share_ratio+''
 		this.$refs.show.handleShow({
 			title:"修改分成比例",
 			success: (e) => {
@@ -126,10 +126,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@font-face {
-  font-family: "iconfont";
-  src: url("~@/static/font/iconfont.ttf");
-}
 
 .mid-view {
   height: 104px;

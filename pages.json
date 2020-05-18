@@ -83,6 +83,18 @@
 			}
 		},
 		{
+			"path": "pages/cancel-success/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "取消成功",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/clue-management/index",
 			"style": {
 				"app-plus": {
@@ -285,6 +297,114 @@
 				"app-plus": {
 					"titleNView": {
 						"titleText": "订单详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/offer-announcement/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "门店优惠公告",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/search-table/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "搜索桌台",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
+			"path":"pages/reservation-success/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"支付成功",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path":"pages/package-details/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"套餐详情",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path":"pages/packages-detail/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"套餐详情2级",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path": "pages/product-details/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"商品详情",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path": "pages/placean-order/orderstart",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"确认订单",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path": "pages/placean-order/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"下单",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
+			"path": "pages/announcement-detail/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "公告详情",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}

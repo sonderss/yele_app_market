@@ -120,25 +120,52 @@ export default {
       })
     },
     changeHeadImg(){
-        uni.chooseImage({
+      uni.chooseImage({
           count: 1, //默认9
-          success:  res=> {
-              console.log(JSON.stringify(res.tempFilePaths[0]));
-              this.userInfo.head_img =res.tempFilePaths[0]
-              console.log(this.userInfo.head_img)
-              this.setUserInfo()
-          },
-          fail:err=>{
-            console.log(err)
+          success: (chooseImageRes) => {
+              const tempFilePaths = chooseImageRes.tempFilePaths;
+              uni.uploadFile({
+                  url: 'http://api.app-market.dev.yeleonline.com/api/5ebdf239b49c2',
+                  filePath: tempFilePaths[0],
+                  name: 'file',
+                  header:{
+                      "access-token" : 'AQtlDwvmBDqWFcebiSpFAJCoUeKeTjtp',
+                      "api-auth": this.$store.state.user.userInfo.apiAuth
+                  },
+                  success: (uploadFileRes) => {
+                        this.userInfo.head_img =JSON.parse(uploadFileRes.data).data[0].http_dir
+                        this.setUserInfo()
+                  }
+              });
           }
       });
+      //   uni.chooseImage({
+      //     count: 1, //默认9
+      //     success:  res=> {
+      //         console.log(JSON.stringify(res.tempFilePaths[0]));
+      //         // 调用上传文件接口 提交到远程服务器保存文件
+      //           this.$minApi.fileUpLoad({
+      //             image:JSON.stringify(res.tempFilePaths[0])
+      //           }).then(res=>{
+      //             console.log(res)
+      //           })
+      //         this.userInfo.head_img =res.tempFilePaths[0]
+      //         console.log(this.userInfo.head_img)
+      //         this.setUserInfo()
+      //     },
+      //     fail:err=>{
+      //       console.log(err)
+      //     }
+      // }); 
     },
     toFace () {
-      // verify-name
-      this.$minRouter.push({
-        name: 'verify-name',
-        params: { id_card: this.userInfo.id_card, is_certify: this.userInfo.is_certify, name: this.userInfo.user_name, phone: this.userInfo.mobile }
-      })
+      // verify-name 实名认证
+        this.$minRouter.push({
+          name: 'verify-name',
+          params: { id_card: this.userInfo.id_card, is_certify: this.userInfo.is_certify, name: this.userInfo.user_name, phone: this.userInfo.mobile }
+        })
+      
+      
     },
     // payMethods drawing-way
     payMethods () {
@@ -155,10 +182,8 @@ export default {
           birthday: new Date(this.date).getTime()/1000
         }
         // uoDateuserInfo  API
-        console.log('准备修改的信息',data)
-
         this.$minApi.uoDateuserInfo(data).then(res=>{
-          console.log(res)
+          this.$showToast('重新登录后，修改生效')
         })
     },
     quit () {

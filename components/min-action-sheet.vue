@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .min-action-flex {
   display: flex;
   flex-direction: row;

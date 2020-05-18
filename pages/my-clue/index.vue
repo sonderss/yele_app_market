@@ -9,7 +9,7 @@
 			
 			<view class="title_view">
 				<view class="f26">{{$minCommon.formatDate(new Date( item.create_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
-				<view class="status f30">{{staus[item.clue_status]}}</view>
+				<view class="status f30">{{staus[item.clue_status].name}}</view>
 			</view>
 			<view class="card p-lr-20 p-bottom-10 m-bottom-20">
 			  <view class="p-tb-30 min-border-bottom">线索信息</view>
@@ -29,8 +29,9 @@
 				  <view style="margin-left:18rpx;flex:1">{{item.remark}}</view>
 				</view>
 			  </view>
-			  <view class="bottom_view min-border-top" v-if="item.clue_status !== 0">
-				  {{item.operating_time}}
+			  <view class="bottom_view min-border-top"   v-if="item.clue_status !== 0">
+				  <view>{{staus[item.clue_status].desc}}: {{$minCommon.formatDate(new Date(item.operating_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
+				  <view class="btn" v-if="item.clue_status === 2" @click="toDetail(item)">查看详情</view>
 			  </view>
 			</view>
 			
@@ -43,7 +44,7 @@
 
 <script>
 	// 线索状态: 0 -待处理 1-已忽略 2-已预约 3-已取消
-	const staus = ['待处理','已忽略','已预约','已取消']
+	const staus = [{name:'待处理',desc:''},{name:'已忽略',desc:'忽略时间'},{name:'已预约',desc:"预约时间"},{name:'已取消',desc:"取消时间"}]
 export default {
 	name:'my-clue',
 	navigate:['navigateTo'],
@@ -77,6 +78,13 @@ export default {
 			uni.makePhoneCall({
 			    phoneNumber: e //仅为示例
 			});
+		},
+		// 查看详情
+		toDetail(item){
+			this.$minRouter.push({
+				name:"platform-detail",
+				params:{id:item.desk_id,date:item.arrival_time}
+			})
 		}
 	}
 }
@@ -149,6 +157,19 @@ export default {
     }
   }
   .bottom_view{
-	  height: 77rpx;line-height: 77rpx;
+	  height: 80rpx;line-height: 77rpx;
+	  display: flex;
+	  justify-content: space-between;
+	  align-items: center;
+	  .btn{
+		    width:142rpx;
+			height:58rpx;
+			background:rgba(255,255,255,1);
+			border:1rpx solid rgba(231,231,231,1);
+			border-radius:10rpx;
+			text-align: center;
+			line-height: 58rpx;
+			font-size: 26rpx;
+	  }
   }
 </style>

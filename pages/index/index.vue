@@ -1,7 +1,7 @@
 
 <template>
   <view class="index">
-    <view class="back-img-box" :style="{'background-image': `url(${back})`}">
+    <view class="back-img-box" >
       <view class="info min-flex min-flex-main-between m-lr-30">
         <view class="min-flex min-flex-main-start">
           <min-avatar size="md" :url="userInfo.head_img"></min-avatar>
@@ -16,13 +16,12 @@
         <text>邀请码</text>
       </view>
     </view>
-    <min-notice-bar :text="msg" @more="view_more"></min-notice-bar>
+    <min-notice-bar :text="msg" @more="view_more" @detail="toDetail"></min-notice-bar>
     <yele-grid :list="item.grid" v-for="(item,index) in list" :key="index"></yele-grid>
   </view>
 </template>
 
 <script>
-import back from "@/static/images/back_admin.png";
 import MinAvatar from "@/components/min-avatar";
 import YeleGrid from "@/components/page/yele-grid";
 
@@ -35,7 +34,6 @@ export default {
   },
   data() {
     return {
-      back: "",
       list: [
         {
           grid: [
@@ -182,11 +180,17 @@ export default {
     },
     // 查看更多
     view_more(){
-      console.log(213)
+      this.$minRouter.push('offer-announcement')
+    },
+    toDetail(e){
+        console.log(e)
+        this.$minRouter.push({
+          name:"announcement-detail",
+          params:{id:e}
+        })
     }
   },
   onLoad() {
-    this.back = back;
     this.getStoreList()
   }
 };
@@ -201,6 +205,9 @@ export default {
   background-repeat: no-repeat;
   display: flex;
   align-items: flex-end;
+  background-image: url('../../static/images/back_admin.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   .info {
     margin-bottom: 30rpx;
     align-items: flex-end;

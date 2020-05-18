@@ -13,7 +13,24 @@ export default {
     navigate:["navigateTo"],
     data(){
       return {
-          list:[]
+          list:[],
+          clue_id:''
+      }
+    },
+    onLoad(option){
+      console.log(option)
+      this.clue_id = option.clue_id
+      if(option.clue_id){
+        // #ifdef APP-PLUS  
+            var webView = this.$mp.page.$getAppWebview();  
+
+            // 修改buttons  
+            // index: 按钮索引, style {WebviewTitleNViewButtonStyles }  
+            webView.setTitleNViewButtonStyle(0, {  
+                text: '',  
+            });  
+        // #endif
+        document.getElementsByClassName('uni-btn-icon')[1].innerText = '';
       }
     },
     onNavigationBarButtonTap(){
@@ -23,6 +40,7 @@ export default {
     },
     methods:{
       toEmint(item){
+        item.clue_id = this.clue_id
         this.$minRouter.push({
           name:'choose-table',
           params:{item}
@@ -38,6 +56,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

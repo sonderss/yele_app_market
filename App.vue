@@ -16,8 +16,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+@import './style/index.scss';
+@import './static/font/iconfont.css';
 page {
   background: #F7F7F7;
 }

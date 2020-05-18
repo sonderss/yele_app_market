@@ -24,7 +24,7 @@
           <text class="p-top-10">￥{{item.performance}}</text>
         </view>
         <view class="t">
-          <text>{{item.commission_proportion}}%</text>
+          <text>{{item.share_ratio}}%</text>
         </view>
       </view>
     </view>

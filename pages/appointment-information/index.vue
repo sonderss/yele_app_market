@@ -8,7 +8,6 @@
             <view class="p-lr-20 p-top-20 min-border-top">
                     <view class="m-bottom-10">预定台号：<text>{{$parseURL().data.desk_name}}</text></view>
                     <view class="m-bottom-10">分组：{{$parseURL().group_name?$parseURL().group_name:'暂无数据'}}</view>
-                    <view class="m-bottom-10">座位：{{$parseURL().client_mobile? $parseURL().client_mobile:'暂无数据'}}</view>
                    
 
                     <view class="m-bottom-10">低消：{{$parseURL().data.minim_charge? $parseURL().data.minim_charge:'暂无数据'}}</view>

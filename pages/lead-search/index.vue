@@ -19,7 +19,7 @@
 		    </view>
 		    
 		    <view class="t">
-		      <text >{{item.commission_proportion}}%</text>
+		      <text >{{item.share_ratio}}%</text>
 		      <image @click="edit(index)" style="width: 34rpx;height: 34rpx;" class="m-left-20" src="../../static/images/set.png"/>
 		      <!-- <text class="iconfont icon-xiugai" style="font-size: 34rpx;">&#xe66f;</text> -->
 		    </view>
@@ -79,7 +79,7 @@
 			},
 			edit(n){
 				this.name = this.$parseURL().data.clue_list[n].user_name
-				this.price =  this.$parseURL().data.clue_list[n].commission_proportion+''
+				this.price =  this.$parseURL().data.clue_list[n].share_ratio+''
 				this.$refs.show.handleShow({
 					title:"修改分成比例",
 					success: (e) => {

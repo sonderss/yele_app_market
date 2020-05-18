@@ -107,7 +107,6 @@ class MinCommon {
       }
     }
   }
-
   /**
    * 数组去重
   */
@@ -226,6 +225,25 @@ class MinCommon {
         return { desc: '退货作废', color: 'green' }
       default:
         return { desc: '暂无', color: '' }
+    }
+  }
+  // 付款方式
+  static getPayMethod (payType) {
+    switch (payType) {
+      case '0':
+        return 'alipay_scan_code'
+
+      case '1':
+        return 'wechat_scan_code'
+
+      case '2':
+        return 'credit_card'
+
+      case '3':
+        return 'cash'
+
+      case '4':
+        return 'postpay'
     }
   }
 }

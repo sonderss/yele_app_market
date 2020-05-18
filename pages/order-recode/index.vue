@@ -3,13 +3,15 @@
     <view class="main" v-for="(item,index) in list" :key="index" @click="goDetail(index)">
       <view class="top-view min-flex">
         <view class="left-view min-flex min-flex-main-start">
+          <view class="m-left-20" style="width:60rpx;height:60rpx;border-radius:50%;overflow: hidden;">
+            <image  :src='item.head_img' />
+          </view>
           <text class="f30 ordern">{{item.store_name ?item.store_name:'暂无数据'}}</text>
-          <text>{{$minCommon.formatDate(new Date(item.create_time*1000) ,'yyyy/MM/dd hh:mm:ss') }}</text>
         </view>
         <text
           class="right-txt f28"
-          :class="status[item.order_status].class"
-        >{{status[item.order_status].desc}}</text>
+          :class="$minCommon.getOrderStatus(item.order_status).color"
+        >{{$minCommon.getOrderStatus(item.order_status).desc}}</text>
       </view>
       <view>
         <view class="mid-view min-border-top">
@@ -41,7 +43,7 @@
       </view>
       <view class="bottom-view min-border-top">
         <text class="f24 tcolor">订单号:{{item.order_sn}}</text>
-        <text class="f28 fcolor">{{item.confirm_time}}</text>
+         <text class="f24 tcolor">{{$minCommon.formatDate(new Date(item.create_time*1000) ,'yyyy/MM/dd hh:mm:ss') }}</text>
       </view>
     </view>
   </view>
@@ -76,6 +78,7 @@ export default {
   mounted() {
     this.$minApi.getOrderList().then(res => {
       this.list = res.list;
+      console.log(this.list)
       this.list.map(item => {
         if (item.order_product_list.length > 4) {
           item.order_product_list.splice(4);
@@ -88,7 +91,7 @@ export default {
       // 这里跳转订单详情
       this.$minRouter.push({
         name: "order-detail",
-        params: { ordr_id: this.list[index].id }
+        params: { ordr_id: this.list[index].id,desk_id:this.list[index].desk_id, }
       });
     }
   }

@@ -19,8 +19,8 @@
 
 <script>
 export default {
-  name: 'platform-detail',
-  navigate: ['navigateTo'],
+  name: 'redplatform-detail',
+  navigate: ['navigateTo', 'redirectTo'],
   data () {
     return {
       id: '',
@@ -33,9 +33,6 @@ export default {
   },
   onLoad (option) {
     this.id = this.$parseURL().id
-    // 暂时使用获取到的详情状态数据
-    this.status = this.$parseURL().status
-
     this.date = this.$parseURL().date
     this.getData()
   },
@@ -43,11 +40,11 @@ export default {
     // 调用接口获取台详情数据数据
     getData () {
       // const date = this.$minCommon.formatDate(new Date(), 'yyyy-MM-dd')
-      this.$minApi.getOrderDetail({ desk_id: this.id, date: this.date })
+      this.$minApi.getOrderDetail({ desk_id: this.id})
         .then(res => {
           this.list = res
           console.log(this.list)
-          // this.status = res.baseInfo.status
+          this.status = res.desk_info.status
         })
     }
   }

@@ -3,49 +3,18 @@
     <view class="btns">
       <view :class="status === item.value ? 'btn active' : 'btn'" @click="chioceItem(item.value)" v-for="(item,index) in title" :key="index">{{item.name}}</view>
     </view>
-	<view class="platform-wrap" >
+	<view class="platform-wrap" v-for="i in getDataChange" :key="i.id">
 	  <view class="title">
-		  <min-cell-item :border="false" img="../../static/images/headurl60.png" title="夜乐俱乐部" label="广州市天河区元岗元岗横路智汇parkB3333"></min-cell-item>
+		  <min-cell-item :border="false" :img="i.head_img" :title="`${i.store_name}`" :label="i.address"></min-cell-item>
 	  </view>
 	  <view class="list">
-	    <view class="item" :class="statusArr[item.desk_status].class" v-for="(item, index) in mines" :key="index"  @click="goDetail(item.id,item.desk_status)">
+	    <view class="item" :class="statusArr[item.desk_status].class" v-for="(item, index) in i.desk_lists" :key="index"  @click="goDetail(item.id,item.desk_status)">
 	      <view class="name">{{item.desk_name}}</view>
 	      <view class="status">{{statusArr[item.desk_status].name}}</view>
-	      <view class="count">{{item.price}}</view>
+	      <view class="count">{{item.amount ? `$ ${item.amount}`:'未消费'}}</view>
 	    </view>
 	  </view>
 	</view>
-    <!-- <view class="platform-wrap" v-if="mines.length !== 0">
-      <view class="title">我的台位</view>
-      <view class="list">
-        <view class="item" :class="statusArr[item.desk_status].class" v-for="(item, index) in list.mines" :key="index"  @click="goDetail(item.id,item.desk_status)">
-          <view class="name">{{item.desk_name}}</view>
-          <view class="status">{{statusArr[item.desk_status].name}}</view>
-          <view class="count">{{$minCommon.getSeats(item.seats)}}</view>
-        </view>
-      </view>
-    </view> -->
-    <!-- <view  v-for="(item,index) in getDataChange" :key="index">
-        <view class="platform-wrap"   v-if="item.desk_lists.length > 0">
-          <view class="title" >{{item.group_name}}</view>
-          <view class="list">
-            <view
-              class="item"
-              :class="statusArr[item2.desk_status].class"
-              v-for="(item2, index2) in item.desk_lists"
-              :key="index2"
-              @click="goDetail(item2.id,item2.desk_status)"
-            >
-              <view class="name">{{item2.desk_name}}</view>
-              <view class="status">{{statusArr[item2.desk_status].name}}</view>
-              <view class="count">{{$minCommon.getSeats(item2.seats)}}</view>
-            </view>
-          </view>
-        </view>
-    </view> -->
-    <!-- <picker mode="date" id='abc' ref='test'  :value="date" start="2020-03-13" :end="endDate" @change="bindDateChange">
-
-    </picker> -->
     <min-popup size="height" :show="show" @close='close'>
       <min-picker  @cancel="cancel" @sure="sure"></min-picker>
     </min-popup>
@@ -74,14 +43,7 @@ export default {
     return {
       statusArr,
       list: [],
-      mines: [{id: 15,group_id: 4,desk_name: "Y1",price: '未消费',desk_status: 1},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '未消费',desk_status: 2},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '$1000',desk_status: 3},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '$1000',desk_status: 4},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '$1000',desk_status:5},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '$1000',desk_status:6},
-	  {id: 15,group_id: 4,desk_name: "Y1",price: '$1000',desk_status:7},
-	  ],
+      mines: [],
       show: false,
       date: '',
       title: [],
@@ -108,8 +70,11 @@ export default {
     // #endif
   },
   mounted () {
-    this.getData(this.date)
+    // this.getData(this.date)
     // this.getData('2020-3-18')
+  },
+  onShow(){
+    this.getData(this.date)
   },
   onNavigationBarButtonTap () {
     this.show = !this.show
@@ -117,75 +82,56 @@ export default {
   computed: {
     // 返回数组
     getDataChange () {
-      let arr = this.list.desks
-      const brr = []
-      let indexArr = []
-      const indexBrr = []
-      if (this.status === 999) {
-        arr = this.list.desks
-      } else {
-        this.list.desks.map((item, index) => {
-          item.desk_lists.map((item2, index2) => {
-            if (this.status === item2.desk_status) {
-              indexArr.push(index)
-              indexBrr.push(index2)
-            }
-          })
-        })
-        if (indexArr.length === 0 && indexBrr.length === 0) {
-          return false
-        }
-        const itemArr = []
-        const itemBrr = []
-        indexArr = this.$minCommon.arrSet(indexArr)
-        indexArr.map(item => {
-          itemArr.push(this.list.desks[item])
-        })
-        itemArr.map(item => {
-          item.desk_lists.map((item2, index) => {
-            if (this.status === item2.desk_status) {
-              itemBrr.push(item2)
-            }
-          })
-        })
-        itemArr.map(item => {
-          itemBrr.map(item2 => {
-            if (item.id === item2.group_id) {
-              const op = []
-              op.push(item2)
-              const obj = {
-                id: item.id,
-                group_name: item.group_name,
-                desk_lists: op
-              }
-              brr.push(obj)
-            }
-          })
-        })
-        arr = brr
-        console.log(arr)
-        arr = this.testArr(arr)
-      }
-      return arr
+      const a = this.filterData((this.list.desks))
+      return a
     }
   },
   methods: {
-    testArr (arr) {
-      const p = []
-      arr.forEach((item, index) => {
-        if (p.length === 0) {
-          p.push(item)
-        } else {
-          p.forEach((item2, index2) => {
-            if (item2.id && item2.id !== item.id) {
-              p.push(item)
-            } else if (item2.id && item2.id === item.id) {
-              item2.desk_lists = item2.desk_lists.concat(item.desk_lists)
-            }
-          })
+    newArr (arr) {
+      let brr = {}
+      const newArr = []
+      arr.map(item => {
+        if (brr.id !== item.id) {
+          brr = item
+          newArr.push(brr)
         }
       })
-      return p
+      return newArr
+    },
+    // 封装一个筛选函数
+    filterData (array) {
+      let arr = []
+      // 定义一个分组，任何改变都根据这个分组来操作]
+      let newListDesk = []
+      if (this.status === 999) {
+        // 全部桌台信息
+        arr = array // this.list.desks
+      } else {
+        array.map((item, index) => {
+          item.desk_lists.map((item2, index2) => {
+            if (item2.desk_status === this.status) {
+              newListDesk.push(array[index])
+            }
+          })
+        })
+        // 去除新组重复的项
+        newListDesk = this.newArr(newListDesk)
+        let arrData = []
+        // 去除具体项不符合的条件 
+        newListDesk.map((item, index) => {
+          const obj = { desk_lists: [], id: item.id, store_name: item.store_name,address: item.address, head_img:item.head_img,hours:item.hours,id:item.id,}
+          item.desk_lists.map(item2 => {
+            if (item2.desk_status === this.status) {
+              obj.desk_lists.push(item2)
+              arrData.push(obj)
+            }
+          })
+        })
+        // 去重
+        arrData = this.newArr(arrData)
+        arr = arrData
+      }
+      return arr
     },
     // 导航选中事件
     chioceItem (status) {
@@ -203,7 +149,7 @@ export default {
       this.$minApi.TableList({ date })
         .then(res => {
           this.list = res
-          this.desks = res.desks
+          this.mines = res.desks
           // this.mines = res.mines
           this.title = res.title
           console.log(res)
@@ -217,7 +163,7 @@ export default {
     goDetail (id, status) {
       this.$minRouter.push({
         name: 'platform-detail',
-        params: { id: id, status: status, date: this.date }
+        params: { id: id,date: this.date }
       })
     },
     // 日期选择器关闭

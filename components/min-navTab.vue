@@ -16,7 +16,7 @@
           :key="index"
           :id="'id'+index"
           @click="longClick(index)"
-        >{{item}}</view>
+        >{{item.name?item.name:item}}</view>
         <view
           class="underlineBox"
           :style="'transform:translateX('+isLeft+'px);width:'+isWidth+'px'"
@@ -45,7 +45,23 @@ export default {
       tabLeft: 0
     }
   },
-  created () {
+  watch: {
+    tabTitle (a) {
+      var that = this
+      // 获取设备宽度
+      uni.getSystemInfo({
+        success (e) {
+          // console.log(that.tabTitle.length)
+          if (that.tabTitle.length <= 5) {
+            that.isWidth = e.windowWidth / that.tabTitle.length // 宽度除以导航标题个数=一个导航所占宽度
+          } else {
+            that.isWidth = e.windowWidth / 5
+          }
+        }
+      })
+    }
+  },
+  mounted () {
     var that = this
     // 获取设备宽度
     uni.getSystemInfo({
@@ -76,14 +92,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .navTabBox {
   width: 100%;
   color: #EEEEEE;
   width: 100%;
   height: 75rpx;
   position: fixed;
-  top:44px;
+  top:0;
   left: 0;
   overflow: auto;
   z-index: 9999;
@@ -104,12 +120,12 @@ export default {
     }
     .click::before{
       content: '';
-      width:120rpx;
+      width:50%;
       height: 6rpx;
       background:#FFE001;
       position: absolute;
       bottom: 0;
-      left: 10%;
+      left: 25%;
     }
     .underlineBox {
       height: 6rpx;

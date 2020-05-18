@@ -6,7 +6,7 @@
 			</view>
 			<scroll-view class="an-notice-content" v-if="text.length !== 0">
 				<swiper v-if="show" class="swiper" :autoplay="true" :interval="switchTime*1000" :duration="1500" :circular="true" :vertical="true">
-					<swiper-item v-for="(item, index) in text" :key="index" :item-id="index+''" class="an-notice-content-item">
+					<swiper-item v-for="(item, index) in text" :key="index" :item-id="index+''" @click="toDetail(item.id)" class="an-notice-content-item">
 						<view class="swiper-item">
 							<text class="an-notice-content-item-text" :style="'color: '+color+';'">
 								<text v-if=" showSerial">{{index+1+'. '}}</text>
@@ -98,6 +98,9 @@
 			}, */
 			more(){
 				this.$emit('more')
+			},
+			toDetail(e){
+				this.$emit('detail',e)
 			}
 		}
 	}
@@ -105,7 +108,7 @@
 
 <style lang="scss" scoped>
 	.swiper{
-		height: 60upx!important;
+		height: 60upx !important;
 	}
 	.an-notice-box{
 		width: 100%; 
@@ -143,15 +146,6 @@
 		text-overflow: ellipsis; 
 		overflow: hidden;
 	}
-	.an-notice-more{
-		// width: 130upx; 
-		// height: 60upx; 
-		// font-size: 12px; 
-		// line-height: 60upx; 
-		// text-align: right; 
-		// color: #999;
-	}
-	
 	@keyframes anotice {
 		 0%  {transform: translateY(100%);}
 	    30%  {transform: translateY(0);}

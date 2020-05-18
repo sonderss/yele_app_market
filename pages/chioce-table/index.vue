@@ -2,20 +2,20 @@
   <view class="chioce-table p-tb-20 p-lr-30">
         <min-pcitem desk :showArray="false" :list="list"/>
 
-        <view  v-for="(item,index) in 2" :key="index">
+        <view  v-for="(item,index) in getDataChange" :key="index">
             <view class="platform-wrap"  >
-                <view class="title" >{{'分组'}}</view>
+                <view class="title" >{{item.group_name}}</view>
                 <view class="list">
                     <view
                     class="item"
-                    :class="statusArr[3].class"
-                    v-for="(item2, index2) in 3"
+                    :class="statusArr[item2.desk_status].class"
+                    v-for="(item2, index2) in item.desk_list"
                     :key="index2"
                     @click="toOrder(item2)"
                     >
-                    <view class="name" >{{'name'}}</view>
-                    <view class="status">{{statusArr[3].name}}</view>
-                    <view class="count">{{$minCommon.getSeats(2)}}</view>
+                    <view class="name" >{{item2.desk_name}}</view>
+                    <view class="status">{{statusArr[item2.desk_status].name}}</view>
+                    <view class="count">{{item2.minimum_consume}}</view>
                     </view>
                 </view>
             </view>
@@ -50,7 +50,7 @@ export default {
                 // 下单详情
                 this.$minRouter.push({
                     name:"order-make",
-                    params:{store:{store_name:this.list.store_name,address:this.list.address,head_img:this.list.head_img,id:this.list.id}}
+                    params:{desk:item,store:{store_name:this.list.store_name,address:this.list.address,head_img:this.list.head_img,id:this.list.id}}
                 })
             }
         },
@@ -60,6 +60,7 @@ export default {
                 store_id: this.list.id
             }).then(res=>{
                 console.log(res)
+                this.getDataChange = res
             })
         },
         onLoad(){

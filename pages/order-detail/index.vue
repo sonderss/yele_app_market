@@ -124,8 +124,8 @@
 // 签折类型（0：全单打折，1：全单优惠，2：单品打折，3：单品优惠）
 const type = ['全单打折', '全单优惠', '单品打折', '单品优惠']
 export default {
-  name: 'order-detail',
-  navigate: ['navigateTo'],
+  name: 'redorder-detail',
+  navigate: ['navigateTo','redirectTo'],
   data () {
     return {
       leftText: '',
@@ -180,15 +180,15 @@ export default {
               })
               .then(res => {
                 console.log(res)
-                if (res.length === 0) {
+               
                   this.$showToast('取消成功!')
                   setTimeout(() => {
-                    this.$minRouter.push({
-                      name: 'order-detail',
-                      params: { ordr_id: this.list.id }
-                    })
+                       this.$minRouter.push({
+                         name:"cancel-success",
+                         params:{res}
+                       })
                   }, 2000)
-                }
+                
               })
           }
         }
@@ -199,7 +199,7 @@ export default {
       this.$minApi
         .confirmOrder({
           order_id: this.list.id,
-          desk_id: '',
+          desk_id: this.$parseURL().desk_id,
           pay_type: this.$minCommon.getPayMethod(this.payType)
         })
         .then(res => {

@@ -11,7 +11,7 @@
     </min-cell>
 
     <min-cell :card="false" class="m-tb-20">
-      <min-cell-item title="当前桌号" arrow :tail="desk.desk_name"></min-cell-item>
+      <min-cell-item title="当前桌号" arrow :tail="desk.desk_name" @eventParent="searchDesk"></min-cell-item>
     </min-cell>
 
     <min-cell class="mid-view" :card="false">
@@ -83,6 +83,14 @@ export default {
         url: "../store/apin-store"
       });
     },
+    // 搜索桌台
+    searchDesk(){
+      console.log(this.$parseURL().group.id)
+       this.$minRouter.push({
+         name:'search-table',
+         params:{group_id:this.$parseURL().group.id,group_name:this.$parseURL().group.group_name,date:this.$parseURL().date}
+       })
+    },
     backChinceGroup() {
       this.$minRouter.push({
         name: "choose-table",
@@ -149,6 +157,7 @@ export default {
       dates = dates.slice(0, datesNum)
       const data = {
         store_id: this.$parseURL().store.id,
+        clue_id:this.$parseURL().store.clue_id ? this.$parseURL().store.clue_id : 0,
         desk_group_id:this.$parseURL().group.id,
         desk_id:this.desk.id,
         client_name: this.name1,
@@ -231,7 +240,7 @@ export default {
 };
 </script>
 
-<style>
+<style  lang="scss" scoped>
 .btn {
   width: 100%;
   position: fixed;
