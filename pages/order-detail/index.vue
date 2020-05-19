@@ -180,7 +180,6 @@ export default {
               })
               .then(res => {
                 console.log(res)
-               
                   this.$showToast('取消成功!')
                   setTimeout(() => {
                        this.$minRouter.push({
@@ -188,7 +187,6 @@ export default {
                          params:{res}
                        })
                   }, 2000)
-                
               })
           }
         }
@@ -218,6 +216,9 @@ export default {
       this.$minRouter.push({
         name: 'product-details'
       })
+    },
+    changeImage(e){
+      console.log(e)
     }
   }
 }

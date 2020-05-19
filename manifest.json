@@ -10,8 +10,6 @@
         "compatible" : {
             "ignoreVersion" : true
         },
-        "usingComponents" : true,
-		"compilerVersion" : 3,
         "splashscreen" : {
             "alwaysShowBeforeRender" : true,
             "waiting" : true,

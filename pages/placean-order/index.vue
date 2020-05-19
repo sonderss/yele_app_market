@@ -326,7 +326,6 @@ export default {
       console.log('商品规格弹窗', this.skuObj)
     },
     changeChioce (index, index2) {
-      console.log(213)
       // 服务商品
       if (this.mainArray[index].product[index2].type === 'service') {
         // 直接放入已选商品

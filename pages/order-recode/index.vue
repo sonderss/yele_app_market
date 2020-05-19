@@ -4,7 +4,7 @@
       <view class="top-view min-flex">
         <view class="left-view min-flex min-flex-main-start">
           <view class="m-left-20" style="width:60rpx;height:60rpx;border-radius:50%;overflow: hidden;">
-            <image  :src='item.head_img' />
+            <image  :src='item.head_img' @error="imageErro($event,index)"/>
           </view>
           <text class="f30 ordern">{{item.store_name ?item.store_name:'暂无数据'}}</text>
         </view>
@@ -93,6 +93,11 @@ export default {
         name: "order-detail",
         params: { ordr_id: this.list[index].id,desk_id:this.list[index].desk_id, }
       });
+    },
+    imageErro(e,index){
+      if(e.type === "error"){
+          this.list[index].head_img = '/static/images/headurl60.png'
+      }
     }
   }
 };

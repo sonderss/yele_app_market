@@ -30,6 +30,9 @@ export default {
                 name:'announcement-detail',
                 params:{id}
             })
+            // uni.navigateTo({
+            //     url:'../announcement-detail/index?id=1'
+            // })
         }
     },
     mounted(){

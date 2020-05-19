@@ -104,7 +104,6 @@ Vue.use(MinCache)
 Vue.use(MinCommon)
 
 Vue.prototype.$store = store
-
 Vue.directive('root', {
   inserted: function (el, bind) {
     if (!test(bind.value)) {

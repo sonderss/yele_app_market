@@ -23,8 +23,10 @@ export default {
                 content:{}
             }
         },
-        methods:{},
-        mounted(){
+        onLoad(op){
+            console.log(this)
+        },
+        mounted(op){
             console.log(this.$parseURL())
             this.$minApi.storMentDetail({notice_id:this.$parseURL().id}).then(res=>{
                 console.log(res)

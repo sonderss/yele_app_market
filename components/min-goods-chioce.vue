@@ -89,7 +89,7 @@ export default {
     changeChioce (e) {
       this.count = e
       this.$emit('input', e)
-      this.$emit('change', e)
+      this.$emit('changes', e)
     },
     imgErr(e){
        this.$emit('imgErro',e)

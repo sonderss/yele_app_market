@@ -1,8 +1,8 @@
 <template>
   <view style="background: #fff;">
     <view class="min-goods-item">
-      <image :class="[`min-goods-icon-${iconSize}`]" :src="errorImage ? '/static/images/produced.png': icon" @error="imageErro" />
-      <image class="min-goods-produced-icon" :class="[`min-goods-icon-${iconSize}`]" v-if="produced" src="/static/images/produced.png" />
+      <image :class="[`min-goods-icon-${iconSize}`]" :src="errorImage ? '/static/images/goods.png': icon"  />
+      <image class="min-goods-produced-icon" :class="[`min-goods-icon-${iconSize}`]" v-if="produced" src="/static/images/goods.png" />
       <view class="min-goods-content" :class="{'min-produced': produced}">
         <view class="min-goods-name">{{name}}</view>
         <view class="min-goods-size" >
@@ -82,13 +82,6 @@ export default {
     changeCount (value) {
       this.$emit('input', value)
       this.$emit('change', value)
-    },
-    imageErro (e) {
-      console.log(e)
-      if (e.type === 'error') {
-        console.log(123)
-        this.errorImage = true
-      }
     }
   }
 }
