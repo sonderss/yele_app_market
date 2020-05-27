@@ -174,8 +174,6 @@ export default {
     getStoreList(){
       this.$minApi.storMentList().then(res=>{
         this.msg=res.data
-        console.log(this.msg)
-
       })
     },
     // 查看更多

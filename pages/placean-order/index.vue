@@ -441,6 +441,9 @@ export default {
       }).then(res => {
         if (res.orderId) {
           this.$showToast('提交成功')
+          this.selArr = []
+          this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+
           setTimeout(() => {
               // 在C页面内 navigateBack，将返回A页面
               console.log(this.$parseURL())

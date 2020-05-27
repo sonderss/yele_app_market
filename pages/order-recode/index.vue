@@ -31,11 +31,11 @@
             </view>
           </view>
           <view class="right-price" v-if="item.order_product_list.length === 1">
-            <text class="fcolor f28 testF">￥ {{item.order_price}}</text>
+            <text class="fcolor f28 testF">￥ {{item.order_total}}</text>
             <text class="tcolor f22 m-top-20">x {{item.order_product_list[0].quantity}}</text>
           </view>
           <view class="right-price" v-if="item.order_product_list.length > 1">
-            <text class="fcolor f28">￥ {{item.order_price}}</text>
+            <text class="fcolor f28">￥ {{item.order_total}}</text>
             <text class="allin f22 tcolor">查看全部 >></text>
           </view>
         </view>

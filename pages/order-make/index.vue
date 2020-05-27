@@ -18,7 +18,7 @@
                     <view class="m-tb-20" v-for="item in products" :key="item.id">
                         <min-goods-item
                             :name='item.product_name'
-                            :price="item.total"
+                            :price="item.order_price"
                             :icon="item.product_img"
                             :specification="item.sku"
                             :value="item.quantity"
@@ -114,7 +114,7 @@ export default {
               }).then(res=>{
                 console.log(res)
                 this.products = res.order_product_list
-                this.totalAmountE = res.order_info.order_price
+                this.totalAmountE = res.order_info.order_total
               })
           }
         },

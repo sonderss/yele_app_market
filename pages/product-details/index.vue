@@ -238,7 +238,8 @@ export default {
     // type为1时  电子菜单商品详情
     this.product_id = this.$parseURL().product_id
     this.product_type = this.$parseURL().product_type
-    this.store_id = this.$parseURL().store_id
+    this.store_id = this.$parseURL().store.id
+    console.log(" this.$parseURL()", this.$parseURL())
     // this.type = this.$parseURL().type
     console.log('商品信息', this.$parseURL())
     if (this.$store.state.goods.orderSelArr.length > 0) {
@@ -250,7 +251,7 @@ export default {
     console.log(this.product_type)
     if (this.product_type === 'product') {
       // store_id=3&product_id=11
-      this.$minApi.getOriderProductDetail({store_id:this.$parseURL().store_id, product_id: this.product_id })
+      this.$minApi.getOriderProductDetail({store_id: this.store_id, product_id: this.product_id })
         .then(res => {
           this.list = res.info
           this.list.step = 1
@@ -263,7 +264,7 @@ export default {
           this.noData = true
         })
     } else if (this.product_type === 'service') {
-      this.$minApi.getOriderServeDetail({store_id:this.$parseURL().store_id, service_id: this.product_id })
+      this.$minApi.getOriderServeDetail({store_id: this.store_id, service_id: this.product_id })
         .then(res => {
           this.list = res.info
           this.list.step = 1

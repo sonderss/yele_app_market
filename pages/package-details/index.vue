@@ -133,7 +133,7 @@ export default {
     this.selArr = this.$store.state.goods.orderSelArr
   },
   mounted () {
-    this.$minApi.getOriderPackageDetails({store_id:this.$parseURL().store_id, setmeal_id: this.$parseURL().product_id })
+    this.$minApi.getOriderPackageDetails({store_id:this.$parseURL().store.id, setmeal_id: this.$parseURL().product_id })
       .then(res => {
         this.list = res.info
         this.list.type = 'setmeal'
@@ -208,7 +208,7 @@ export default {
     // 步进器
     changeChioce (e, id) {
       // this.taocanItem.quantity = e
-    
+       if (this.product.length === 0) return this.$showToast('请先选择套餐组合')
       this.selArr.map((item, index) => {
         if (item.id === id) {
           item.step = e
