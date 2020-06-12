@@ -25,20 +25,20 @@
           <view class="phone">
             <text>联系方式：{{item.client_mobile}}</text>
             <view class="image-view" @click="makePhone(item.client_mobile)">
-              <image src="../../static/images/phone.png" />
+              <image src="/static/images/phone.png" />
             </view>
           </view>
           <view>预抵时间：{{item.business_date*1 ?  $minCommon.formatDate(new Date( item.business_date*1000),'yyyy/MM/dd hh:mm:ss') :'暂无数据' }}</view>
           <view v-if="item.clue_status === 3">取消类型：{{item.cancel_type === 1 ? '系统自动取消(超时未到店)  ':'员工自动取消'}}</view>
           <view style="display:flex;justify-content: space-between;">
-            <view style="width:130rpx">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注 :</view>
+            <view style="width:130rpx">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注&nbsp;:</view>
             <view style="margin-left:18rpx;flex:1">{{item.remark}}</view>
           </view>
         </view>
           <view :class="item.clue_status === 0 ? 'bottom_view_teshu  min-border-top':'bottom_view  min-border-top' ">
-            <view  v-if="item.clue_status !== 0">{{staus[item.clue_status].desc}}: {{$minCommon.formatDate(new Date(item.operating_time*1000),'yyyy/MM/dd hh:mm:ss')}}</view>
-            <view view class="btn a m-right-20" v-if="item.clue_status === 0" @click="ignore(item.id)">忽略</view>
-            <view view class="btn b" v-if="item.clue_status === 1 || item.clue_status === 0" @click="book(item.id)">预约</view>
+            <view class="f28" v-if="item.clue_status !== 0">{{staus[item.clue_status].desc}}: {{$minCommon.formatDate(new Date(item.operating_time*1000),'yyyy/MM/dd hh:mm:ss')}}</view>
+            <view view class="btn  m-right-20" v-if="item.clue_status === 0" @click="ignore(item.id)">忽略</view>
+            <view view class="btn a" style="border:none" v-if="item.clue_status === 1 || item.clue_status === 0" @click="book(item.id)">预约</view>
             <view view class="btn c" v-if="item.clue_status === 2" @click="desk(item.desk_id)">查看详情</view>
             <view view class="btn d" v-if="item.clue_status === 3" @click="reBook(item.id)">重新预约</view>
 			    </view>
@@ -126,10 +126,10 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 100rpx;
+  margin-bottom: 40rpx;
   .item {
-    width: 216rpx;
-    height: 48rpx;
+    width: 158rpx;
+   padding: 12rpx 0;
     background: #fff;
     border-radius: 5rpx;
     text-align: center;
@@ -137,8 +137,8 @@ export default {
     margin-bottom: 20rpx;
   }
   .item_active {
-    width: 216rpx;
-    height: 48rpx;
+    width: 158rpx;
+    padding: 12rpx 0;
     background: rgba(255, 224, 1, 1);
     border-radius: 5rpx;
     text-align: center;
@@ -189,7 +189,7 @@ export default {
 	  justify-content: space-between;
 	  align-items: center;
 	  .btn{
-		    width:142rpx;
+		  width:142rpx;
 			height:58rpx;
 			background:rgba(255,255,255,1);
 			border:1rpx solid rgba(231,231,231,1);
@@ -198,6 +198,16 @@ export default {
 			line-height: 58rpx;
 			font-size: 26rpx;
 	  }
+    .a{
+      width:142rpx;
+			height:58rpx;
+			background:rgba(255,255,255,1);
+			border-radius:10rpx;
+			text-align: center;
+			line-height: 58rpx;
+			font-size: 26rpx;
+      background: #FFE001;
+    }
   }
   .bottom_view_teshu{
 	  height: 80rpx;line-height: 77rpx;
@@ -214,5 +224,6 @@ export default {
 			line-height: 58rpx;
 			font-size: 26rpx;
 	  }
+    
   }
 </style>

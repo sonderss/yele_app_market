@@ -1,7 +1,7 @@
 <template>
   <view class="mine-info">
     <view class="cell-wrap p-lr-30 p-tb-20">
-      <min-cell>
+      <min-cell :card="false">
         <min-cell-item
           :img="userInfo.head_img"
           :title="userInfo.store_name"
@@ -40,7 +40,7 @@
         ></min-cell-item>
       </min-cell>
       <view class="m-top-20"></view>
-      <min-cell>
+      <min-cell :card="false">
         <min-cell-item
           title="实名认证" :tail="userInfo.is_certify === 1 ? '已认证':'未认证'"
           :border="true" arrow
@@ -49,7 +49,7 @@
         ></min-cell-item>
         <min-cell-item
           title="提现方式"
-          :border="true" arrow
+          :border="false" arrow
           @eventParent="payMethods"
         ></min-cell-item>
       </min-cell>
@@ -133,6 +133,7 @@ export default {
                       "api-auth": this.$store.state.user.userInfo.apiAuth
                   },
                   success: (uploadFileRes) => {
+                        this.$showToast(JSON.parse(uploadFileRes.data).msg)
                         this.userInfo.head_img =JSON.parse(uploadFileRes.data).data[0].http_dir
                         this.setUserInfo()
                   }

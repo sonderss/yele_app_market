@@ -55,11 +55,12 @@ export default {
   position: fixed;
   top:0;
   left: 0;
-  z-index: 100;
+  z-index: 9999;
   &.min-hide{
     .min-content{
       animation: hide .5s linear forwards;
     }
+    .min-content-height{ animation: hide .5s linear forwards;}
     .min-overlay{
       opacity: 0;
     }
@@ -68,6 +69,7 @@ export default {
     .min-content{
       animation: show .5s linear forwards;
     }
+    .min-content-height{ animation: show .5s linear forwards;}
     .min-overlay{
       opacity: 1;
     }

@@ -1,6 +1,6 @@
 <template>
   <view class="drawing-way m-lr-30 p-top-20">
-    <min-cell class="m-top-20">
+    <min-cell class="m-top-20" :card='false'>
       <min-cell-item
         title="实名认证" tail="点击修改"
         :border="true" arrow

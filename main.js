@@ -53,6 +53,8 @@ import MinTaichung from '@/components/status/min-taichung'
 import MinPcitem from '@/components/min-pcitem'
 import minNoticeBar from '@/components/min-notice-bar.vue'
 import MinStatus from '@/components/min-status.vue'
+import MinQrcode from '@/components/min-qrcode.vue'
+import MinPay from '@/components/min-pay'
 Vue.component('min-avatar', MinAvatar)
 Vue.component('min-btn', MinBtn)
 Vue.component('min-cell', MinCell)
@@ -95,6 +97,8 @@ Vue.component('min-taichung', MinTaichung)
 Vue.component('min-pcitem',MinPcitem)
 Vue.component('min-notice-bar',minNoticeBar)
 Vue.component('min-status',MinStatus)
+Vue.component('min-qrcode',MinQrcode)
+Vue.component('min-pay',MinPay)
 Vue.config.productionTip = false
 App.mpType = 'app'
 

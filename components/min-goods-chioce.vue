@@ -1,29 +1,32 @@
 <template>
   <view class="min-goods-chioce">
-      <view class="item">
+    <view class="item">
         <view class="goods"  >
           <!-- @click="goodsAdd(index,index2)" -->
           <view class="image-view-com">
             <view class="badge" v-if="badge">{{badgeTxt}}</view>
-            <image :src="image" mode="" @error="imgErr"></image>
+            <image :src="imageSrc ? '/static/images/goods.png': image" mode="aspectFit" @error='imgerr' />
           </view>
           <view class="content-view">
             <view class="right-view-title" >
-              <text class="f28 t" style="display:block"><text v-if="discount" class="discount f20">限时特惠</text>{{title}}</text>
+              <text class="f28 t" style="display:block"><text v-if="discount" class="discount f26">限时特惠</text>{{title}}</text>
               <text class="f26" v-if="isSku" style="color:#666666">{{desc}}</text>
             </view>
             <view class="right-view-bottom">
               <view class="right-view-bottom-desc" >
-                <text class="f20 t">￥<text  style="color:#FF0000;font-size:30">{{price}}</text></text>
+                <text v-if="price != 'null'" class="f20 t">￥<text  style="color:#FF0000;font-size:30">{{price}}</text></text>
               </view>
               <view class="steper">
-                <min-stepper  v-if="step" v-model="count" :min='0' @change="changeChioce"></min-stepper>
+                <min-stepper :isFlag="isFlag" v-if="isFlag" v-model="count" @change="changeChioce"></min-stepper>
+                <view v-else class="m-right-10" style="width:40rpx;height:40rpx;" @click.stop="changeChioceT">
+                    <image src="/static/images/yellow-add.png"  style="width:100%"/>
+                </view>
                 <!-- <view class="isSku f24" v-if="step" @click="selSku(index,index2)">选规格</view> -->
               </view>
             </view>
           </view>
         </view>
-      </view>
+    </view>
   </view>
 </template>
 <script>
@@ -46,11 +49,11 @@ export default {
       default: '暂无商品描述'
     },
     price: {
-      type: [Number,String],
+      type: [Number, String],
       default: 0
     },
     value: {
-      type: Number,
+      type: [Number, String],
       default: 0
     },
     isSku: {
@@ -66,22 +69,30 @@ export default {
       default: ''
     },
     discount: {
-      type: Boolean,
+      type: [Boolean, Number],
       default: false
+    },
+    showBtn:{
+      type:Boolean,
+      default:false
+    },
+    isFlag:{
+      type:Boolean,
+      default:false
     }
   },
   created () {
     this.count = this.value
   },
   watch: {
-    count: function (a) {
-      // console.log('count' + a)
-      // this.count = a
+    value(a){
+       this.count = a
     }
   },
   data () {
     return {
-      count: 0
+      count: 0,
+      imageSrc: false
     }
   },
   computed: {},
@@ -91,27 +102,24 @@ export default {
       this.$emit('input', e)
       this.$emit('changes', e)
     },
-    imgErr(e){
-       this.$emit('imgErro',e)
+    imgerr (e) {
+      if(e.type === 'error'){
+          this.imageSrc = true
+      }
+    },
+    changeChioceT(){
+       this.$emit('changesPop')
     }
   }
 }
 </script>
 <style lang="scss" scoped>
-
-// .isSku{
-//   width: 100rpx;
-//   height: 48rpx;
-//   background: #FFE001;
-//   border-radius:24rpx;
-//   color: #333333;
-//   text-align: center;
-//   line-height: 48rpx;
+.min-goods-chioce{
+// .item{
+//   width: 100%;
+//   margin-bottom: 20rpx;
+//   background: red;
 // }
-.item{
-  width: 100%;
-  margin-bottom: 20rpx;
-}
 
 .goods{
   display: flex;
@@ -123,13 +131,12 @@ export default {
   margin-bottom: 20rpx;
   background: #fff;
   height: 200rpx;
-
   padding: 20rpx;
+   position: relative;
   .image-view-com{
       width: 160rpx;
       height: 160rpx;
       margin-right: 16rpx;
-      position: relative;
       .badge{
         width:80rpx;
         height:40rpx;
@@ -139,14 +146,14 @@ export default {
         top: 0;
         left: 0;
         z-index: 100;
-        font-size:20rpx;
+        font-size:26rpx;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(255,224,1,1);
         text-align: center;
         line-height: 40rpx;
       }
-      &>image{
+      image{
         width:100%;
         height: 100%;
 
@@ -162,12 +169,20 @@ export default {
     align-items: space-between;
     color: #333333;
     .right-view-title{
+          width: 350rpx;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
       .t{
-        width: 100%;
+           font-weight: bold;
+           width: 350rpx;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         .discount{
-          width:78rpx;
-          height:19rpx;
-          font-size:20rpx;
+          width:86rpx;
+          height:26rpx;
+          font-size:22rpx;
           font-family:PingFang SC;
           font-weight:bold;
           color:#fff;
@@ -184,7 +199,11 @@ export default {
         // position: relative;
         justify-content: space-between;
         .right-view-bottom-desc{
-          display: flex
+          display: flex;
+          .t{
+            font-weight: bold;
+            color: #F80409;
+          }
         }
         .steper{
           // position: absolute;
@@ -196,4 +215,6 @@ export default {
     }
   }
 }
+}
+
 </style>

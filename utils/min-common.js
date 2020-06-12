@@ -246,6 +246,24 @@ class MinCommon {
         return 'postpay'
     }
   }
+  
+  // 支付ICON 
+  static getIcon(id){
+    switch(id){
+        case 1:
+        return '/static/images/alipay-pay.png'
+        case 2:
+        return '/static/images/wx-pay.png'
+        case 3:
+        return '/static/images/cash-pay.png'
+        case 4:
+        return '/static/images/card-pay.png'
+        case 5:
+        return '/static/images/later-pay.png'
+        default:
+        return ''
+    }
+  }
 }
 
 MinCommon.install = function (Vue) {

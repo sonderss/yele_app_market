@@ -2,7 +2,7 @@
   <view class="search-table p-tb-20 p-lr-30">
         <view class="input_search">
             <input type="text" v-model="value" placeholder="请输入桌台名称" confirm-type="search" @confirm="search"/>
-            <text class="btn">取消</text>
+            <text class="btn" v-if="isFocuc">取消</text>
         </view>
         <view class="desc">
             <view class="name f24">桌台分组：{{$parseURL().group_name}}</view>
@@ -37,7 +37,13 @@ export default {
             return{
                 statusArr,
                 value:"",
-                list:[]
+                list:[],
+                isFocuc:false
+            }
+        },
+        watch:{
+            value(a){
+               a ?  this.isFocuc = true :  this.isFocuc = false
             }
         },
         methods:{

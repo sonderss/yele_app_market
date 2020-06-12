@@ -186,10 +186,16 @@ export default {
           name:"announcement-detail",
           params:{id:e}
         })
-    }
+    },
+    async getUrl(){
+				let res = await this.$minApi.getH5HTML()
+				let url = unescape(res.url)
+        this.$store.dispatch('status/setUrl',url)
+		},
   },
   onLoad() {
     this.getStoreList()
+    this.getUrl()
   }
 };
 </script>

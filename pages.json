@@ -1,7 +1,20 @@
 {
 	"pages": [
-
-
+		{
+			"path": "pages/start",
+			"style": {
+			  "app-plus": {"titleNView": false}
+			}
+      },
+		{
+			"path": "pages/login/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				},
+				"navigationBarTextStyle":"black"
+			}
+		},
 
 		{
 			"path": "pages/page",
@@ -35,7 +48,7 @@
 						"buttons": [{
 							"text": "批量编辑",
 							"fontSize": "14px",
-							"width": "auto"
+							"width": "120rpx"
 						}]
 					}
 				}
@@ -52,7 +65,7 @@
 						"buttons": [{
 							"text": "完成",
 							"fontSize": "14px",
-							"width": "auto"
+							"width": "80rpx"
 						}]
 					}
 				}
@@ -170,7 +183,11 @@
 			"path": "pages/invite-rebate/index",
 
 			"style": {
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"backgroundColor":"#000",
+				"app-plus":{
+					"background":"#000"
+				}
 			}
 		},
 		{
@@ -184,7 +201,7 @@
 						"buttons": [{
 							"text": "新线索",
 							"fontSize": "14px",
-							"width": "auto"
+							"width": "100rpx"
 						}]
 					}
 				}
@@ -524,15 +541,6 @@
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}
-				}
-			}
-		},
-
-		{
-			"path": "pages/login/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false
 				}
 			}
 		}

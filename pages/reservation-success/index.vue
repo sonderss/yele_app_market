@@ -9,7 +9,8 @@
       <view>订单号：{{list.order_sn}}</view>
       <view>订单金额：{{list.order_total}}</view>
       <view>已付金额：{{list.pay_price}}</view>
-      <view>支付方式：{{method[list.pay_method]}}</view>
+      <view>支付方式：{{method[list.payment_id]}}</view>
+      <view>支付时间：{{$minCommon.formatDate(new Date(list.pay_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
 
     </view>
     <view class="btns">

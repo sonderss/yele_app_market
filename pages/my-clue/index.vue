@@ -6,7 +6,6 @@
 			</view>
 		</view>
 		<view v-for="item in main" :key="item.id" >
-			
 			<view class="title_view">
 				<view class="f26">{{$minCommon.formatDate(new Date( item.create_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
 				<view class="status f30">{{staus[item.clue_status].name}}</view>
@@ -98,25 +97,26 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
-	margin-bottom: 100rpx;
+	margin-bottom: 40rpx;
 	.item{
-		width:216rpx;
-		height:48rpx;
+		width:158rpx;
+	padding: 12rpx 0;
 		background:#fff;
-		border-radius:5rpx;
+		border-radius:10rpx;
 		text-align: center;
 		line-height: 48rpx;
-		margin-bottom: 20rpx;
+		 margin-bottom: 20rpx;
 	}
 	.item_active{
-		width:216rpx;
-		height:48rpx;
+		width:158rpx;
+		padding: 12rpx 0;
+
 		background:rgba(255,224,1,1);
-		border-radius:5rpx;
+		border-radius:10rpx;
 		text-align: center;
+       margin-bottom: 20rpx;
 		line-height: 48rpx;
 		font-weight:bold;
-		margin-bottom: 20rpx;
 	}
 	
 }

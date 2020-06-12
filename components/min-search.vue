@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="min-search min-flex" :style="{'background': bgColor}">
+    <view class="min-search min-flex" :style="{'background': bgColor,height:heightSize}">
       <image class="search-icon" @click="$emit('search')" src="/static/images/search.png"></image>
       <input class="search min-flex-1" type="text" confirm-type="search" :placeholder="placeholder"
         @input="handleInput"
@@ -28,6 +28,10 @@ export default {
     bgColor: {
       type: String,
       default: '#fff'
+    },
+    heightSize:{
+      type:String,
+      default:""
     }
   },
   data () {
@@ -52,7 +56,7 @@ export default {
 .min-search {
   position: relative;
   padding: 0 30rpx;
-  height: 88rpx;
+  height:70rpx;
   font-size: 28rpx;
   border-radius: 4px;
   .search-icon {

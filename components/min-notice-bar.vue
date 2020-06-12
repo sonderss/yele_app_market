@@ -2,7 +2,7 @@
 	<view>
 		<view class="an-notice-box" :style="'background-color: '+bgColor+';'">
 			<view class="an-notice-icon">
-				<image src='../static/images/index/video.png'/>
+				<image src='/static/images/index/video.png'/>
 			</view>
 			<scroll-view class="an-notice-content" v-if="text.length !== 0">
 				<swiper v-if="show" class="swiper" :autoplay="true" :interval="switchTime*1000" :duration="1500" :circular="true" :vertical="true">
@@ -136,9 +136,9 @@
 	}
 	.an-notice-content-item{
 		width: 100%; 
-		height: 60upx; 
+		height: 60rpx; 
 		text-align: left; 
-		line-height: 60upx;
+		line-height: 60rpx;
 	}
 	.an-notice-content-item-text{
 		display: block; 
@@ -148,7 +148,6 @@
 	}
 	@keyframes anotice {
 		 0%  {transform: translateY(100%);}
-	    30%  {transform: translateY(0);}
 	    70%  {transform: translateY(0);}
 	   100%  {transform: translateY(-100%);}
 	}

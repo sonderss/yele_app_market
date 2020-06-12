@@ -5,8 +5,8 @@
       <min-cell :card="false">
         <min-cell-item :title="`时间: ${dates}`" arrow @eventParent="toChinceDate"></min-cell-item>
       </min-cell>
-      <view class="tesk" :style="{background:`url(${bgs[n]})`,backgroundSize:'cover'}" v-for="(i,n) in deskGroup" :key="i.id" @click="chinceGrop(n)">
-        <view :class="current === n ? 'title_active':'title'">{{i.group_name}}</view>
+      <view class="tesk" :style="{background:`url(${getNum(n)})`,backgroundSize:'cover'}" v-for="(i,n) in deskGroup" :key="i.id" @click="chinceGrop(n)">
+        <view :class="i.is_full === 0 ? 'title_active':'title'">{{i.group_name}}</view>
         <view class="desc">{{i.is_full === 0 ? '可订':'已满'}}</view>
       </view>
   </view>
@@ -27,6 +27,20 @@ export default {
         }
     },
     methods:{
+        getNum(n){
+            switch(n){
+                case 0:
+                return '/static/images/desk/0.png'
+                case 1:
+                return '/static/images/desk/1.png'
+                 case 2:
+                return '/static/images/desk/2.png'
+                case 3:
+                return '/static/images/desk/3.png'
+                default:
+                return '/static/images/desk/2.png'
+            }
+        },
         toEmint(){
             // 切换门店
             console.log('切换门店')
@@ -100,9 +114,8 @@ export default {
     width: 100%;
     height: 180rpx;
     margin: 20rpx 0;
-   background-size: 100%;
-   background-repeat: no-repeat;
-   background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

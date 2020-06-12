@@ -7,11 +7,12 @@
         arrow
         :tail="$parseURL().group.group_name"
         @eventParent="backChinceGroup"
+        :border="false"
       ></min-cell-item>
     </min-cell>
 
     <min-cell :card="false" class="m-tb-20">
-      <min-cell-item title="当前桌号" arrow :tail="desk.desk_name" @eventParent="searchDesk"></min-cell-item>
+      <min-cell-item :border="false" title="当前桌号" arrow :tail="desk.desk_name" @eventParent="searchDesk"></min-cell-item>
     </min-cell>
 
     <min-cell class="mid-view" :card="false">
@@ -21,7 +22,7 @@
       <view @click="goChioce">
         <min-desc-input
           sign="*"
-          desc="预约时间"
+          desc="预约日期"
           :isRightRrrow="true"
           :value="dates"
           placeholder="请选择预约日期"
@@ -42,7 +43,7 @@
     <view class="m-tb-20"></view>
     <min-remarks v-model="value" @click="click" @blur="blur"></min-remarks>
     <view class="empty-view"></view>
-    <view class="btn" v-if="table">
+    <view class="btn">
       <min-btn :long="true" @click="submit" :opacity="false">提交</min-btn>
     </view>
   </view>

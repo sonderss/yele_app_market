@@ -62,28 +62,7 @@
           <view class="f26">本次支付</view>
           <view class="money">￥{{totalAmountE}}</view>
         </view>
-        <view class="pays m-top-30">
-          <view class="pay">
-            <min-radio
-              title="支付宝"
-              icon="/static/images/alipay-pay.png"
-              label="0"
-              v-model="payType"
-            />
-          </view>
-          <view class="pay">
-            <min-radio title="现金" icon="/static/images/cash-pay.png" label="3" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="微信" icon="/static/images/wx-pay.png" label="1" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="刷卡" icon="/static/images/card-pay.png" label="2" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="后付款" icon="/static/images/later-pay.png" label="4" v-model="payType" />
-          </view>
-        </view>
+        <min-pay :isTitle="false" :mTop="false" v-model="payType" />
         <view class="btn_pay" @click="pay_money">支付</view>
       </view>
     </min-popup>
@@ -99,7 +78,7 @@ export default {
                 list:{},
                 products:[],
                 totalAmountE:"",
-                payType:0,
+                payType:1,
                 showPayPop:false
             }
         },
@@ -107,20 +86,23 @@ export default {
           // this.products = this.$store.state.goods.orderSelArr
         },
         onShow(){
+          console.log(this.$parseURL())
           if(this.$parseURL().orderId){
               this.$minApi.previewOrder({
                 order_id:this.$parseURL().orderId,
                 desk_id:this.$parseURL().desk.id
               }).then(res=>{
-                console.log(res)
                 this.products = res.order_product_list
                 this.totalAmountE = res.order_info.order_total
+              
+
               })
           }
         },
         methods:{
             // 支付弹窗
             submit () {
+              if(this.products.length === 0) return this.$showToast('请选择商品')
               this.showPayPop = true
             },
             closePayPop () {
@@ -138,7 +120,7 @@ export default {
                 .confirmOrder({
                   order_id:this.$parseURL().orderId,
                   desk_id: this.$parseURL().desk.id,
-                  pay_type: this.$minCommon.getPayMethod(this.payType)
+                  payment_id: this.payType
                 })
                 .then(res => {
                   console.log(res)

@@ -21,11 +21,7 @@
         <view>锁台时间：{{$minCommon.formatDate(new Date(list.desk_info.lock_time*1000),'yyyy-MM-dd hh:mm:ss') }}</view>
       </view>
     </view>
-    <view class="btns-confirmed">
-      <min-btn class="btn" @click="start_use">启用</min-btn>
-      <min-btn type="white" class="btn"  @click="saveWine">存酒</min-btn>
-      <min-btn type="white" @click="goGetHistory" class="btn">历史</min-btn>
-    </view>
+   
       <min-modal ref='show'></min-modal>
   </view>
 </template>

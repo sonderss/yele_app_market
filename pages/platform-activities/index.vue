@@ -9,8 +9,8 @@
 				<view class="c f26">活动进行中</view>
 				<view class="f26">{{i.activity_type === 1 ? '拉新活动' :i.activity_type === 2 ? "促销活动"  : '订台活动'}}</view>
 			</view>
-			<view class="desc f20" v-if="i.is_join">
-				<span>{{i.is_join ===  1 ? '已参与' :'未参与'}}</span>
+			<view class="desc" >
+				<image style="width:100%" :src="i.is_join ===  1 ? '/static/images/yicanyu.png' :'/static/images/weicanyu.png'" />
 			</view>
 		</view>
 		<min-404 v-if="list.length === 0" ></min-404>
@@ -23,10 +23,12 @@
 		navigate:['navigateTo'],
 		data(){
 			return{
-				list:[]
+				list:[],
+				dip:''
 			}
 		},
 		mounted() {
+			this.dip = uni.getSystemInfoSync().screenWidth
 			this.$minApi.platformActivities().then(res=>{
 				this.list = res
 				console.log(this.list)
@@ -38,29 +40,19 @@
 <style lang="scss" scoped>
 .main{
 	width:690rpx;
-	height:205rpx;
 	background:rgba(255,255,255,1);
 	border-radius:10rpx;
 	display: flex;
 	flex-direction: column;
-	padding-bottom: 20rpx;
 	position: relative;
+	padding-bottom: 0;
 	.desc{
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: 100rpx;
 		height: 100rpx;
-		border-width: 50rpx 50rpx 50rpx 50rpx;
-		border-style: solid;
-		border-color: #FFE001 #FFE001 transparent  transparent;
-		span{
-			width: 66rpx;
-			position: absolute;
-			right: -50rpx;
-			top: -30rpx;
-			transform:rotate(47deg);
-		}
+		
 	}
 	.top{
 		flex:1;
@@ -75,7 +67,6 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		line-height: 60rpx;
 		.c{
 			color: #FF0000;
 		}

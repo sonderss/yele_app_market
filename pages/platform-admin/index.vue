@@ -18,7 +18,7 @@
     <min-popup size="height" :show="show" @close='close'>
       <min-picker  @cancel="cancel" @sure="sure"></min-picker>
     </min-popup>
-   <!-- <min-404 id="none" v-if="!getDataChange"></min-404> -->
+    <min-404 id="none" v-if="getDataChange.length === 0"></min-404>
   </view>
 </template>
 
@@ -82,8 +82,8 @@ export default {
   computed: {
     // 返回数组
     getDataChange () {
-      const a = this.filterData((this.list.desks))
-      return a
+      
+      return   this.filterData((this.list.desks)).length > 0 ?  this.filterData((this.list.desks)) : []
     }
   },
   methods: {
@@ -177,16 +177,20 @@ export default {
     // 日期选择器确认
     sure (e) {
       this.date = e.b + '月' + e.c + '日'
+        let a = e.a + '-'+e.b+'-'+e.c
+      this.date = e.b + '月' + e.c + '日'
       console.log(this.date)
       // #ifdef APP-PLUS
       const pages = getCurrentPages()
       const page = pages[pages.length - 1]
       const currentWebview = page.$getAppWebview()
       const titleObj = currentWebview.getStyle().titleNView
+      titleObj.buttons[0].text = ''
       titleObj.buttons[0].text = this.date
       currentWebview.setStyle({
         titleNView: titleObj
       })
+       this.getData(a)
       // #endif
     }
   }

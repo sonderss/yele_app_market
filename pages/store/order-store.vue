@@ -36,6 +36,8 @@ export default {
           name:'chioce-table',
           params:{store_name:item.store_name,address:item.address,head_img:item.head_img,id:item.id}
         })
+        this.$store.dispatch('status/setId',item.id)
+      //  console.log(this.$store.state.status.id)
       }
     },
     mounted(){
@@ -43,8 +45,11 @@ export default {
             this.$showToast('没有地理位置')
             this.$minApi.chooseStoreLG().then(res=>{
                 this.list = res.data
-                this.$set(this.list[0],'isPrv',true)
-                console.log(res)
+                this.list.map(item =>{
+                  if(item.id === this.$store.state.status.id){
+                       this.$set(item,'isPrv',true)
+                  }
+                })
             })
             return
         } 

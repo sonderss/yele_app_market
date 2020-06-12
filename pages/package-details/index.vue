@@ -83,8 +83,8 @@
 
 <script>
 export default {
-  name: 'package-details',
-  navigate: ['navigateTo'],
+  name: 'redpackage-details',
+  navigate: ['navigateTo', 'redirectTo'],
   data () {
     return {
       item: [
@@ -174,7 +174,8 @@ export default {
     toDeatil () {
       console.log(231232132)
       this.$minRouter.push({
-        name: 'packages-detail',
+        name: 'redpackages-detail',
+         type: 'redirectTo',
         params: { data: this.$parseURL() }
       })
     },

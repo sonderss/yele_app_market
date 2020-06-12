@@ -15,7 +15,7 @@
       </view>
   </view>
 
-  <view class="main">
+  <view class="main" :style="{top:  '20rpx' }">
     <scroll-view enable-back-to-top  :style="{ 'height':scrollHeight }" scroll-y  @scroll="mainScroll" :scroll-into-view="scrollInto" :scroll-with-animation="true">
       <view v-for="(item,index) in mainArray"  :key="index" :id="`item-${index}`" >
         <view  v-for="(item2,index2) in item.product"  :key="index2" @click.stop="goDetails(index,index2)">
@@ -27,8 +27,10 @@
             :badge="item2.type === 'setmeal'? true : false "
             @changes='changeChioce(index,index2)'
             v-model="item2.step"
-            :desc="item2.sku.length >=1 ?item2.sku[0].sku_full_name : '暂无商品描述' "
+            @changesPop="changesPopNoStep(index,index2,item2.type)"
+            :desc="item2.sku.length >=1 ?item2.sku[0].sku_full_name : item2.info "
             :price="item2.sku.length >=1 ?item2.sku[0].sku_price : item2.price "
+            :isFlag="item2.isFlag"
             >
           </min-goods-chioce>
         </view>
@@ -93,8 +95,7 @@
           leftText="已选"
           :totalAmount='totalAmountE'
           :goodsCount="countNums"
-          buttonText='去下单'
-          :buttonLabel="buttonLabel"
+          buttonText='选好了'
           @submit="submit"
           ></min-goods-submit>
         </view>
@@ -155,7 +156,6 @@ export default {
       topArr: [],
       leftIndex: 0,
       chioceIndex: 0,
-      buttonLabel: '', // 已开台
       scrollInto: '',
       skuObj: { sku: [{ sku_full_name: '' }] }, // 选择规格项
       isDel: true, //  所需删除的已选列表中对应项
@@ -179,7 +179,7 @@ export default {
       this.getListData()
     })
     console.log('下单路由参数', this.$parseURL())
-    this.buttonLabel = this.$parseURL().is_open_desk ? '(已开台)' : '(未开台)'
+  
   },
   computed: {
     // 合计金额
@@ -207,15 +207,47 @@ export default {
   onShow () {
     this.selArr = this.$store.state.goods.orderSelArr
   },
-  watch: {
+   watch: {
     selArr: {
       handler (a, b) {
         console.log(a)
+        if (a.length === 0){
+          this.mainArray.map(item => {
+            if(item.product && item.product.length > 0){
+                  item.product.map((item2,index2) => {
+                       item2.step = 0
+                  })
+              }
+            })
+            return
+        }
+        a.map((item,index) => {
+          if(item.step === 0){
+              a.splice(index,1)
+               this.$store.dispatch('goods/setOrderSelArr', a)
+          }else{
+            this.test(item.step,item.id)
+          }
+        })
       },
       deep: true
     }
   },
   methods: {
+     test(step,id){
+        this.mainArray.map(item => {
+         if(item.product && item.product.length > 0){
+              item.product.map((item2,index2) => {
+                  if(item2.type === 'product' && item2.sku.length > 0 && id == item2.id){
+                       item2.step = step
+                  }
+                  if(item2.type === 'service' && id == item2.id){
+                        item2.step = step
+                  }
+              })
+          }
+        })
+    },
     /* 获取列表数据 getProductList */
     getListData () {
       this.$minApi.getOrderProduceList({store_id:this.$parseURL().data.store.id})
@@ -223,7 +255,19 @@ export default {
           this.mainArray = res.list
           console.log(this.mainArray)
           for (const val of this.mainArray) {
-            val.step = 1
+            // val.step = 1
+            // val.type === 'setmeal' || item2.sku.length > 1)  ? false : true
+            //    :step="( "
+            // :showBtn=" "
+            val.product.map(item2 => {
+               if(item2.type === 'product'  && item2.sku.length > 1){
+                this.$set(item2,"isFlag",false) 
+              }else if( item2.type === 'setmeal'){
+                 this.$set(item2,"isFlag",false) 
+              } else{
+                this.$set(item2,"isFlag",true) 
+              }
+            })
           }
           this.$nextTick(() => {
             this.getElementTop()
@@ -255,6 +299,24 @@ export default {
       Promise.all(p_arr).then((data) => {
         this.topArr = data
       })
+    },
+    changesPopNoStep(index, index2,type){
+      if(type === 'product'){
+         this.selSku(index, index2)
+      }else if(type === 'setmeal'){
+           // 进入商品套餐详情
+          this.$minRouter.push({
+            name: 'package-details',
+            params: {
+              page_type: 'order',
+              is_open_desk: this.$parseURL().is_open_desk,
+              desk_id: this.$parseURL().desk_id,
+              minim_charge: this.$parseURL().minim_charge,
+              product_id: this.mainArray[index].product[index2].id,
+              product_type: this.mainArray[index].product[index2].type
+            }
+          })
+      }
     },
     /* 主区域滚动监听 */
     mainScroll (e) {
@@ -294,8 +356,11 @@ export default {
     },
     /** 清空已选商品 */
     delAll () {
-      this.selArr = []
+       this.selArr = []
       this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+      this.selected = false
+      this.getListData()
+     
     },
     /** 关闭已选商品弹出层 */
     closeSelectedPop () {
@@ -311,13 +376,26 @@ export default {
       this.isDel = true
       this.$store.dispatch('goods/setOrderSelArr', this.selArr)
     },
-    // 已选弹出层删除事件
+     // 已选弹出层删除事件
     alDel (n, index) {
-      console.log(this.selArr)
-      if (n === 0) {
-        this.selArr.splice(index, 1)
-        this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-      }
+              let id = Number
+              if(this.selArr[index].type === 'service'){id = this.selArr[index].id}
+              if(this.selArr[index].type === 'product'){id = this.selArr[index].sku.id }
+              this.mainArray.map(item_m => {
+                if(item_m.product && item_m.product.length > 0){
+                  item_m.product.map(item2 => {
+                    if(this.selArr[index].type === 'service' && id === item2.id){
+                         this.$set(item2,"step",n)
+                    }
+                    if(this.selArr[index].type === 'product' && item2.sku.length === 1 && id === item2.sku[0].id){
+                       this.$set(item2,"step",n)
+                    } 
+                    if(this.selArr[index].type === 'product' && item2.sku.length > 1 && id === item2.sku[this.chioceIndex].id){
+                       this.$set(item2,"step",n)
+                    }
+                  })
+                }
+              })
     },
     // 选择规格事件
     selSku (index, index2) {
@@ -343,9 +421,10 @@ export default {
         this.$minRouter.push({
           name: 'package-details',
           params: {
+            store: this.$parseURL().data.store,
+            desk:this.$parseURL().data.desk,
             page_type: 'order',
             is_open_desk: this.$parseURL().is_open_desk,
-            desk_id: this.$parseURL().desk_id,
             minim_charge: this.$parseURL().minim_charge,
             product_id: this.mainArray[index].product[index2].id,
             product_type: this.mainArray[index].product[index2].type
@@ -356,13 +435,13 @@ export default {
       if (this.mainArray[index].product[index2].sku.length > 1) {
         this.selSku(index, index2)
       }
-      // const obj = {}
-      // if (this.mainArray[index].product[index2].sku.length > 0) {
-      //   // obj = this.mainArray[index].product[index2]
-      //   Object.assign(obj, this.mainArray[index].product[index2])
-      //   obj.sku = this.mainArray[index].product[index2].sku[0]
-      // }
-      // this.addGoods(obj)
+      const obj = {}
+      if (this.mainArray[index].product[index2].sku.length > 0) {
+        // obj = this.mainArray[index].product[index2]
+        Object.assign(obj, this.mainArray[index].product[index2])
+        obj.sku = this.mainArray[index].product[index2].sku[0]
+      }
+      this.addGoods(obj)
     },
     // 选择规格
     chioceO (index) {
@@ -551,16 +630,14 @@ uni-page-body{overflow: hidden;min-height: 100vh;width: 100%;}
       }
   }
 .main{
-
     padding-left: 20rpx;
     flex-grow: 1;
-
     position: fixed;
     left: 165rpx;
     top: 0;
     bottom: 50rpx;
     overflow: auto;
-
+    right: 20rpx;
 .title{
   line-height: 64rpx;
   font-size: 24rpx;

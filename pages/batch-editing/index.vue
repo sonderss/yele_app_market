@@ -149,6 +149,7 @@ export default {
   margin: 20rpx 10rpx 15rpx 10rpx;
   padding: 0 20rpx;
   margin-bottom: 100rpx;
+  margin-top: 20rpx;
   .title-view {
     height: 44px;
     display: flex;

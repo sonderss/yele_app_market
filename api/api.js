@@ -2,7 +2,7 @@ import { minRequest } from './index'
 
 export default {
   // 获取验证码
-  getVerificationCode: data => minRequest.get('/5e1d7e2b7dac6', data),
+  getVerificationCode: data => minRequest.get('/5ed60573319ca', data),
   // 登录 1
   login: data => minRequest.post('/5e1d2d4b04423', data),
  // 更新用户信息 5ea11102e176d
@@ -96,6 +96,12 @@ export default {
    // 我的下线 5eb7b9fc73cb3
    myDownLine:() => minRequest.get('/5eb7b9fc73cb3'),
    // 查询订单状态 5ebf582732acc?order_id=404
-   getOrderStatus: data =>minRequest.get('/5ebf582732acc',data)
+   getOrderStatus: data =>minRequest.get('/5ebf582732acc',data),
+   // 获取H5页面路径
+   getH5HTML: () => minRequest.get('/5ed5bbf54de7a'),
+   // 获取支付方式 5ece2648aefc0
+   getPayMethods: () => minRequest.get('/5ece2648aefc0'),
+   // 发起支付 5ed7732591714
+   postPay: data => minRequest.post('/5ed7732591714',data)
    
 }

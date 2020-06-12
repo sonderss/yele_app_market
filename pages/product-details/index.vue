@@ -23,9 +23,9 @@
           <text class="price" v-if="product_type === 'product' ">￥{{list.sku.length === 0 ? '暂无数据': list.sku[chioceIndex].sku_price}}</text>
           <text class="price" v-if="product_type === 'service' ">￥{{list.price}}</text>
         </view>
-        <!-- @change="alDel($event,n)" -->
-        <min-stepper  v-if="selArr.length > 0"  v-model="product_num" @change="goodsChange($event)"></min-stepper>
-        <min-stepper v-else v-model="product_num"  @change="goodsChange($event)"></min-stepper>
+        <!-- @change="alDel($event,n)"
+        <min-stepper  v-if="selArr.length > 0"  v-model="product_num" @change="goodsChange($event)"></min-stepper> -->
+        <min-stepper v-model="list.step"  @change="goodsChange($event)"></min-stepper>
       </view>
     </view>
     <min-describe @chincesku="selSku" sku="750ml*2010年/瓶" leftTxt="规格" v-if="product_type === 'product' "></min-describe>
@@ -34,22 +34,6 @@
         <view class="content p-bottom-30" >{{list.info}}</view>
         <!-- <view class="content p-bottom-30" v-if="type === 2 || type=== 5">{{list.service_info}}</view> -->
     </view>
-
-      <!-- 电子菜单 -->
-      <!-- <view class="botm-view" v-if="type === 1">
-        <view class="f22">
-          <text class="price">￥{{list.sku.length === 0 ? '暂无数据': list.sku[chioceIndex].price}}</text>
-        </view>
-        <view class="btn" v-if="list.sku.length >=1" @click="selSku">选规格</view>
-      </view> -->
-      <!-- 服务商品 -->
-      <!-- <view class="botm-view" v-if="type === 2 || type=== 5">
-        <view class="f22">
-          <text class="price">￥{{list.service_price}}</text>
-        </view>
-        <min-stepper v-if=" type === 5" @change="goodsChange" v-model="count" ></min-stepper>
-      </view> -->
-
     <min-goods-submit
       v-if="type != 1 && type != 2 "
       icon="../../static/images/cart.png"
@@ -104,7 +88,7 @@
                 <view class="icon-del m-right-10">
                   <image src='../../static/images/del.png'/>
                 </view>
-                <text class="f22 clear" @click="delAll">清空</text>
+                <text class="f22 clear">清空</text>
               </view>
             </view>
         </view>
@@ -172,7 +156,26 @@ export default {
       errImg: false,
       lastStep: 0,
       flag: true,
-      store_id:""
+      store_id:"",
+      delArr:[]
+    }
+  },
+  watch: {
+    selArr: {
+      handler (a, b) {
+        a.map((item,index) => {
+          if(item.step === 0){
+             return this.delArr.push(index)
+          }
+        })
+        this.$store.dispatch('goods/setOrderSelArr', a)
+      },
+      deep: true
+    },
+    delArr(a){
+      a.map(item => {
+        this.selArr.splice(item,1)
+      })
     }
   },
   computed: {
@@ -185,8 +188,8 @@ export default {
         } else {
           sum += item.step * item.price
         }
-        this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-        console.log('已选商品全局数据改变', this.$store.state.goods.orderSelArr)
+        // this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+        // console.log('已选商品全局数据改变', this.$store.state.goods.orderSelArr)
       })
       return sum.toFixed(2)
     },
@@ -254,7 +257,7 @@ export default {
       this.$minApi.getOriderProductDetail({store_id: this.store_id, product_id: this.product_id })
         .then(res => {
           this.list = res.info
-          this.list.step = 1
+          this.list.step =0
           this.list.type = 'product'
           console.log(this.list)
           this.item = []
@@ -267,7 +270,7 @@ export default {
       this.$minApi.getOriderServeDetail({store_id: this.store_id, service_id: this.product_id })
         .then(res => {
           this.list = res.info
-          this.list.step = 1
+          this.list.step = 0
           this.list.type = 'service'
           console.log(this.list)
           this.item = []
@@ -337,10 +340,19 @@ export default {
     },
     // 已选商品删除事件
     aleradyGood (e, index) {
-      if (e === 0) {
-        this.selArr.splice(index, 1)
-        this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-      }
+       let id = Number
+              if(this.selArr[index].type === 'service'){id = this.selArr[index].id}
+              if(this.selArr[index].type === 'product'){id = this.selArr[index].sku.id }
+              console.log("  this.list",  this.list);
+                    if(this.list.type === 'service' && id === this.list.id){
+                         this.$set(this.list,"step",e)
+                    }
+                    if(this.list.type === 'product' && this.list.sku.length === 1 && id === this.list.sku[0].id){
+                       this.$set(this.list,"step",e)
+                    } 
+                    if(this.list.type === 'product' && this.list.sku.length > 1 && id === this.list.sku[this.chioceIndex].id){
+                       this.$set(this.list,"step",e)
+                    }
     },
     // 图片错误
     imgerr (e) {
@@ -358,6 +370,7 @@ export default {
     delAll () {
       this.selArr = []
       this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+      this.list.step = 0
     },
     // 提交
     submit () {

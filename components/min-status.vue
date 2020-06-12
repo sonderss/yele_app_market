@@ -18,7 +18,7 @@
                 <view class="btn f26 m-right-20"  v-if="item.status === 1" @click="cancelBooked(item.id)">取消预约</view>
                 <view class="btn f26 m-right-20"  v-if="item.status === 3" @click="deskDetail(item.desk_id)">桌台详情</view>
                 <!--默认-->
-                <view class="btn f26"  @click="makePhone(item.client_mobile)">联系客户</view>
+                <view class="btn a f26" style="border:none"  @click="makePhone(item.client_mobile)">联系客户</view>
             </view>
         </view>
         
@@ -56,6 +56,10 @@ export default {
         // 桌台详情
         deskDetail(desk_id){
             // desk_id
+            this.$minRouter.push({
+              name:"platform-detail",
+              params:{id:desk_id}
+            })
         }
     }
 }
@@ -130,6 +134,14 @@ export default {
             border-radius:10rpx;
             text-align: center;
             line-height: 58rpx;
+      }
+      .a{
+         width:142rpx;
+            height:58rpx;
+            border-radius:10rpx;
+            text-align: center;
+            line-height: 58rpx;
+        background: #FFE001;
       }
     }
   }

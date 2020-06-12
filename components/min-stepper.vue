@@ -2,7 +2,7 @@
 <view style="display: inline-block;vertical-align: bottom;">
   <view class="min-sunui-stepper">
     <view class="min-less-wrap" :class="{'isAnimation': isAnimation}" :animation="animationLess">
-      <image  @click.stop="less" :animation="animationLessInner"  class="min-less" src="/static/images/less.png"/>
+      <image @click.stop="less" :animation="animationLessInner"  class="min-less" src="/static/images/less.png"/>
     </view>
     <!-- <input
       class="min-value" type="number"
@@ -65,7 +65,11 @@ export default {
     },
     icon: {
       type: String,
-      default: '/static/images/add.png'
+      default: '/static/images/yellow-add.png'
+    },
+    isFlag:{
+      type:Boolean,
+      default:false
     }
   },
   created () {
@@ -79,6 +83,8 @@ export default {
       this.stepperCacheNum = Number(this.stepperNum.toFixed(1))
       this.emit(this.stepperCacheNum)
       this.$emit('input', this.stepperCacheNum)
+      this.$emit('lesss', this.stepperCacheNum)
+
       if (this.stepperCacheNum === Number(this.min) && this.isAnimation) this.lessAnimation()
     },
     add () {
@@ -87,6 +93,7 @@ export default {
       this.stepperCacheNum = Number(this.stepperNum.toFixed(1))
       this.emit(this.stepperCacheNum)
       this.$emit('input', this.stepperCacheNum)
+      this.$emit('adds', this.stepperCacheNum)
       if (this.stepperCacheNum >= Number(this.step) && this.isAnimation) this.addAnimation()
     },
     emit (val) {
@@ -125,13 +132,23 @@ export default {
   },
   watch: {
     value (newn, oldn) {
-      this.stepperNum = this.value
-      this.stepperCacheNum = this.value
-      if (newn > oldn) {
-        if (this.stepperCacheNum >= Number(this.step) && this.isAnimation) this.addAnimation()
-      }
-      if (newn < oldn) {
-        if (this.stepperCacheNum === Number(this.min) && this.isAnimation) this.lessAnimation()
+      this.$nextTick(() => {
+        this.stepperNum = this.value
+        this.stepperCacheNum = this.value
+        if (newn > oldn) {
+          if (this.stepperCacheNum >= Number(this.step) && this.isAnimation) this.addAnimation()
+        }
+        if (newn < oldn) {
+          if (this.stepperCacheNum === Number(this.min) && this.isAnimation) this.lessAnimation()
+        }
+      })
+    },
+    isFlag(a){
+      if(a){
+          this.stepperNum = 0
+          this.stepperCacheNum = 0
+          this.lessAnimation()
+          this.less()
       }
     }
   }
@@ -167,7 +184,7 @@ export default {
   }
   .min-value{
     padding: 10rpx 0;
-    width:39rpx;
+    width:50rpx;
     height: 40rpx;
     font-size: 26rpx;
     line-height: 44rpx;

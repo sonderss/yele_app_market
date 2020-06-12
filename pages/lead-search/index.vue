@@ -10,7 +10,7 @@
       <view class="main-content min-border-top" v-for="(item,index) in getValuea" :key="index">
         <view class="creat-info t">
           <text v-html="item.user_name"></text>
-          <text class="p-top-10">{{item.mobile}}</text>
+          <text class="p-top-10 p-left-20">{{item.mobile}}</text>
         </view>
 
         <view class="creat-info t">
@@ -37,6 +37,7 @@
         <text>%</text>
       </view>
     </min-modal>
+    <min-404 v-if="getValuea.length === 0" />
   </view>
 </template>
 

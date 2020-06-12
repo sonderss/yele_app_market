@@ -1,11 +1,10 @@
 <template>
   <view class="lead-users p-lr-20 p-tb-20">
     <min-search
-      class="m-lr-30"
       @focus="focus"
-      bgColor="#EEEEEE"
       placeholder="请输入营销姓名/手机号搜索"
       style="border-radius:5px;"
+      heightSize="70rpx"
     ></min-search>
     <view class="mid-view">
       <view class="left-view">
@@ -30,7 +29,7 @@
       <view class="main-content min-border-top" v-for="(item,index) in list.clue_list" :key="index">
         <view class="creat-info t">
           <text>{{item.user_name}}</text>
-          <text class="p-top-10">{{item.mobile}}</text>
+          <text class="p-top-10 p-left-20">{{item.mobile}}</text>
         </view>
 
         <view class="creat-info t">

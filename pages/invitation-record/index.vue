@@ -21,6 +21,7 @@
         </view>
       </view>
     </view>
+	<min-404  v-if="data.length === 0" pTop="40rpx"/>
   </view>
 </template>
 

@@ -14,7 +14,7 @@
 		  :style="{textAlign:textArr}"
         />
         <!--  :class="animation ? 'animation' : 'right-arrow-a animation' " -->
-        <img class="right-arrow p-left-10" v-if="isRightRrrow"  :class="animation ? 'right-arrow-a animation' : 'animation' "  src="../static/images/arrow.png" />
+        <image class="right-arrow p-left-10" v-if="isRightRrrow"  :class="animation ? 'right-arrow-a animation' : 'animation' "  src="/static/images/arrow.png" />
       </view>
 
     </view>
@@ -80,13 +80,6 @@ export default {
   flex: 1;
   .min-view-item {
     height: 98rpx;
-    .oinput {
-      text-align: right;
-      line-height: 98rpx;
-      height: 98rpx;
-      display: block;
-	  width: 100%;
-    }
     .ophone {
       padding-right: 34rpx;
     }
@@ -99,10 +92,14 @@ export default {
       width: 200rpx;
     }
     .right-view{
-		width: 100%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      .oinput {
+        text-align: right;
+        height: 98rpx;
+        display: block;
+      }
     }
   }
   .right-arrow-a{

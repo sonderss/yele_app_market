@@ -1,18 +1,18 @@
 <template>
   <view class="min-goods-submit min-border-top">
-    <view class="min-left p-tb-25 p-left-30" @click="$emit('leftClick')">
-      <min-badge class="min-goods-count" :count="goodsCount" v-if="goodsCount * 1  > 0"/>
+    <view class="min-left  p-tb-25 p-left-30" style="flex-basis: 200rpx;" @click="$emit('leftClick')">
+      <min-badge class="min-goods-count" :style="{top:topV+'rpx',left:leftV+'rpx'}" :count="goodsCount" v-if="goodsCount * 1  > 0"/>
       <image class="min-icon" v-if="icon" :src="icon" alt="icon"/>
-      <text class="f28" v-if="leftText">{{leftText}}</text>
+      <view class="f28"  :style="{color:leftTextColor,width:leftTextWidth}"  v-if="leftText"><text >{{leftTextDesc}}</text>{{leftText}}</view>
     </view>
     <view class="min-main p-tb-20 p-right-30">
-      <view class="min-total f22">
+      <view class="min-total f28" v-if="totalAmount">
         合计：<text class="min-amount">￥{{totalAmount}}</text>
       </view>
-      <view class="f22" v-if="totalLabel">{{totalLabel}}</view>
+      <view class="f26" v-if="totalLabel">{{totalLabel}}</view>
     </view>
-    <view class="min-right" :style="{backgroundColor:bgCor}" @click="$emit('submit')" >
-      <view class="min-text">{{buttonText}}</view>
+    <view class="min-right" :style="{background:bgCor}" @click="$emit('submit')" >
+      <view class="min-text" >{{buttonText}}</view>
       <view class="min-label" v-if="buttonLabel">{{buttonLabel}}</view>
     </view>
   </view>
@@ -50,6 +50,18 @@ export default {
       type: String,
       default: ''
     },
+    leftTextColor: {
+      type: String,
+      default: ''
+    },
+    leftTextDesc: {
+      type: String,
+      default: ''
+    },
+    leftTextWidth: {
+      type: String,
+      default: ''
+    },
     goodsCount: {
       type: [Number, String],
       default: 0
@@ -65,7 +77,9 @@ export default {
     bgCor:{
       type:String,
       default:'rgba(255,224,0,1)'
-    }
+    },
+    topV:String,
+    leftV:String
   }
 }
 </script>
@@ -89,7 +103,7 @@ export default {
     }
     .min-goods-count{
       position: absolute;
-      top: -10rpx;
+       top: 10rpx;
       left: 78rpx;
     }
   }
@@ -101,9 +115,9 @@ export default {
     align-items: flex-end;
     .min-total{
       .min-amount{
-        font-size: 26rpx;
+        font-size: 28rpx;
         color: #FF0000;
-        font-weight:400;
+        font-weight:bold;
       }
     }
   }

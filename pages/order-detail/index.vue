@@ -1,6 +1,6 @@
 <template>
   <view class="order-detail p-tb-20 p-lr-30">
-    <view class="goods-wrap m-top-20 p-lr-20">
+    <view class="goods-wrap  p-lr-20">
       <view class="p-tb-30 min-border-bottom">
         商品
         <view
@@ -24,7 +24,7 @@
     <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-20 min-border-bottom">
         <view class="title">原订单信息假</view>
-        <view class="btn">查看原订单</view>
+        <view class="btn" @click="viewOldOrder">查看原订单</view>
       </view>
       <view class="main p-tb-30">
         <view class="item">原订单号：2019346746842</view>
@@ -53,13 +53,14 @@
       <view class="top p-tb-30 min-border-bottom">签折信息</view>
       <view class="main p-tb-30">
         <view class="item">签折方式：{{type[list.order_status]}}</view>
-        <view class="item">
+        <view class="item" v-if="list.signoff_type !== 0 && list.signoff_type !== 1">
             <view class="method-view min-border-bottom">
-              <view class="left">优惠内容</view>
+              <view class="left">优惠内容：</view>
               <view class="right">
-                <text>活动名称1</text>
-                <text>活动名称2</text>
-                <text>活动名称3</text>
+                <view  class="right_view" v-for="i in list.order_product_list" :key="i.id">
+                    <text class="min-ellipsis" style="width:300rpx">{{i.product_name}}</text>
+                    <text class="min-ellipsis" style="">￥{{i.signoff_price}}</text>
+                </view>
               </view>
             </view>
         </view>
@@ -102,28 +103,7 @@
           <view class="f26">本次支付</view>
           <view class="money">￥{{list.unpay_price}}</view>
         </view>
-        <view class="pays m-top-30">
-          <view class="pay">
-            <min-radio
-              title="支付宝"
-              icon="/static/images/alipay-pay.png"
-              label="0"
-              v-model="payType"
-            />
-          </view>
-          <view class="pay">
-            <min-radio title="现金" icon="/static/images/cash-pay.png" label="3" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="微信" icon="/static/images/wx-pay.png" label="1" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="刷卡" icon="/static/images/card-pay.png" label="2" v-model="payType" />
-          </view>
-          <view class="pay">
-            <min-radio title="后付款" icon="/static/images/later-pay.png" label="4" v-model="payType" />
-          </view>
-        </view>
+        <min-pay :isTitle="false" :mTop="false" v-model="payType" />
         <view class="btn_pay" @click="pay_money">支付</view>
       </view>
     </min-popup>
@@ -144,7 +124,7 @@ export default {
       list: {},
       type,
       showPayPop: false,
-      payType: '0',
+      payType: 1,
       showSubmit: false
     }
   },
@@ -171,6 +151,31 @@ export default {
       })
   },
   methods: {
+    // 查看原订单
+    viewOldOrder(){
+      return this.$showToast("正在开发中")
+      // if(!this.list.origin_order.id) return this.$showToast("该订单没有原订单")
+      // console.log("原订单ID",this.list.origin_order.id)
+      //  this.$minApi
+      // .getOrderDetailDown({
+      //   order_id: this.list.origin_order.id
+      // })
+      // .then(res => {
+      //   console.log(res)
+      //   this.list = res
+      //   if (this.list.order_status === 0) {
+      //     this.leftText = '取消订单'
+      //     this.buttonText = '去支付'
+      //     this.totalAmount = this.list.unpay_price
+      //     this.showSubmit = true
+      //   } else if (this.list.order_status === -1) {
+      //     this.leftText = '应付'
+      //     this.buttonText = '补差价'
+      //     this.totalAmount = this.list.unpay_price
+      //     this.showSubmit = true
+      //   }
+      // })
+    },
     leftClick () {
       if (this.list.order_status !== 0) return false
       // 取消订单
@@ -204,15 +209,25 @@ export default {
     },
     // 弹窗
     pay_money () {
-      this.$minApi
-        .confirmOrder({
-          order_id: this.list.id,
-          desk_id: this.$parseURL().desk_id,
-          pay_type: this.$minCommon.getPayMethod(this.payType)
-        })
-        .then(res => {
+      let obj = {
+        payment_id:this.payType,
+        target_id:this.list.id,
+        target_type:1
+      }
+      this.$minApi.postPay(obj).then(res => {
           console.log(res)
-        })
+           if(res.paid === 1){ 
+             this.$showToast('支付成功！')
+              setTimeout(() => {
+                this.$minRouter.push({
+                  name: 'reservation-success',
+                  params:{order_id:res.id} 
+                })
+              }, 2000)
+            }else{
+              this.$showToast('第三方支付开发中')
+            }
+      })
     },
     // 支付弹窗
     submit () {
@@ -272,6 +287,29 @@ export default {
         margin-top: 10rpx;
         &:first-child {
           margin: 0;
+        }
+        .method-view {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          .left {
+            width: auto;
+          }
+          .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .right_view{
+                display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+            text {
+              display: block;
+              margin-bottom: 20rpx;
+            }
+          }
         }
       }
     }

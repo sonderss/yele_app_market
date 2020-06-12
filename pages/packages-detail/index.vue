@@ -63,8 +63,8 @@
 
 <script>
 export default {
-  name: 'packages-detail',
-  navigate: ['navigateTo'],
+  name: 'redpackages-detail',
+  navigate: ['navigateTo', 'redirectTo'],
   data () {
     return {
       items: [],
@@ -180,7 +180,8 @@ export default {
         })
       })
       this.$minRouter.push({
-        name: 'package-details',
+        name: 'redpackage-details',
+        type: 'redirectTo',
         params: {
           page_type:this.$parseURL().data.page_type,
           product_type: this.$parseURL().data.product_type,

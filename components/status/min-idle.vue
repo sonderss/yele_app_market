@@ -22,19 +22,6 @@
         </view>
     </view>
 
-     <view class="btns">
-      <view :class="index === 0 ? 'btn active' : 'btn' "   @click="book">预约</view>
-      <view :class="index === 1 ? 'btn active' : 'btn' "  @click="startOrder">开台</view>
-      <view :class="index === 2 ? 'btn active' : 'btn' " @click="saveWine">存酒</view>
-      <view class="badge" @click="showToastTxt"  id='testDom'>
-          <text class="more" style="color: #CCCCCC;">&#xe61c;</text>
-          <view class="toast anmatiin " v-if="toast">
-              <view class="bag_btn"  @click="goGetHistory">历史</view>
-              <view  class="bag_btn"  @click="stopUse">停用</view>
-             <view class="bag"></view>
-          </view>
-      </view>
-    </view>
     <min-modal ref='show'></min-modal>
   </view>
 </template>

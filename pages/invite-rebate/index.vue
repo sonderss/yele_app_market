@@ -1,8 +1,8 @@
 <template>
 	<view class="invite-rebate">
-		<view class="top">
+		<view class="top m-top-20">
 			<view class="y r" @click="toBack"> </view>
-			<view class="y c">邀请返利</view>
+			<view class="y c"></view>
 		</view>
 		<view class="main_view">
 			<view class="font_view">
@@ -10,31 +10,46 @@
 				<text>请</text>
 				<text>好</text>
 				<text>友</text>
+				<view class="desc_view">好友下单 · 你获佣金 · 奖励无上限</view>
 			</view>
-			<view class="desc_view">好友下单 · 你获佣金 · 奖励无上限</view>
+			
+			<view class="code_view">
+					<view class="top_view">
+						<text class="o1"></text>
+						<text class="o"></text>
+						<text class="t" >规 &nbsp;&nbsp;&nbsp;则</text>
+						<text class="o"></text>
+						<text class="o1"></text>
+					</view>
+					<view class="desc_view_d m-tb-10">
+							<view class="f24">参与平台拉新活动</view>
+							<view class="f24 m-tb-10"> 邀请好友还可获得额外金额奖励</view>
+							<view class="f24"> (具体奖励以平台的拉新活动规则为准)</view>
+					</view>
+					<view class="code_">
+						<min-qrcode 
+							cid="qrcode2307"
+							:text='$store.state.status.url'
+							:size="sizeCNM" 
+							makeOnLoad  
+						/>
+					</view>
+					<view class="desc_hrlp m-tb-20 f20">长按识别二维码/扫一扫</view>
+					<view class="btn" @click="showPop">立即分享给好友</view>
+			</view>
 		</view>
-		<view class="code_view">
-			<view class="top_view">
-				<text class="o1"></text>
-				<text class="o"></text>
-				<text class="t">我的二维码</text>
-				<text class="o"></text>
-				<text class="o1"></text>
-			</view>
-			<view class="code_">
-				<image  src='../../static/images/my_code.png'/>
-			</view>
-			<view class="btn" @click="showPop">立即分享给好友</view>
+		<view class="desc_yele m-tb-20">
+			<text class="white">本活动最终解释权归夜乐科技所有</text>
 		</view>
 		<min-popup :show="isShow" heightSize="300" @close='closeSelectedSkuPop'>
 			<view class="share_view">
 				<view class="main">
-					<view class="main_share">
-						<image src='../../static/images/share_wx.png'/>
+					<view class="main_share" @click="shareWX">
+						<image src='/static/images/share_wx.png'/>
 						<text>微信好友</text>
 					</view>
-					<view class="main_share" style="margin-left: 80rpx;">
-						<image src='../../static/images/share_l.png'/>
+					<view class="main_share" style="margin-left: 80rpx;" @click="ctrlC">
+						<image src='/static/images/share_l.png'/>
 						<text>复制链接</text>
 					</view>
 					
@@ -46,15 +61,24 @@
 </template>
 
 <script>
+import Qrcode from '../../utils/uqrcode.js'
 	export default {
 		name:"invite-rebate",
 		navigate:['navigateTo'],
 		data(){
 			return{
-				isShow:false
+				isShow:false,
+				url:'',
+				height_view:true,
+				sizeCNM:140
 			}
 		},
+		onLoad(){
+			/***
+			 */
+		},
 		methods:{
+		   
 			canceShare(){
 				this.isShow = false
 			},
@@ -66,26 +90,69 @@
 			},
 			toBack(){
 				uni.navigateBack({
-				    delta: 2
+				    delta: 1
 				});
+			},
+			shareWX(){
+				uni.share({
+					provider: "weixin",
+					scene: "WXSceneSession",
+					type: 0,
+					href: `${this.$store.state.status.url}`,
+					title: "夜乐科技",
+					summary: "快来注册吧",
+					imageUrl: "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png",
+					success: function (res) {
+						console.log("success:" + JSON.stringify(res));
+					},
+					fail: function (err) {
+						console.log("fail:" + JSON.stringify(err));
+					}
+				});
+			},
+			ctrlC(){
+				uni.setClipboardData({
+					data: this.$store.state.status.url,
+					success:  () =>  {
+						this.$showToast('复制成功!')
+					}
+				});
+
 			}
-		}
+		},
+		mounted(){
+			
+			uni.getSystemInfo({
+				success:  (res)=> {
+					if(res.windowHeight <= 533){
+					  this.sizeCNM = 100
+					  this.height_view = false
+					  return  
+					}
+				}
+			});
+		} 
 	}
 </script>
 
 <style lang="scss" scoped>
-
+uni-page-body{background: #000;}
 	.invite-rebate{
 		width: 100%;
 		height: 100vh;
 		background-color: rgba(3, 3, 19, 1);
 		position: relative;
+			background-image: url('/static/images/yaoqing.png');
+			background-size: contain;
+				background-repeat: no-repeat;
+				background-position: left top;
 		.top{
 			position: absolute;
 			left: 0;
 			display: flex;
 			width: 100%;
 			height:40rpx;
+			z-index: 9999;
 			top: var(--status-bar-height);
 			.y{
 				color:rgba(255,255,255,1);
@@ -98,20 +165,15 @@
 				margin: 0 auto;
 			}
 			.r{
-				background: url(../../static/images/back.png);
+				background: url(/static/images/back.png);
 				background-size: cover;
 				height: 36rpx;
-				width: 22rpx;
+				width: 36rpx;
 				margin-left: 30rpx;
 			}
 		}
 		.main_view{
 			width: 100%;
-			height: 750rpx;
-			background-image: url('../../static/images/yaoqing.png');
-			background-size: cover;
-			background-repeat: no-repeat;
-			background-position: left top;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -138,27 +200,23 @@
 				font-family:PingFang SC;
 				font-weight:500;
 				color:rgba(48,48,48,1);
-				
 			}
 		}
 		.code_view{
 			width: 680rpx;
-			height: 710rpx;
+			height: auto;
 			background: #fff;
-			position: absolute;
-			left: 36rpx;
-			/*  #ifdef  H5  */
-			bottom: 160rpx;
-			/*  #endif  */
-			/*  #ifdef  APP-PLUS  */
-			top: 480rpx;
-			/*  #endif  */
+			padding-bottom:50rpx ;
 			border-radius: 20rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+			margin-top:17%;
 			.top_view{
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				margin-top: 60rpx;
 				.t{
 					font-size:40rpx;
 					font-family:PingFang SC;
@@ -182,18 +240,30 @@
 					border-radius:50%;
 				}
 			}
+			.desc_view_d{
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				margin-bottom: 20rpx;
+			}
 			.code_{
-				width: 400rpx;
-				height: 400rpx;
 				margin:  0 auto;
-				image{
-					width: 100%;
-					height: 100%;
-				}
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+			}
+			.desc_hrlp{
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 			.btn{
 				width:590rpx;
-				height:98rpx;
+				height:20%;
 				font-size:36rpx;
 				font-family:PingFang SC;
 				font-weight:bold;
@@ -203,9 +273,23 @@
 				text-align: center;
 				line-height: 98rpx;
 				margin:  0 auto;
-				margin-top: 20rpx;
 			}
 		}
+		
+	}
+	.desc_yele{
+		 width: 100%;
+		 display: flex;
+		 justify-content: center;
+		 align-items: center;
+		 position: absolute;
+		 bottom: 0;
+		 left: 0;
+		 text{
+			 color: #999999;
+			 font-size: 20rpx;
+
+		 }
 	}
 	.share_view{
 		width: 100%;
@@ -225,6 +309,8 @@
 				width: 90rpx;
 				height: 90rpx;
 				text{
+					display: block;
+					width: 200rpx;
 					font-size:20rpx;
 					font-family:PingFang SC;
 					font-weight:400;
@@ -243,5 +329,8 @@
 			text-align: center;
 			line-height: 98rpx;
 		}
+	}
+	#qrcode2307{
+		width: 100%;
 	}
 </style>
