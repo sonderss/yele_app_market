@@ -16,8 +16,8 @@
     </min-cell>
 
     <min-cell class="mid-view" :card="false">
-      <min-desc-input desc="客户姓名" v-model="name1" sign="*" placeholder="请输入姓名"></min-desc-input>
-      <min-desc-input desc="联系电话" v-model="phone" sign="*" placeholder="请输入联系电话"></min-desc-input>
+      <min-desc-input desc="客户姓名" v-model="name1"  sign="*" placeholder="请输入姓名"></min-desc-input>
+      <min-desc-input desc="联系电话" v-model="phone" :maxlength='11' sign="*" placeholder="请输入联系电话"></min-desc-input>
 
       <view @click="goChioce">
         <min-desc-input

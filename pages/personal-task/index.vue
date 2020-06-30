@@ -32,7 +32,10 @@
 			<view class="item">任务周期：{{$minCommon.formatDate(new Date(list.mission_start_time*1000),' yyyy/MM/dd hh:mm:ss') }} 至
 			 {{ $minCommon.formatDate(new Date(list.mission_end_time*1000),' yyyy/MM/dd hh:mm:ss') }}</view>
 			<view class="item">任务状态：{{status[list.status]}}</view>
-			<view class="item">首付比例：{{list.mission_ratio}}%</view>
+			<view class="item">
+				首付比例：{{flag ? list.mission_ratio + '%' :"****" }}
+				<image style="width:30rpx;height:30rpx;margin-left:10rpx" @click="eye" :src="flag ? '/static/images/eyes_.png': '/static/images/eyes.png' " />
+			</view>
 		  </view>
 		</view>
 	</view>
@@ -48,11 +51,14 @@ const status = ['','待开启','执行中','已完成','已结束','已到期']
 			return{
 				width_color:"",
 				list:{},
-				status
+				status,
+				flag:false
 			}
 		},
-		onShow(){
-			
+		methods: {
+			eye(){
+				this.flag = !this.flag
+			}
 		},
 		mounted(){
 			this.$minApi.getPersonTask().then(res=>{
@@ -61,6 +67,12 @@ const status = ['','待开启','执行中','已完成','已结束','已到期']
 				let a = Math.ceil((this.list.mission_achievement / this.list.mission_amount)*100)
 				this.width_color = a+'%'
 				 
+			}).catch(err => {
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				},2000)
 			})
 		}
 	}

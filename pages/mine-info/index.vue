@@ -34,9 +34,22 @@
           ></min-cell-item>
         </picker>
         <min-cell-item
-          title="手机" :tail="userInfo.mobile"
+          title="手机" :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无') "
           :border="false" arrow
           @eventParent="setPhone"
+        ></min-cell-item>
+      </min-cell>
+       <view class="m-top-20"></view>
+      <min-cell :card="false">
+       <min-cell-item
+          :isWidth="false"
+          title="身份" tail="带刀侍卫"
+          border :arrow="false"
+        ></min-cell-item>
+         <min-cell-item
+          :isWidth="false"
+          title="上线" tail="原核弹爆炸中心见证人"
+          :border="false" :arrow="false"
         ></min-cell-item>
       </min-cell>
       <view class="m-top-20"></view>
@@ -48,9 +61,17 @@
            @eventParent="toFace"
         ></min-cell-item>
         <min-cell-item
-          title="提现方式"
+          title="提现银行卡"
+          :isWidth="false"
+          :border="true" arrow
+          :tail="userInfo.bank_card_name ? userInfo.bank_card_name+`(${lastString})` : '未绑定'"
+          @eventParent="payMethods(userInfo.bank_card_name)"
+        ></min-cell-item>
+        <min-cell-item
+          title="提现密码"
           :border="false" arrow
-          @eventParent="payMethods"
+          :tail="userInfo.is_cash_pwd ? '已设置':'未设置'"
+          @eventParent="toSetPsd"
         ></min-cell-item>
       </min-cell>
     </view>
@@ -76,17 +97,19 @@ export default {
       index1: 0,
       date: '2020/3/20',
       userInfo: {},
-      phone: ''
+      phone: '',
+      lastString:''
     }
   },
   onLoad () {
     // this.phone = this.$store.state.user.userInfo.mobile
   },
-  mounted () {
+  onShow(){
     this.$minApi.userInfo().then(res => {
       console.log(res)
       this.userInfo = res
       this.userInfo.birthday = this.userInfo.birthday.replace(/00:00:00/g, '')
+       this.getCardLast(this.userInfo.bank_card_num)
       this.minzu.map((item, index) => {
         if (item === this.userInfo.nation) {
           this.index1 = index
@@ -115,7 +138,7 @@ export default {
     },
     setPhone () {
       this.$minRouter.push({
-        name: 'modify-mobile',
+        name: 'token-phone',
         params: { mobile: this.userInfo.mobile }
       })
     },
@@ -140,24 +163,6 @@ export default {
               });
           }
       });
-      //   uni.chooseImage({
-      //     count: 1, //默认9
-      //     success:  res=> {
-      //         console.log(JSON.stringify(res.tempFilePaths[0]));
-      //         // 调用上传文件接口 提交到远程服务器保存文件
-      //           this.$minApi.fileUpLoad({
-      //             image:JSON.stringify(res.tempFilePaths[0])
-      //           }).then(res=>{
-      //             console.log(res)
-      //           })
-      //         this.userInfo.head_img =res.tempFilePaths[0]
-      //         console.log(this.userInfo.head_img)
-      //         this.setUserInfo()
-      //     },
-      //     fail:err=>{
-      //       console.log(err)
-      //     }
-      // }); 
     },
     toFace () {
       // verify-name 实名认证
@@ -165,8 +170,21 @@ export default {
           name: 'verify-name',
           params: { id_card: this.userInfo.id_card, is_certify: this.userInfo.is_certify, name: this.userInfo.user_name, phone: this.userInfo.mobile }
         })
-      
-      
+    },
+    // 获取银行卡后四位
+    getCardLast(bank_card_num){
+      if( this.lastString.length !== 4){
+          let card = [...bank_card_num]
+          let a = [4,3,2,1]
+          a.map(item => {
+              this.lastString+= card[card.length-item]
+          })
+      }
+    },
+    toSetPsd () {
+      this.$minRouter.push({
+        name: 'set-cardpsd'
+      })
     },
     // payMethods drawing-way
     payMethods () {
@@ -184,7 +202,8 @@ export default {
         }
         // uoDateuserInfo  API
         this.$minApi.uoDateuserInfo(data).then(res=>{
-          this.$showToast('重新登录后，修改生效')
+          this.$store.dispatch('user/setUserInfoAuth',res.apiAuth)
+          this.$showToast('修改成功')
         })
     },
     quit () {
@@ -210,5 +229,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.mine-info{
+ margin-bottom: 100rpx;
+}
 </style>

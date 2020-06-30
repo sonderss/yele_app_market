@@ -5,19 +5,22 @@
           <!-- @click="goodsAdd(index,index2)" -->
           <view class="image-view-com">
             <view class="badge" v-if="badge">{{badgeTxt}}</view>
-            <image :src="imageSrc ? '/static/images/goods.png': image" mode="aspectFit" @error='imgerr' />
+            <image mode="aspectFit" :src="imageSrc === 'error' ? '/static/images/produced.png' : image"  @error='imgerr' />
           </view>
           <view class="content-view">
             <view class="right-view-title" >
-              <text class="f28 t" style="display:block"><text v-if="discount" class="discount f26">限时特惠</text>{{title}}</text>
-              <text class="f26" v-if="isSku" style="color:#666666">{{desc}}</text>
+              <view class="f28 t">
+                  <text v-if="discount" class="discount f26">限时特惠</text>
+                  <text class=""> {{title}}</text> 
+              </view>
+              <text class="f26 abc" v-if="isSku" style="color:#666666">{{desc}}</text>
             </view>
             <view class="right-view-bottom">
               <view class="right-view-bottom-desc" >
                 <text v-if="price != 'null'" class="f20 t">￥<text  style="color:#FF0000;font-size:30">{{price}}</text></text>
               </view>
               <view class="steper">
-                <min-stepper :isFlag="isFlag" v-if="isFlag" v-model="count" @change="changeChioce"></min-stepper>
+                <min-stepper :isFlag="isFlag" v-if="isFlag"  v-model="count" @change="changeChioce"></min-stepper>
                 <view v-else class="m-right-10" style="width:40rpx;height:40rpx;" @click.stop="changeChioceT">
                     <image src="/static/images/yellow-add.png"  style="width:100%"/>
                 </view>
@@ -87,25 +90,28 @@ export default {
   watch: {
     value(a){
        this.count = a
+       console.log(this.count);
     }
   },
   data () {
     return {
       count: 0,
-      imageSrc: false
+      imageSrc: String,
+      s:true,
+      flag:false,
+      showBtns:false
     }
   },
   computed: {},
   methods: {
     changeChioce (e) {
       this.count = e
+      console.log(e)
       this.$emit('input', e)
       this.$emit('changes', e)
     },
     imgerr (e) {
-      if(e.type === 'error'){
-          this.imageSrc = true
-      }
+      this.imageSrc = e.type
     },
     changeChioceT(){
        this.$emit('changesPop')
@@ -130,6 +136,7 @@ export default {
   align-content: center;
   margin-bottom: 20rpx;
   background: #fff;
+  width: 100%;
   height: 200rpx;
   padding: 20rpx;
    position: relative;
@@ -153,15 +160,16 @@ export default {
         text-align: center;
         line-height: 40rpx;
       }
-      image{
+      &>image{
         width:100%;
         height: 100%;
-
+        display: block;
       }
   }
 
   .content-view{
     flex: 1;
+
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -169,13 +177,16 @@ export default {
     align-items: space-between;
     color: #333333;
     .right-view-title{
-          width: 350rpx;
+      .abc{
+            width: 300rpx;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          display: block;
+      }
       .t{
-           font-weight: bold;
-           width: 350rpx;
+          font-weight: bold;
+          width: 300rpx;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

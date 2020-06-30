@@ -5,13 +5,14 @@
       <view class="right-view">
         <input
           class="oinput"
-          type="text"
+          :type="typeinput"
           :placeholder="placeholder"
           :maxlength="maxlength"
           @input="input"
           :value='value'
           :disabled="disabled"
-		  :style="{textAlign:textArr}"
+          @blur="onBlur"
+          placeholder-style="color:#999"
         />
         <!--  :class="animation ? 'animation' : 'right-arrow-a animation' " -->
         <image class="right-arrow p-left-10" v-if="isRightRrrow"  :class="animation ? 'right-arrow-a animation' : 'animation' "  src="/static/images/arrow.png" />
@@ -42,7 +43,7 @@ export default {
     },
     maxlength: {
       type: Number,
-      default: 11
+      default: 999
     },
     value: {
       type: String,
@@ -59,16 +60,20 @@ export default {
     animation: {
       type: Boolean
     },
-	textArr:{
-		type:String,
-		default:'right'
-	}
+    typeinput:{
+      type:String,
+      default:"test"
+    }
   },
   methods: {
     input (e) {
       // console.log(e.detail.value)
       this.$emit('value', e.detail.value)
       this.$emit('input', e.detail.value)
+    },
+    onBlur(e){
+      // console.log(e);
+      this.$emit('loseBlue')
     }
   }
 }
@@ -80,6 +85,7 @@ export default {
   flex: 1;
   .min-view-item {
     height: 98rpx;
+    
     .ophone {
       padding-right: 34rpx;
     }
@@ -92,10 +98,12 @@ export default {
       width: 200rpx;
     }
     .right-view{
+      flex: 1;
       display: flex;
       justify-content: flex-end;
       align-items: center;
       .oinput {
+        width: 100%;
         text-align: right;
         height: 98rpx;
         display: block;

@@ -108,22 +108,15 @@ Vue.use(MinCache)
 Vue.use(MinCommon)
 
 Vue.prototype.$store = store
-Vue.directive('root', {
-  inserted: function (el, bind) {
-    if (!test(bind.value)) {
-      el.parentNode.removeChild(el)
-    }
-    function test (root) {
-      const data = store.state.user.userInfo.access
-      for (const i of data) {
-        if (i === root) {
-          return true
-        }
-      }
-      return false
+Vue.prototype.$getRoot =  function(root){
+  const data = this.$store.state.user.userInfo.access
+  for (const i of data) {
+    if (i === root) {
+      return true
     }
   }
-})
+  return false
+}
 Vue.prototype.$showToast = (title, icon = 'none', duration = 2000) => {
   uni.showToast({
     title,

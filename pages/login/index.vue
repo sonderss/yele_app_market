@@ -38,7 +38,13 @@ export default {
     return {
       countDown: 0,
       code: '521125',
-      mobile: '13632486314'
+      mobile: '13112233445'
+    }
+  },
+  onLoad(){
+    if(!this.$store.state.status.dev){
+       this.code = ''
+       this.mobile = ''
     }
   },
   methods: {

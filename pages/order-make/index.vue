@@ -116,7 +116,13 @@ export default {
             },
             // 弹窗
             pay_money () {
-              this.$minApi
+              console.log(this.payType);
+              if(this.payType === 1 || this.payType === 2){
+                  this.$minRouter.push({
+                    name:"pay-code"
+                  })
+              }else{
+                this.$minApi
                 .confirmOrder({
                   order_id:this.$parseURL().orderId,
                   desk_id: this.$parseURL().desk.id,
@@ -132,6 +138,7 @@ export default {
                          })
                     },2000)
                 })
+              }
             },
         },
         onLoad(){

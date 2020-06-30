@@ -35,7 +35,10 @@
 			<view class="item">任务额度：￥{{list.mission_amount}}</view>
 			<view class="item">任务周期：{{list.mission_start_time}} 至 {{list.mission_end_time}}</view>
 			<view class="item">任务状态：{{status[list.mission_status]}}</view>
-			<view class="item">分红比例：{{list.mission_ratio}}%</view>
+      <view class="item">
+				分红比例：{{flag ? list.mission_ratio + '%' :"****" }}
+				<image style="width:30rpx;height:30rpx;margin-left:10rpx" @click="eye" :src="flag ? '/static/images/eyes_.png': '/static/images/eyes.png' " />
+			</view>
 		  </view>
 		  
 		  <view class="main p-top-20" v-if="index === 1">
@@ -65,12 +68,16 @@ const status = ['','待开启','执行中','已完成','已结束','已到期']
 				index:0,
 				list:{},
 				status,
-				users:[]
+				users:[],
+        flag:false
 			}
 		},
 		methods:{
 			left(n){
 				this.index = n
+			},
+      eye(){
+				this.flag = !this.flag
 			}
 		},
 		mounted(){
@@ -82,6 +89,12 @@ const status = ['','待开启','执行中','已完成','已结束','已到期']
 			this.$minApi.getTeamUserJobs().then(res=>{
 				console.log(res)
 				this.users = res
+			}).catch(err => {
+				setTimeout(() => {
+					uni.navigateBack({
+						delta: 1
+					})
+				},2000)
 			})
 		}
 	}

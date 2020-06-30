@@ -1,5 +1,6 @@
 <template>
   <view class="min-order-list p-tb-20 p-lr-30">
+  <view v-if="list.length !== 0">
     <view class="main" v-for="(item,index) in list" :key="index" @click="goDetail(index)">
       <view class="top-view min-flex">
         <view class="left-view min-flex min-flex-main-start">
@@ -46,6 +47,8 @@
          <text class="f24 tcolor">{{$minCommon.formatDate(new Date(item.create_time*1000) ,'yyyy/MM/dd hh:mm:ss') }}</text>
       </view>
     </view>
+  </view>
+    <min-404 v-else />
   </view>
 </template>
 <script>

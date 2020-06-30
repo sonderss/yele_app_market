@@ -165,7 +165,7 @@ uni-page-body{background: #000;}
 				margin: 0 auto;
 			}
 			.r{
-				background: url(/static/images/back.png);
+				background: url('/static/images/back.png');
 				background-size: cover;
 				height: 36rpx;
 				width: 36rpx;

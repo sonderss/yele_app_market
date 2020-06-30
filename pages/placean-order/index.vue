@@ -21,7 +21,7 @@
         <view  v-for="(item2,index2) in item.product"  :key="index2" @click.stop="goDetails(index,index2)">
           <min-goods-chioce
             :image='item2.product_img'
-            :discount='true'
+            :discount='item2.is_limited === 1 ? true: false'
             :title="item2.product_name"
             :badgeTxt="item2.type === 'setmeal' ? '套餐': '' "
             :badge="item2.type === 'setmeal'? true : false "
@@ -164,6 +164,7 @@ export default {
       isSelSku: false, // 选择规格
       // indexDel: Number, // 所需删除的已选列表中的索引
       selArr: [], // 已选商品列表
+        tempId:{index:"",index2:""},
       selected: false// 已选商品弹出层
 
     }
@@ -223,7 +224,9 @@ export default {
         }
         a.map((item,index) => {
           if(item.step === 0){
+            this.$nextTick(() => {
               a.splice(index,1)
+            })
                this.$store.dispatch('goods/setOrderSelArr', a)
           }else{
             this.test(item.step,item.id)
@@ -239,6 +242,7 @@ export default {
          if(item.product && item.product.length > 0){
               item.product.map((item2,index2) => {
                   if(item2.type === 'product' && item2.sku.length > 0 && id == item2.id){
+                       item2.isFlag = true
                        item2.step = step
                   }
                   if(item2.type === 'service' && id == item2.id){
@@ -259,15 +263,18 @@ export default {
             // val.type === 'setmeal' || item2.sku.length > 1)  ? false : true
             //    :step="( "
             // :showBtn=" "
-            val.product.map(item2 => {
-               if(item2.type === 'product'  && item2.sku.length > 1){
-                this.$set(item2,"isFlag",false) 
-              }else if( item2.type === 'setmeal'){
-                 this.$set(item2,"isFlag",false) 
-              } else{
-                this.$set(item2,"isFlag",true) 
-              }
-            })
+            if(val.product && val.product.length > 0){
+              val.product.map(item2 => {
+                  if(item2.type === 'product'  && item2.sku.length > 1){
+                    this.$set(item2,"isFlag",false) 
+                  }else if( item2.type === 'setmeal'){
+                    this.$set(item2,"isFlag",false) 
+                  } else{
+                    this.$set(item2,"isFlag",true) 
+                  }
+              })
+            }
+            
           }
           this.$nextTick(() => {
             this.getElementTop()
@@ -301,6 +308,8 @@ export default {
       })
     },
     changesPopNoStep(index, index2,type){
+      this.tempId.index = index
+      this.tempId.index2 = index2
       if(type === 'product'){
          this.selSku(index, index2)
       }else if(type === 'setmeal'){
@@ -317,6 +326,7 @@ export default {
             }
           })
       }
+        
     },
     /* 主区域滚动监听 */
     mainScroll (e) {
@@ -350,7 +360,7 @@ export default {
     // 图片错误
     imageErro (e) {
       if (e.type === 'error') {
-        this.skuObj.product_img = '../../static/images/goods.png'
+        this.skuObj.product_img = '/static/images/goods.png'
         this.errImg = true
       }
     },
@@ -401,6 +411,7 @@ export default {
     selSku (index, index2) {
       this.isSelSku = true
       this.skuObj = this.mainArray[index].product[index2]
+      this.skuObj.step  = 1
       console.log('商品规格弹窗', this.skuObj)
     },
     changeChioce (index, index2) {
@@ -421,10 +432,9 @@ export default {
         this.$minRouter.push({
           name: 'package-details',
           params: {
-            store: this.$parseURL().data.store,
-            desk:this.$parseURL().data.desk,
             page_type: 'order',
             is_open_desk: this.$parseURL().is_open_desk,
+            desk_id: this.$parseURL().desk_id,
             minim_charge: this.$parseURL().minim_charge,
             product_id: this.mainArray[index].product[index2].id,
             product_type: this.mainArray[index].product[index2].type
@@ -432,16 +442,27 @@ export default {
         })
         return
       }
-      if (this.mainArray[index].product[index2].sku.length > 1) {
-        this.selSku(index, index2)
+      if (this.mainArray[index].product[index2].type === 'product') {
+          console.log(this.mainArray[index].product[index2].sku.length);
+          if(!this.mainArray[index].product[index2].isFlag || this.mainArray[index].product[index2].sku.length > 1){
+                const obj = {}
+                const skuOne = this.mainArray[index].product[index2].sku[this.chioceIndex]
+                Object.assign(obj, this.mainArray[index].product[index2])
+                obj.sku = skuOne
+                this.addGoods(obj)
+          }else{
+              if (this.mainArray[index].product[index2].sku.length > 1) {
+                return this.selSku(index, index2)
+              } else {
+                const obj = {}
+                const skuOne = this.mainArray[index].product[index2].sku[0]
+                Object.assign(obj, this.mainArray[index].product[index2])
+                obj.sku = skuOne
+                this.addGoods(obj)
+              }
+          }
+         
       }
-      const obj = {}
-      if (this.mainArray[index].product[index2].sku.length > 0) {
-        // obj = this.mainArray[index].product[index2]
-        Object.assign(obj, this.mainArray[index].product[index2])
-        obj.sku = this.mainArray[index].product[index2].sku[0]
-      }
-      this.addGoods(obj)
     },
     // 选择规格
     chioceO (index) {

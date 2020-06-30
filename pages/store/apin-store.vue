@@ -1,7 +1,7 @@
 <template>
   <view class="apin-store p-tb-20 p-lr-30">
-       <view class="card" v-for="item in  list" :key="item.id">
-           <min-pcitem showPrice :list="item" @emitE="toEmint(item)">
+       <view class="card" v-for="(item,index) in  list" :key="item.id">
+           <min-pcitem showPrice :isBorder="index !== list.length - 1 ? true : false" :list="item" @emitE="toEmint(item)">
         </min-pcitem>
       </view>
   </view>
@@ -50,6 +50,12 @@ export default {
     mounted(){
       this.$minApi.apinStore().then(res=>{
         this.list = res.data
+        this.list.map((item,index) =>{
+                 
+          if(!item.store_config){
+            item.store_config = {}
+          }
+        })
         console.log(res)
       })
     }

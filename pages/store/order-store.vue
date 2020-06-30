@@ -1,8 +1,7 @@
 <template>
   <view class="order-store p-tb-20 p-lr-30">
-       <view class="card" v-for="item in  list" :key="item.id">
-           <min-pcitem  showAddarse  :list="item" @emitE="toEmint(item)">
-        </min-pcitem>
+       <view class="card" v-for="(item,index) in  list" :key="item.id">
+           <min-pcitem  showAddarse :isBorder="index !== list.length - 1 ? true : false" :list="item" @emitE="toEmint(item)"></min-pcitem>
       </view>
   </view>
 </template>
@@ -13,9 +12,20 @@ export default {
     navigate:["navigateTo"],
     data(){
       return {
-          list:[],
+          list:[{store_config:{business_start_time:''}}],
+          i:Number,
+          c:{},
           longitude:'', // 当前位置的经度
           latitude:'' // 当前位置的纬度
+      }
+    },
+    watch:{
+      i(a){
+        console.log(a);
+        if(a*1 === a){
+           this.list.splice(a,1)
+           this.list.unshift(this.c)
+        }
       }
     },
     onShow(){
@@ -45,9 +55,14 @@ export default {
             this.$showToast('没有地理位置')
             this.$minApi.chooseStoreLG().then(res=>{
                 this.list = res.data
-                this.list.map(item =>{
+                this.list.map((item,index) =>{
                   if(item.id === this.$store.state.status.id){
                        this.$set(item,'isPrv',true)
+                       this.c = item
+                       this.i = index
+                  }
+                  if(!item.store_config){
+                    item.store_config = {}
                   }
                 })
             })

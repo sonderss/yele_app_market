@@ -74,6 +74,7 @@ export default {
                 this.$minApi.cancelBooked({
                     booking_id:id
                 }).then(res=>{
+                     this.data = []
                      this.getdata()
                 })
             }

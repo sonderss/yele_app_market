@@ -1,18 +1,6 @@
 <template>
   <view class="modify-mobile p-lr-30 p-tb-20">
     <view class="min-view-item min-flex min-flex-main-between f28 min-border-bottom">
-      <text class="desc-width">原手机号</text>
-      <view class="right-view">
-        <input
-          class="oinput"
-          type="number"
-          placeholder="输入原手机号"
-          maxlength="11"
-          v-model="old_mobile"
-        />
-      </view>
-    </view>
-    <view class="min-view-item min-flex min-flex-main-between f28 min-border-bottom">
       <text class="desc-width">新手机号</text>
       <view class="right-view">
         <input
@@ -93,9 +81,13 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.$store.dispatch('user/setUserInfoAuth',res.apiAuth)
           this.$showToast("修改成功");
           setTimeout(() => {
-            this.$minRouter.push("mine-info");
+            // this.$minRouter.push("mine-info");
+            uni.navigateBack({
+                delta: 1
+            });
           }, 2000);
         });
     }

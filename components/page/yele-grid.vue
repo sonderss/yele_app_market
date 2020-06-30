@@ -26,13 +26,14 @@ export default {
   },
   methods: {
     goTo (n) {
+      let result = this.$getRoot(this.list[n].root)
+      if(!result) return this.$showToast('抱歉，暂无权限')
       if(this.list[n].url){
         uni.navigateTo({
           url:this.list[n].url
         })
         return
       }
-      
       this.$minRouter.push({
         name: this.list[n].name,
         type: 'navigateTo',

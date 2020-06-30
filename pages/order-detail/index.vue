@@ -1,5 +1,7 @@
 <template>
   <view class="order-detail p-tb-20 p-lr-30">
+     <min-pcitem  :list="itema"  :showArray="false" ></min-pcitem>
+     <view style="height:20rpx"></view>
     <view class="goods-wrap  p-lr-20">
       <view class="p-tb-30 min-border-bottom">
         商品
@@ -37,10 +39,10 @@
       <view class="main p-tb-30">
         <view class="item">订 单 号 ：{{list.order_sn}}</view>
         <view class="item">订单类型：{{list.pay_type === 0 ? '先付' :'后付'}}</view>
-        <view class="item">下单人员：{{list.confirm_user_name}}</view>
-        <view class="item">下单时间：{{$minCommon.formatDate(new Date(list.create_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
+        <view class="item">下单人员：{{list.confirm_user_name ? list.confirm_user_name  : '暂无'}}  {{$minCommon.formatDate(new Date(list.create_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
         <view class="item">订单金额：￥{{list.order_total}}</view>
         <view class="item">已付金额：￥{{list.pay_price}}</view>
+        <view class="item" v-if="list.order_status !== 0 && list.order_status !== 1">确认时间：{{list.confirm_user_name}} {{list.confirm_time}}</view>
         <view class="item">
           支付状态：
           <text
@@ -71,8 +73,8 @@
     <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-30 min-border-bottom">客户信息</view>
       <view class="main p-tb-30">
-        <view class="item">客户姓名：{{list.client_name}}</view>
-        <view class="item">联系电话：{{list.client_mobile}}</view>
+        <view class="item">客户姓名：{{list.client_name ? list.client_name : '暂无'}}</view>
+        <view class="item">联系电话：{{list.client_mobile ? list.client_mobile : '暂无'}}</view>
       </view>
     </view>
     <view class="card p-lr-20 m-tb-20">
@@ -125,7 +127,8 @@ export default {
       type,
       showPayPop: false,
       payType: 1,
-      showSubmit: false
+      showSubmit: false,
+      itema:{store_config:{business_start_time:''}}
     }
   },
   onLoad () {
@@ -137,6 +140,11 @@ export default {
       .then(res => {
         console.log(res)
         this.list = res
+        this.itema.store_name = this.list.store_name
+        this.itema.store_config.business_start_time = this.list.business_start_time 
+        this.itema.store_config.business_end_time = this.list.business_end_time 
+         this.itema.address = this.list.address 
+         this.itema.head_img = this.list.head_img
         if (this.list.order_status === 0) {
           this.leftText = '取消订单'
           this.buttonText = '去支付'

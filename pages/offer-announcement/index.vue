@@ -3,10 +3,10 @@
         <view class="card">
                 <view class="item min-border-bottom" v-for="item in list" :key="item.id" @click="toDetail(item.id)">
                    <view  class="left_view">
-                        <view class="store f28">{{item.store.store_name}}</view>
+                        <view class="store f28">{{item.store_name}}</view>
                          <view class="right_view f26" style="color:#666666">{{item.create_time}}</view>
                    </view>
-                    <view class="name m-top-20">{{item.notice_title}}</view>
+                    <view class="name m-top-20">{{item.discount_name}}</view>
                    
                 </view>
         </view>
@@ -37,8 +37,8 @@ export default {
     },
     mounted(){
         this.$minApi.storMentList().then(res=>{
-            console.log(res.data)
-            this.list = res.data
+            console.log(res.list)
+            this.list = res.list
         })
     }
 }

@@ -1,14 +1,13 @@
 <template>
   <view class="announcement-detail p-lr-20  p-tb-20">
     <view class="main">
-        <view class="title">{{content.notice_title}}</view>
+        <view class="title">{{content.discount_name}}</view>
         <view class="name">
             <text class="time">{{content.create_time}}</text>
             <text class="desc  m-left-20">{{content.store_name}}</text> 
         </view>
         <view class="bg m-tb-20"></view>
-        <view class="content_desc">
-            {{content.notice_content}}
+        <view class="content_desc" v-html="content.discount_content">
         </view>
     </view>
   </view>
@@ -69,7 +68,7 @@ export default {
         .bg{
             width: 100%;
             height: 300rpx;
-            background-image: url('../../static/images/bg_amonent.png');
+            background-image: url('/static/images/bg_amonent.png');
             background-size: cover;
 
         }

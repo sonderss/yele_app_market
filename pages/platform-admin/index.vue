@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       statusArr,
-      list: [],
+      list: {desks:[]},
       mines: [],
       show: false,
       date: '',

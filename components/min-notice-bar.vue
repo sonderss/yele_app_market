@@ -10,7 +10,7 @@
 						<view class="swiper-item">
 							<text class="an-notice-content-item-text" :style="'color: '+color+';'">
 								<text v-if=" showSerial">{{index+1+'. '}}</text>
-								{{item.create_time}}  {{item.notice_title}}
+								{{item.create_time}}  {{item.discount_name}}
 							</text>
 						</view>
 					</swiper-item>

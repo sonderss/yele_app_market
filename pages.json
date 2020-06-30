@@ -15,7 +15,50 @@
 				"navigationBarTextStyle":"black"
 			}
 		},
-
+		{
+		  "path": "pages/set-cardpsd/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"设置提现密码",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		},
+		{
+			"path": "pages/pay-code/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		  },
+		{
+			"path": "pages/bind-bank-card/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"绑定银行卡",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		  {
+			"path": "pages/token-phone/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"验证原手机号",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
 		{
 			"path": "pages/page",
 			"style": {
@@ -24,6 +67,18 @@
 				}
 			}
 		},
+		{
+			"path":"pages/authentication/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"身份验证",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
 		{
 			"path": "pages/platform-admin/index",
 			"style": {

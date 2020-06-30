@@ -98,10 +98,19 @@ export default {
    // 查询订单状态 5ebf582732acc?order_id=404
    getOrderStatus: data =>minRequest.get('/5ebf582732acc',data),
    // 获取H5页面路径
-   getH5HTML: () => minRequest.get('/5ed5bbf54de7a'),
+   getH5HTML: () => minRequest.get('/5eeb09055a53c'),
    // 获取支付方式 5ece2648aefc0
    getPayMethods: () => minRequest.get('/5ece2648aefc0'),
    // 发起支付 5ed7732591714
-   postPay: data => minRequest.post('/5ed7732591714',data)
-   
+   postPay: data => minRequest.post('/5ed7732591714',data),
+   // 身份验证cardYanZ
+   cardYanZ: data => minRequest.post('/5ee82cd0ae369',data),
+   // 设置提现密码 5edf3da4e9599
+  setTXpsd: data => minRequest.post('/5ee82cc6f14dd',data),
+  // 解绑银行卡 5ee05bdb90e53
+  jieBankCard: () => minRequest.post('/5ee82cdf28b32'),
+  // 获取发卡行信息 5edf641c4199d?bank_card_num=4323132135444121
+  getCardInfo: data => minRequest.get('/5ee82cd56dbe4',data),
+  // 绑定银行卡 5edf3db074e13
+  postCard: data => minRequest.post('/5ee82cda2c2db',data)
 }

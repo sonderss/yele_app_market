@@ -11,12 +11,12 @@
           </view>
         </view>
       </view>
-      <view class="code_" @click="toMyCode">
-        <image src="../../static/images/code_admin.png" />
+      <view class="code_" @click="toMyCode('invitationCode')">
+        <image src="/static/images/code_admin.png" />
         <text>邀请码</text>
       </view>
     </view>
-    <min-notice-bar :text="msg" @more="view_more" @detail="toDetail"></min-notice-bar>
+    <min-notice-bar :text="msg" @more="view_more" @detail="toDetail($event,'storeAnnouncement')"></min-notice-bar>
     <yele-grid :list="item.grid" v-for="(item,index) in list" :key="index"></yele-grid>
   </view>
 </template>
@@ -40,17 +40,20 @@ export default {
             {
               url:'../store/apin-store',
               img: "/static/images/index/order_person.png",
-              text: "预约"
+              text: "预约",
+              root:'book'
             },
             {
               url:"../store/order-store",
               img: "/static/images/index/my_list.png",
-              text: "下单"
+              text: "下单",
+              root:'order'
             },
             {
               name: "platform-admin",
               img: "/static/images/index/my_order.png",
-              text: "我的桌台"
+              text: "我的桌台",
+              root:'desk'
             }
           ]
         },
@@ -59,17 +62,20 @@ export default {
             {
               name:"order-recode",
               img: "/static/images/index/order_list.png",
-              text: "下单记录"
+              text: "下单记录",
+              root:'orderRecord'
             },
             {
               name:'appointment-record',
               img: "/static/images/index/list_.png",
-              text: "预约记录"
+              text: "预约记录",
+              root:'bookRecord'
             },
             {
               name:"invitation-record",
               img: "/static/images/index/set_list.png",
-              text: "邀请记录"
+              text: "邀请记录",
+              root:'invitationRecord'
             }
           ]
         },
@@ -78,17 +84,20 @@ export default {
             {
               name:"personal-task",
               img: "/static/images/index/person_.png",
-              text: "个人任务"
+              text: "个人任务",
+              root:'personalMission'
             },
             {
               name:"team-task",
               img: "/static/images/index/team_.png",
-              text: "团队任务"
+              text: "团队任务",
+              root:'teamMission'
             },
             {
               name:'regional-tasks',
               img: "/static/images/index/area_.png",
-              text: "区域任务"
+              text: "区域任务",
+              root:'regionMission'
             }
           ]
         },
@@ -97,7 +106,8 @@ export default {
             {
               name: "platform-activities",
               img: "/static/images/index/start_order.png",
-              text: "平台活动"
+              text: "平台活动",
+              root:'platformActivity'
             }
           ]
         },
@@ -106,22 +116,26 @@ export default {
             {
               name: "my-clue",
               img: "/static/images/index/mo_line.png",
-              text: "我的线索"
+              text: "我的线索",
+              root:'myClue'
             },
             {
               name: "clue-management",
               img: "/static/images/index/line_.png",
-              text: "线索管理"
+              text: "线索管理",
+              root:'clueManage'
             },
             {
               name:'lead-users',
               img: "/static/images/index/line_user.png",
-              text: "线索用户管理"
+              text: "线索用户管理",
+              root:'clueMember'
             },
             {
               name: "my-downline",
               img: "/static/images/index/my_downline.png",
-              text: "我的下线"
+              text: "我的下线",
+              root:'myOffline'
             }
           ]
         },
@@ -129,16 +143,19 @@ export default {
           grid: [
             {
               img: "/static/images/index/my_money.png",
-              text: "我的钱包"
+              text: "我的钱包",
+              root:'finance'
             },
             {
               img: "/static/images/index/data_.png",
-              text: "数据统计"
+              text: "数据统计",
+              root:'statistics'
             },
             {
               name: "mine-info",
               img: "/static/images/index/person_user.png",
-              text: "个人资料"
+              text: "个人资料",
+              root:'userInfo'
             }
           ]
         }
@@ -160,7 +177,9 @@ export default {
         path: "/pages/switch-stores/index"
       });
     },
-    toMyCode() {
+    toMyCode(root) {
+      let result = this.$getRoot(root)
+      if(!result) return this.$showToast('抱歉，暂无权限')
       this.$minRouter.push({ name: "invite-rebate" });
     },
     toPlatform() {
@@ -173,15 +192,17 @@ export default {
     // 获取门店公告列表
     getStoreList(){
       this.$minApi.storMentList().then(res=>{
-        this.msg=res.data
+        this.msg=res.list
       })
     },
     // 查看更多
     view_more(){
       this.$minRouter.push('offer-announcement')
     },
-    toDetail(e){
+    toDetail(e,root){
         console.log(e)
+        let result = this.$getRoot(root)
+        if(!result) return this.$showToast('抱歉，暂无权限')
         this.$minRouter.push({
           name:"announcement-detail",
           params:{id:e}

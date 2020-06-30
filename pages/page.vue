@@ -24,6 +24,12 @@
 						}
 					},
 					{
+						path: 'pages/pay-code/index',
+						style: {
+							navigationBarTitleText: '支付码'
+						}
+					},
+					{
 						path: 'pages/verify-name/index',
 						style: {
 							navigationBarTitleText: '实名认证'

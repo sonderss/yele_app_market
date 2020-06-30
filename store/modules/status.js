@@ -5,7 +5,8 @@ export default {
     intNet: false,
     a: 1,
     url:"",
-    id:''
+    id:'',
+    dev:false
   },
   mutations: {
     setStatus: (state, data) => {
@@ -16,6 +17,9 @@ export default {
     },
     setId: (state,data) => {
       state.id = data
+    },
+    setDev: (state,data) => {
+      state.dev = data
     }
   },
   actions: {
@@ -27,6 +31,9 @@ export default {
     },
     setId: ({ commit }, data) => {
       commit('setId', data)
+    },
+    setDev ({ commit },data) {
+      commit('setDev',data)
     }
   }
 }
