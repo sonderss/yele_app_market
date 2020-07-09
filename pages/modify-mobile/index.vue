@@ -82,6 +82,7 @@ export default {
         .then(res => {
           console.log(res);
           this.$store.dispatch('user/setUserInfoAuth',res.apiAuth)
+          this.$store.dispatch('status/setisGetUser',true)
           this.$showToast("修改成功");
           setTimeout(() => {
             // this.$minRouter.push("mine-info");

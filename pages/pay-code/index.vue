@@ -11,16 +11,21 @@
         <view class="top_content line">
           <view class="title">
             <text>待支付款：</text>
-            <text style="color:red">260000.00元</text>
+            <text style="color:red">{{$parseURL().info.money}}元</text>
           </view>
-          <view class="desc f28">雅座K1112台消费款</view>
+          <view class="desc f28">{{$parseURL().info.desk_name}}台消费款</view>
         </view>
       </view>
       <view class="main_botm">
         <view class="a"></view>
         <view class="b"></view>
-        <view class="code"></view>
-        <view class="d m-top-20">请使用微信扫码支付</view>
+            <min-qrcode 
+							cid="qrcode2307"
+							:text='$parseURL().data.payInfo'
+							:size="sizeCNM" 
+							makeOnLoad  
+						/>
+        <view class="d m-top-20">请使用{{$parseURL().info.payment_id === 1 ? '支付宝' : '微信'}}扫码支付</view>
       </view>
     </view>
   </view>
@@ -29,13 +34,53 @@
 export default {
   name: "pay-code",
   navigate: ["navigateTo"],
+  data() {
+    return {
+      sizeCNM:180,
+      timer:null,
+      time:0 // 3分钟内每秒更新一次
+    }
+  },
   methods: {
       back(){
+        clearInterval(this.timer)
           uni.navigateBack({
             delta: 1
           });
+      },
+      getStatus(){
+         this.timer =  setInterval(() => {
+            this.$minApi.getPayTStatus({
+                transaction_id:this.$parseURL().id,
+                isLoading:true
+              }).then(res => {
+                console.log(res);
+                this.time++
+                // if(this.time === 3){
+                //   console.log(this.time);
+                //   clearInterval(this.timer)
+                // }
+                if(res.paid){
+                  clearInterval(this.timer)
+                  this.$showToast('支付成功')
+                  setTimeout(() => {
+                      this.$minRouter.push({
+                        name: 'redpay-success',
+                        type:"redirectTo",
+                        params: {id:this.$parseURL().order_id}
+                      })
+                  },2000)
+                }
+              })
+         },1000)
       }
-  },        
+  },
+  onLoad(){
+    console.log(this.$parseURL());
+  },
+  mounted(){
+    this.getStatus()
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -48,13 +93,14 @@ export default {
   font-size: 36rpx;
   color: #ffe001;
   font-weight: blod;
+  position: absolute;
 }
 .pay-back {
   width: 100%;
   height: 100vh;
   overflow: hidden;
   background-image: url("/static/images/pay-back.png");
-  background-size: cover;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   .top_view {
     margin-top: var(--status-bar-height);
@@ -141,7 +187,6 @@ export default {
       .code {
         width: 439rpx;
         height: 439rpx;
-        background: red;
       }
       .d{
           color: #666666;

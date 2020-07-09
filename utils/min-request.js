@@ -60,6 +60,9 @@ class MinRequest {
       uni.showLoading({
         title: '加载中...'
       })
+      if(obj.data && obj.data.isLoading){
+        uni.hideLoading()
+      }
       uni.onNetworkStatusChange(res => {
         if (!res.isConnected) {
           console.log(res)

@@ -11,7 +11,7 @@
     >
       <swiper-item v-for="(item,index) in item" :key="index">
         <view class="swiper-item">
-          <image :src="item"  @error='imgerr'/>
+          <image :src="item"  @error='imgerr' />
         </view>
       </swiper-item>
     </swiper>
@@ -49,7 +49,7 @@
         <view class="skuTop">
           <view class="leftView">
               <view class="img-view">
-                <image :src="errImg ? '/static/images/goods.png': skuObj.product_img" @error="imgerr"></image>
+                <image :src="errImg ? '/static/images/goods.png': skuObj.sku[chioceIndex].sku_img" @error="imgerr" />
               </view>
               <!-- sku信息 -->
               <view class="sku-view">

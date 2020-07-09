@@ -112,5 +112,7 @@ export default {
   // 获取发卡行信息 5edf641c4199d?bank_card_num=4323132135444121
   getCardInfo: data => minRequest.get('/5ee82cd56dbe4',data),
   // 绑定银行卡 5edf3db074e13
-  postCard: data => minRequest.post('/5ee82cda2c2db',data)
+  postCard: data => minRequest.post('/5ee82cda2c2db',data),
+  // 查询支付状态 5ed773317f6fd?transaction_id=33
+  getPayTStatus: data => minRequest.get('/5ed773317f6fd',data)
 }

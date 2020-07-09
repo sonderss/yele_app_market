@@ -105,6 +105,23 @@ export default {
     // this.phone = this.$store.state.user.userInfo.mobile
   },
   onShow(){
+    if(!this.$store.state.status.isGetUser){
+      this.userInfo = this.$store.state.user.userInfos
+        console.log('不获取',this.userInfo);
+      this.userInfo.birthday = this.userInfo.birthday.replace(/00:00:00/g, '')
+       this.getCardLast(this.userInfo.bank_card_num)
+      this.minzu.map((item, index) => {
+        if (item === this.userInfo.nation) {
+          this.index1 = index
+        }
+      })
+      this.sex.map((item, index) => {
+        this.index = this.userInfo.sex
+      })
+      this.date = this.userInfo.birthday.replace(/-/g, '/')
+      return 
+    }
+
     this.$minApi.userInfo().then(res => {
       console.log(res)
       this.userInfo = res
@@ -119,6 +136,7 @@ export default {
         this.index = this.userInfo.sex
       })
       this.date = this.userInfo.birthday.replace(/-/g, '/')
+        this.$store.dispatch('status/setisGetUser',false)
     })
   },
   methods: {
@@ -203,6 +221,7 @@ export default {
         // uoDateuserInfo  API
         this.$minApi.uoDateuserInfo(data).then(res=>{
           this.$store.dispatch('user/setUserInfoAuth',res.apiAuth)
+           this.$store.dispatch('status/setisGetUser',true)
           this.$showToast('修改成功')
         })
     },

@@ -90,12 +90,11 @@ export default {
           if(this.$parseURL().orderId){
               this.$minApi.previewOrder({
                 order_id:this.$parseURL().orderId,
-                desk_id:this.$parseURL().desk.id
+                desk_id:this.$parseURL().desk.id,
+                isLoading:true
               }).then(res=>{
                 this.products = res.order_product_list
                 this.totalAmountE = res.order_info.order_total
-              
-
               })
           }
         },
@@ -117,11 +116,11 @@ export default {
             // 弹窗
             pay_money () {
               console.log(this.payType);
-              if(this.payType === 1 || this.payType === 2){
-                  this.$minRouter.push({
-                    name:"pay-code"
-                  })
-              }else{
+              // if(this.payType === 1 || this.payType === 2){
+              //     this.$minRouter.push({
+              //       name:"pay-code"
+              //     })
+              // }else{
                 this.$minApi
                 .confirmOrder({
                   order_id:this.$parseURL().orderId,
@@ -130,15 +129,30 @@ export default {
                 })
                 .then(res => {
                   console.log(res)
+                  if(!res.paid){
+                        // this.$showToast('第三方支付开发中')
+                        this.closePayPop()
+                        this.$minRouter.push({
+                          name:"pay-code",
+                          params:{
+                            info:{ payment_id: this.payType,money:this.totalAmountE,desk_name:this.$parseURL().desk.desk_name},
+                            data: res.payParam,
+                            id:res.id,
+                            order_id:this.$parseURL().order_id
+                          }
+                        })
+                  }else{
+                    this.closePayPop()
                     this.$showToast('支付成功')
                     setTimeout(() => {
                          this.$minRouter.push({
-                           name:'reservation-success',
+                           name:'redreservation-success',
+                           type:'redirectTo',
                            params:{order_id:this.$parseURL().orderId}
                          })
                     },2000)
+                  }
                 })
-              }
             },
         },
         onLoad(){

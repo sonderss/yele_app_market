@@ -73,6 +73,7 @@ export default {
          console.log(res)
          this.$showToast('认证成功')
          this.$store.dispatch('user/setUserInfoAuth',res.apiAuth)
+         this.$store.dispatch('status/setisGetUser',true)
          setTimeout(() => {
             uni.navigateBack({
                 delta: 1

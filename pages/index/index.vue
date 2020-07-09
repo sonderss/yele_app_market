@@ -191,7 +191,7 @@ export default {
     },
     // 获取门店公告列表
     getStoreList(){
-      this.$minApi.storMentList().then(res=>{
+      this.$minApi.storMentList({isLoading:true}).then(res=>{
         this.msg=res.list
       })
     },
@@ -208,8 +208,13 @@ export default {
           params:{id:e}
         })
     },
+    getPay(){
+      this.$minApi.getPayMethods({isLoading:true}).then(res=>{
+        this.$store.dispatch('status/setPayMethods',res.list)
+      })
+    },
     async getUrl(){
-				let res = await this.$minApi.getH5HTML()
+				let res = await this.$minApi.getH5HTML({isLoading:true})
 				let url = unescape(res.url)
         this.$store.dispatch('status/setUrl',url)
 		},
@@ -217,6 +222,11 @@ export default {
   onLoad() {
     this.getStoreList()
     this.getUrl()
+    this.getPay()
+    this.$minApi.userInfo({isLoading:true}).then(res => {
+         this.$store.dispatch('user/setUserInfos',res)
+    })
+    console.log(  this.$store.state.user.userInfos)
   }
 };
 </script>

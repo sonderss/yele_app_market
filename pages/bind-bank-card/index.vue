@@ -70,6 +70,7 @@ export default {
         console.log(res);
             this.$store.dispatch('user/setUserInfoAuth', res.apiAuth)
            this.$showToast('绑定成功')
+            this.$store.dispatch('status/setisGetUser',true)
            setTimeout(() => {
                 uni.navigateBack({
                     delta: 1

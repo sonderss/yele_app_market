@@ -2,7 +2,8 @@ export default {
   namespaced: true,
   cache: 'not',
   state: {
-    userInfo: {}
+    userInfo: {},
+    userInfos:{}
   },
   mutations: {
     setUserInfo: (state, data) => {
@@ -11,6 +12,9 @@ export default {
     setUserInfoAuth: (state,data) => {
       state.userInfo.apiAuth = data
       console.log(state.userInfo.apiAuth)
+    },
+    setUserInfos: (state,data) => {
+      state.userInfos = data
     }
   },
   actions: {
@@ -19,6 +23,9 @@ export default {
     },
     setUserInfoAuth({ commit }, data) {
       commit('setUserInfoAuth',data)
+    },
+    setUserInfos ({ commit }, data) {
+      commit('setUserInfos', data)
     }
   }
 }

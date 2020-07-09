@@ -37,8 +37,8 @@ const statusArr = [
 ]
 // 座位数量:0 - 未选,1 - 1座，2 - 2座，3 - 3座，4 - 4座，5 - 6座，6 - 8座，7 - 10座，8 - 12座，9 - 12座以上
 export default {
-  name: 'platform-admin',
-  navigate: ['navigateTo', 'switchTab'],
+  name: 'redplatform-admin',
+  navigate: ['navigateTo', 'switchTab','redirectTo'],
   data () {
     return {
       statusArr,
