@@ -5,7 +5,7 @@
       <view class="top-view min-flex">
         <view class="left-view min-flex min-flex-main-start">
           <view class="m-left-20" style="width:60rpx;height:60rpx;border-radius:50%;overflow: hidden;">
-            <image  :src='item.head_img' @error="imageErro($event,index)"/>
+            <image lazy-load :src='item.head_img' @error="imageErro($event,index)"/>
           </view>
           <text class="f30 ordern">{{item.store_name ?item.store_name:'暂无数据'}}</text>
         </view>
@@ -18,13 +18,14 @@
         <view class="mid-view min-border-top">
           <view class="left-view" v-if="item.order_product_list.length > 1">
             <view class="left-photo m-right-20">
-              <min-avatar :imgUrl="i.product_img" v-for="i in item.order_product_list" :key="i.id" />
+              <image lazy-load :src="i.product_img" v-for="(i,a) in item.order_product_list" :key="a" />
             </view>
           </view>
           <!-- 当图片不超过1张时 -->
           <view class="mid-desc" v-if="item.order_product_list.length === 1">
             <image
               :src="item.order_product_list[0].product_img.length>10?item.order_product_list[0].product_img :'/static/images/goods.png'"
+              lazy-load
             />
             <view style=" display: flex;flex-direction: column;" class="m-left-20">
               <text class="f28 fcolor title">{{item.order_product_list[0].product_name}}</text>

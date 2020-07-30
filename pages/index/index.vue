@@ -144,7 +144,8 @@ export default {
             {
               img: "/static/images/index/my_money.png",
               text: "我的钱包",
-              root:'finance'
+              root:'finance',
+              name:'my-income'
             },
             {
               img: "/static/images/index/data_.png",

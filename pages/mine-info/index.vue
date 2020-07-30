@@ -8,12 +8,14 @@
           tail="编辑头像"
           imgSize="sm"
           :border="true"
+          :isWidth="false"
            @eventParent="changeHeadImg"
           arrow
         ></min-cell-item>
         <min-cell-item
           title="名字" :tail="userInfo.user_name"
           :border="true" arrow
+          :isWidth="false"
         ></min-cell-item>
         <picker @change="bindPickerChange" :value="index" :range="sex">
         <min-cell-item

@@ -28,6 +28,99 @@
 			}
 		},
 		{
+			"path":"pages/release-record/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"冻结明细",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				//   "buttons":[
+				//  {
+				//    "width":"auto",
+				//    "text": "全部门店\ue6b2",
+				//    "fontSize":"28rpx",
+				//    "fontSrc":"/static/font/iconfont.ttf"
+				//  }
+				//   ]
+				}
+			  }
+			}
+		  },
+		{
+			"path":"pages/commission-deils/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"提成详情",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
+			"path":"pages/commission-details/index",
+			"style": {
+			  "enableDownRefresh":true,
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"提成明细",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
+			"path":"pages/salary-details/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"工资详情",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
+			"path":"pages/withdrawals-record/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"提现记录",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		  {
+			"path":"pages/withdrawals-d/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"提现详情",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
+			"path":"pages/my-income/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"我的收入",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
 			"path": "pages/pay-code/index",
 			"style": {
 				"app-plus": {

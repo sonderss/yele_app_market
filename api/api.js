@@ -114,5 +114,33 @@ export default {
   // 绑定银行卡 5edf3db074e13
   postCard: data => minRequest.post('/5ee82cda2c2db',data),
   // 查询支付状态 5ed773317f6fd?transaction_id=33
-  getPayTStatus: data => minRequest.get('/5ed773317f6fd',data)
+  getPayTStatus: data => minRequest.get('/5ed773317f6fd',data),
+  // 发放记录列表 5ede025dd130e?date=2020-06&page=1&limit=20
+  faFangList: data => minRequest.get('/5f06847ea3df4',data),
+  // 发放记录详情 5edf04c01ab0c?group_id=80
+  faFangDetail: data => minRequest.get('/5f068483b9129',data),
+  // 审核详情 5edf32ee906ea?remuneration_id=60
+  getAuditdetails: data => minRequest.get('/5f0684944810a',data),
+  // 工资详情 5edf32e863e02?remuneration_id=72
+  getSelaDetail: data => minRequest.get('/5f06848f901a5',data),
+  // 提成明细 5f06849891af0
+  getTCList: data => minRequest.get('/5f06849891af0',data),
+  // 获取提成合计 5f0684aa2bab4?start_time=2020-06-17&end_time=2020-08-01&store_id=1
+  getTCAll: data => minRequest.get('/5f0684aa2bab4',data),
+  // 提成详情 5f0684a491f03?commission_id=81
+  getTcDatail: data => minRequest.get('/5f0684a491f03',data),
+  // 冻结明细{{hosts}}5f1bd979643bb?page=1
+  getDJlist: data => minRequest.get('/5f1bd979643bb',data),
+   // 转账记录 5f1fd4d545895?date=2020-07&limit=10
+   getZhBill: data => minRequest.get('/5f1fd4d545895',data),
+   // 转账详情 5f1fd4f09f323?record_id=2
+   getZhBillDetail: data => minRequest.get('/5f1fd4f09f323',data),
+   // 我的收入
+   getMyMoney: data => minRequest.get('/5f1fa2518ba7a',data),
+     // 收支流水 5f213c4bcc529?limit=10&page=1
+   getShouZ: data => minRequest.get('/5f213c4bcc529',data),
+   // 提现记录 5f1fd43420b23?date=2020-07&limit=10&page=1
+   getTiXian: data => minRequest.get('/5f1fd43420b23',data),
+   // 提现详情 5f1fd4ace55b9?record_id=2
+   getTiXianDetail: data => minRequest.get('/5f1fd4ace55b9',data),
 }

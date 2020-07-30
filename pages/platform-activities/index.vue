@@ -1,9 +1,10 @@
 <template>
-	<view class="platform-activities p-bottom-20">
+	<view class="platform-activities p-bottom-20" style="overflow:hidden">
 	   <view  class="top-view m-bottom-20">
-	   		<view :class="flag ? 'ac' : 'a'" @click="to(0)">全部活动</view>
+	        <view :class="flag ? 'ac' : 'a'" @click="to(0)">全部活动</view>
 			<view :class="flag ? 'a' : 'ac'" @click="to(1)">我的活动</view>
 	   </view>
+	    <view style="height:88rpx"></view>
 		<view class="main  m-lr-30 p-lr-20 p-top-30 p-bottom-20 m-bottom-20" v-for="i in newData" :key="i.id">
 			<view class="top">
 				<view class="title">{{i.activity_name}}</view>
@@ -73,6 +74,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	position: fixed;
+	top: var(--status-bar-height)+44;
+	left: 0;
+	z-index: 9999;
 	.a{
 		width: 50%;
 		height: 100%;

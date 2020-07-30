@@ -55,6 +55,9 @@ import minNoticeBar from '@/components/min-notice-bar.vue'
 import MinStatus from '@/components/min-status.vue'
 import MinQrcode from '@/components/min-qrcode.vue'
 import MinPay from '@/components/min-pay'
+import MinPullDown from '@/components/min-pulldown.vue'
+import MinDrawer from '@/components/min-drawer'
+import MinTable from '@/components/t-table/table.vue'
 Vue.component('min-avatar', MinAvatar)
 Vue.component('min-btn', MinBtn)
 Vue.component('min-cell', MinCell)
@@ -99,6 +102,9 @@ Vue.component('min-notice-bar',minNoticeBar)
 Vue.component('min-status',MinStatus)
 Vue.component('min-qrcode',MinQrcode)
 Vue.component('min-pay',MinPay)
+Vue.component('min-pulldown',MinPullDown)
+Vue.component('min-drawer', MinDrawer)
+Vue.component('min-table',MinTable)
 Vue.config.productionTip = false
 App.mpType = 'app'
 

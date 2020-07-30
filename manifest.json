@@ -115,13 +115,15 @@
                         "landscape-retina7" : "C:/Users/Administrator/Desktop/one.png",
                         "portrait7" : "C:/Users/Administrator/Desktop/one.png",
                         "landscape7" : "C:/Users/Administrator/Desktop/one.png"
-                    }
+                    },
+                    "storyboard" : "C:/Users/Administrator/Desktop/CustomStoryboard.zip"
                 },
                 "android" : {
                     "hdpi" : "C:/Users/Administrator/Desktop/one.png",
                     "xhdpi" : "C:/Users/Administrator/Desktop/one.png",
                     "xxhdpi" : "C:/Users/Administrator/Desktop/one.png"
-                }
+                },
+                "iosStyle" : "default"
             }
         }
     },

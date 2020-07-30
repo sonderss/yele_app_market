@@ -23,7 +23,7 @@
         </view>
       </view>
     </view>
-    <view class="card p-lr-20 m-top-20">
+    <!-- <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-20 min-border-bottom">
         <view class="title">原订单信息假</view>
         <view class="btn" @click="viewOldOrder">查看原订单</view>
@@ -33,7 +33,7 @@
         <view class="item">订单金额：￥159332.00</view>
         <view class="item">已付金额：￥159332.00</view>
       </view>
-    </view>
+    </view> -->
     <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-30 min-border-bottom">订单信息</view>
       <view class="main p-tb-30">
