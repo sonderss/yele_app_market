@@ -86,11 +86,11 @@ export default {
       endTime: (new Date().getMonth() + 1) + '月' + (new Date().getDate() + 1) + '日' + ' ' + new Date().getFullYear(),
       startTime1: '2020年1月2日',
       endTime1: '2020年1月2日',
-      num: Number,
       store_id:'',
       list:[],
       falg:false,
       num:2,
+      nums:2,
       des:"加载中",
       load:true,
       total:""
@@ -102,8 +102,7 @@ export default {
       this.$minApi.getTCList({
          start_time:this.getDatetre( this.startTime1),
          end_time:this.getDatetre(this.endTime1),
-         store_id:this.store_id,
-         page: this.num,
+         page: this.nums,
          isLoading:true
        }).then(res => {
           if(res.list.length === 0) {
@@ -114,30 +113,33 @@ export default {
             },1000) 
           }
          console.log(res);
-         this.num++
+         this.nums++
          this.list =  this.list.concat([...res.list])
        })
   },
-  // onPullDownRefresh() {
-  //   console.log('refresh');
-  //   // this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),
-  //   this.$minApi.getTCList({
-  //        start_time:this.getDatetre( this.startTime1),
-  //        end_time:this.getDatetre(this.endTime1),
-  //        store_id:this.store_id,
-  //        page:1
-  //      }).then(res => {
-  //        console.log(res);
-  //        this.num = 2
-  //        this.list = res.list
-  //        uni.stopPullDownRefresh();
-  //      })
-  //   // this.getData(1,10,true).then(res => {
-  //   //    this.num = 2
-  //   //    this.list =  res.list
-  //   //     uni.stopPullDownRefresh();
-  //   // })
-  // },
+  onPullDownRefresh() {
+    console.log('refresh');
+    // this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),
+    this.$minApi.getTCList({
+         start_time:this.getDatetre( this.startTime1),
+         end_time:this.getDatetre(this.endTime1),
+         page:1,
+         isLoading:true
+       }).then(res => {
+         console.log(res);
+         this.nums = 2
+         this.list = res.list
+       })
+    this.$minApi.getTCAll({
+         start_time:this.getDatetre( this.startTime1),
+         end_time:this.getDatetre(this.endTime1),
+         isLoading:true
+      }).then(res => {
+        console.log(res);
+        this.total = res.total
+         uni.stopPullDownRefresh();
+      })
+  },
   mounted () {
     const time = new Date()
     const year = time.getFullYear()
@@ -168,16 +170,15 @@ export default {
      this.endTime1 = `${year}年${month}月${day*1 <=9 ? ('0'+(day*1 +1))  : (day*1 +1)}日`
      this.startTime = `${month}月${day}日 ${year}`
      this.endTime = `${month}月${day*1 <=9 ? ('0'+(day*1 +1))  : (day*1 +1)}日 ${year}`
-    this.getData(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),this.store_id,1)
-    this.getTall(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),this.store_id)
+    this.getData(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),1)
+    this.getTall(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1))
   },
   methods: {
     // 获取数据
-    getData(start_time,end_time,store_id,page,limit = 10){
+    getData(start_time,end_time,page,limit = 10){
        this.$minApi.getTCList({
          start_time,
          end_time,
-         store_id,
          page,
          limit
        }).then(res => {
@@ -186,11 +187,10 @@ export default {
        })
     },
     // 获取提成合计
-    getTall(start_time,end_time,store_id){
+    getTall(start_time,end_time){
       this.$minApi.getTCAll({
           start_time,
-          end_time,
-          store_id
+          end_time
       }).then(res => {
         console.log(res);
         this.total = res.total
@@ -269,8 +269,8 @@ export default {
       this.endTime1 = endtime
       this.value = []
       this.value.push(this.num)
-      this.getData(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),this.$store.state.user.userInfo.store_id,1)
-      this.getTall(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),this.store_id)
+      this.getData(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1),1)
+      this.getTall(this.getDatetre( this.startTime1), this.getDatetre(this.endTime1))
     },
     // 取消
     cancel () {

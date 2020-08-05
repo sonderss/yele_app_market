@@ -1,6 +1,11 @@
 
 <template>
-  <view class="index">
+  <view class="index" @touchstart="start" @touchmove="move" @touchend="end">
+    <scroll-view
+      scroll-y
+      :style="{transition: top === 0 ? 'transform 300ms':'',transform: 'translateY('+ top + 'rpx' +')'}"
+    >
+
     <view class="back-img-box" >
       <view class="info min-flex min-flex-main-between m-lr-30">
         <view class="min-flex min-flex-main-start">
@@ -18,6 +23,8 @@
     </view>
     <min-notice-bar :text="msg" @more="view_more" @detail="toDetail($event,'storeAnnouncement')"></min-notice-bar>
     <yele-grid :list="item.grid" v-for="(item,index) in list" :key="index"></yele-grid>
+
+    </scroll-view>
   </view>
 </template>
 
@@ -161,7 +168,9 @@ export default {
           ]
         }
       ],
-      msg:[]
+      msg:[],
+      top:'',
+      lastY:''
     };
   },
   computed: {
@@ -218,7 +227,30 @@ export default {
 				let res = await this.$minApi.getH5HTML({isLoading:true})
 				let url = unescape(res.url)
         this.$store.dispatch('status/setUrl',url)
-		},
+        console.log(url)
+    },
+     start(e) {
+      this.lastY = e.changedTouches[0].pageY;
+    },
+    move(e) {
+      let currentY = e.changedTouches[0].pageY;
+      if(this.top < currentY - this.lastY){
+        //   // 像下滚动
+        //  this.top = currentY - this.lastY;
+        //   this.flag = true
+      }else  {
+          // 向上滚动
+          //  this.top = 0
+          this.top = currentY - this.lastY;
+          this.flag = false
+      }
+    },
+    end(e) {
+      if(this.top >= 300){
+         this.$minRouter.push({ name: "seat",params:{url:'index'}});
+      }
+      return this.top = 0;
+    },
   },
   onLoad() {
     this.getStoreList()

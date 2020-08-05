@@ -29,7 +29,7 @@ export default {
   },
   onShow(){
     this.lastString = ''
-    this.$minApi.userInfo().then(res => {
+    this.$minApi.userInfo({isLoading:true}).then(res => {
       console.log(res)
       this.userInfo = res
       if(this.userInfo.bank_card_num){ this.getCardLast(this.userInfo.bank_card_num)}

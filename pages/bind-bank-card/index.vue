@@ -39,7 +39,7 @@ export default {
         this.$showToast('请输入正确的手机号码')
         return
       }
-      this.$minApi.getVerificationCode({ mobile: this.phone }).then(res => {
+      this.$minApi.getTLCode({ phone: this.phone,type:'9' }).then(res => {
         this.$showToast('发送成功')
         this.$minCommon.setCountDown((num) => { // 倒计时
           this.countDown = num

@@ -45,12 +45,12 @@
       <min-cell :card="false">
        <min-cell-item
           :isWidth="false"
-          title="身份" tail="带刀侍卫"
+          title="身份" :tail="userInfo.identity ? userInfo.identity : '暂无'"
           border :arrow="false"
         ></min-cell-item>
          <min-cell-item
           :isWidth="false"
-          title="上线" tail="原核弹爆炸中心见证人"
+          title="上线" :tail="userInfo.superior_name ? userInfo.superior_name : '暂无'"
           :border="false" :arrow="false"
         ></min-cell-item>
       </min-cell>
@@ -203,7 +203,8 @@ export default {
     },
     toSetPsd () {
       this.$minRouter.push({
-        name: 'set-cardpsd'
+        name: 'set-cardpsd',
+        params:{phone:  this.userInfo.mobile }
       })
     },
     // payMethods drawing-way

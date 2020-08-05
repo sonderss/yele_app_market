@@ -1,5 +1,11 @@
 <template>
-  <view class="platform-admin p-tb-20 p-lr-30">
+  <view class="platform-admin" @touchstart="start" @touchmove="move" @touchend="end">
+    <scroll-view
+      scroll-y
+      :style="{transition: top === 0 ? 'transform 300ms':'',transform: 'translateY('+ top + 'rpx' +')',}"
+      class=" p-tb-20 p-lr-30"
+    >
+
     <view class="btns">
       <view :class="status === item.value ? 'btn active' : 'btn'" @click="chioceItem(item.value)" v-for="(item,index) in title" :key="index">{{item.name}}</view>
     </view>
@@ -15,10 +21,28 @@
 	    </view>
 	  </view>
 	</view>
-    <min-popup size="height" :show="show" @close='close'>
-      <min-picker  @cancel="cancel" @sure="sure"></min-picker>
+    <min-popup :show="show" @close="close" heightSize="600" style="padding:0;margin:0">
+      <picker-view
+        :indicator-style="indicatorStyle"
+        :value="value"
+        @change="bindChange"
+        style="height:400rpx;"
+      >
+        <picker-view-column>
+          <view class="picker item" v-for="(item,index) in datas" :key="index">{{item}}</view>
+        </picker-view-column>
+      </picker-view>
+      <view class="btn_view">
+        <text @click="cancel">取消</text>
+        <view class="btn" @click="sure">确认</view>
+      </view>
     </min-popup>
+    <!-- <min-popup size="height" :show="show" @close='close'>
+      <min-picker  @cancel="cancel" @sure="sure"></min-picker>
+    </min-popup> -->
     <min-404 id="none" v-if="getDataChange.length === 0"></min-404>
+
+     </scroll-view>
   </view>
 </template>
 
@@ -49,7 +73,14 @@ export default {
       title: [],
       num: 0,
       status: 999,
-      testArrabc: []
+      testArrabc: [],
+      top:"",
+      lastY:'',
+       value: [],
+       datas:[],
+      indicatorStyle: `height: ${Math.round(
+        uni.getSystemInfoSync().screenWidth / (750 / 100)
+      )}rpx;`,
     }
   },
   onLoad () {
@@ -192,6 +223,31 @@ export default {
       })
        this.getData(a)
       // #endif
+    },
+    bindChange (e) {
+      this.num = e.detail.value[0]
+    },
+     start(e) {
+      this.lastY = e.changedTouches[0].pageY;
+    },
+    move(e) {
+      let currentY = e.changedTouches[0].pageY;
+      if(this.top < currentY - this.lastY){
+        //   // 像下滚动
+         this.top = currentY - this.lastY;
+          this.flag = true
+      }else  {
+          // 向上滚动
+          //  this.top = 0
+          this.top = currentY - this.lastY;
+          this.flag = false
+      }
+    },
+    end(e) {
+      if(this.top >= 300){
+        //  this.$minRouter.push({ name: "seat",params:{url:'index'}});
+      }
+      return this.top = 0;
     }
   }
 }

@@ -143,4 +143,6 @@ export default {
    getTiXian: data => minRequest.get('/5f1fd43420b23',data),
    // 提现详情 5f1fd4ace55b9?record_id=2
    getTiXianDetail: data => minRequest.get('/5f1fd4ace55b9',data),
+   // 获取通联短信验证码 5efeedfebed30
+   getTLCode: data => minRequest.get('/5efeedfebed30',data)
 }

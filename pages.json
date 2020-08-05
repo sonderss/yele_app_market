@@ -28,8 +28,21 @@
 			}
 		},
 		{
+			"path":"pages/width-draw/index",
+			"style": {
+			  "app-plus":{
+				"titleNView":{
+				  "titleText":"提现",
+				  "backgroundColor":"#030313",
+				  "titleColor":"#FFE001"
+				}
+			  }
+			}
+		  },
+		{
 			"path":"pages/release-record/index",
 			"style": {
+				"enablePullDownRefresh":true,
 			  "app-plus":{
 				"titleNView":{
 				  "titleText":"冻结明细",
@@ -62,7 +75,7 @@
 		{
 			"path":"pages/commission-details/index",
 			"style": {
-			  "enableDownRefresh":true,
+			  "enablePullDownRefresh":true,
 			  "app-plus":{
 				"titleNView":{
 				  "titleText":"提成明细",
@@ -87,6 +100,7 @@
 		{
 			"path":"pages/withdrawals-record/index",
 			"style": {
+				"enablePullDownRefresh":true,
 			  "app-plus":{
 				"titleNView":{
 				  "titleText":"提现记录",
@@ -177,6 +191,8 @@
 			"style": {
 				"navigationBarTitleText": "桌台管理",
 				"titleNView": {
+					"backgroundColor":"#030313",
+				  "titleColor":"#FFE001",
 					"buttons": [{
 						"text": "选择日期",
 						"fontSize": "14px",
