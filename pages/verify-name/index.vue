@@ -81,7 +81,9 @@ export default {
     },
     toFaceName(){
        if(!this.$minCommon.checkMobile(this.mobile)) return this.$showToast('请输入正确的手机号')
-       if(this.id_card.length < 19) return this.$showToast('银行卡格式不正确')
+       let str  =this.id_card + ''
+       if(str < 18) return this.$showToast('身份证号不正确')
+        // if(this.code.length !== 6)return this.$showToast('验证码格式错误')
        this.$minApi.postFace({
           mobile:this.mobile,
           id_card:this.id_card,

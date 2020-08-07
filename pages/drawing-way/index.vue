@@ -11,9 +11,11 @@
       <image class="nodata" src="/static/images/nodata.png"  />
       <view class="text">尚未绑定银行卡</view>
       <view class="bn">
-          <view class="btn" @click="toBangding">绑定银行卡</view>
+          <view class="btn" @click.stop="toBangding">绑定银行卡</view>
       </view>
+      <view @click="wqqw">sadsdsdasadasd</view>
     </view>
+    <web-view :src="url" v-if="url"></web-view>
   </view>
 </template>
 
@@ -24,7 +26,8 @@ export default {
   data () {
     return {
       userInfo:{},
-      lastString:""
+      lastString:"",
+      url:''
     }
   },
   onShow(){
@@ -33,7 +36,6 @@ export default {
       console.log(res)
       this.userInfo = res
       if(this.userInfo.bank_card_num){ this.getCardLast(this.userInfo.bank_card_num)}
-      
     })
   },
   methods: {
@@ -48,14 +50,32 @@ export default {
       }
     },
     toBangding () {
-      this.$minRouter.push({
-        name: 'authentication',
-        params:{isBind:true}
-      })
+      this.getVipInfo()
+      // this.$minRouter.push({
+      //   name: 'authentication',
+      //   params:{isBind:true}
+      // })
     },
     jiebang(){
       this.$minRouter.push({
         name:"authentication"
+      })
+    },
+    getVipInfo(){
+      this.$minApi.getUserVip().then(res =>{
+        console.log(res)
+        if(res.url){
+          // this.$store.dispatch('status/setvipUrl',res.url)
+           this.url = res.url
+          // this.$minRouter.push({
+          //   name:'webview'
+          // })
+        }else{
+           this.$minRouter.push({
+              name: 'authentication',
+              params:{isBind:true}
+            })
+        }
       })
     }
   }

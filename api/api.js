@@ -144,5 +144,7 @@ export default {
    // 提现详情 5f1fd4ace55b9?record_id=2
    getTiXianDetail: data => minRequest.get('/5f1fd4ace55b9',data),
    // 获取通联短信验证码 5efeedfebed30
-   getTLCode: data => minRequest.get('/5efeedfebed30',data)
+   getTLCode: data => minRequest.get('/5efeedfebed30',data),
+   //  会员协议 5f2a30778aafd
+   getUserVip: data =>  minRequest.get('/5f2a307e3b6bd',data)
 }
