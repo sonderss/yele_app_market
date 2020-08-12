@@ -1,29 +1,43 @@
 <template>
-<view>
-  <view class="submit-leads p-lr-30 p-tb-20" v-if="isData">
-  
-        <min-pcitem :list="list" :showArray="false"></min-pcitem>
-    <view class="m-tb-20"></view>
-    <min-cell class="mid-view" :card="false">
-      <min-desc-input desc="客户姓名" v-model="name1" sign="*" placeholder="请输入姓名" ></min-desc-input>
-      <min-desc-input desc="联系电话" v-model="phone" sign="*" placeholder="请输入联系电话"></min-desc-input>
+  <view>
+    <view class="submit-leads p-lr-30 p-tb-20" v-if="isData">
+      <min-pcitem :list="list" :showArray="false"></min-pcitem>
+      <view class="m-tb-20"></view>
+      <min-cell class="mid-view" :card="false">
+        <min-desc-input desc="客户姓名" v-model="name1" sign="*" placeholder="请输入姓名"></min-desc-input>
+        <min-desc-input desc="联系电话" v-model="phone" sign="*" placeholder="请输入联系电话"></min-desc-input>
 
-        <view @click="goChioce"> <min-desc-input sign="*"  desc="预约时间" :isRightRrrow="true"  :value="dates"  placeholder="请选择预约日期" :disabled="true"></min-desc-input></view>
-      <!-- <min-desc-input desc="预抵时间" sign="*"  :border="false" :value='shopDate' :isRightRrrow="true" placeholder="请选择到店日期" :disabled="true"></min-desc-input> -->
-        <min-collapse :list="date"  v-model="tsetvalue" @chioce="chioce" :nightArr="nightArr" :isKua="1"></min-collapse>
-      <view class="min-border-bottom"></view>
-      <min-switch desc="是否当天生日" v-model="isShengri" ></min-switch>
-    </min-cell>
-    <view class="m-tb-20"></view>
-    <min-remarks  v-model='value' @click="click" @blur="blur"></min-remarks>
-    <view class="empty-view"></view>
-    <view class="btn" v-if="table">
-      <min-btn :long="true" @click="submit" :opacity='false' >提交</min-btn>
+        <view @click="goChioce">
+          <min-desc-input
+            sign="*"
+            desc="预约时间"
+            :isRightRrrow="true"
+            :value="dates"
+            placeholder="请选择预约日期"
+            :disabled="true"
+          ></min-desc-input>
+        </view>
+        <!-- <min-desc-input desc="预抵时间" sign="*"  :border="false" :value='shopDate' :isRightRrrow="true" placeholder="请选择到店日期" :disabled="true"></min-desc-input> -->
+        <min-collapse
+          :list="date"
+          v-model="tsetvalue"
+          @chioce="chioce"
+          :nightArr="nightArr"
+          :isKua="1"
+        ></min-collapse>
+        <view class="min-border-bottom"></view>
+        <min-switch desc="是否当天生日" v-model="isShengri"></min-switch>
+      </min-cell>
+      <view class="m-tb-20"></view>
+      <min-remarks v-model="value" @click="click" @blur="blur"></min-remarks>
+      <view class="empty-view"></view>
+      <view class="btn" v-if="table">
+        <min-btn :long="true" @click="submit" :opacity="false">提交</min-btn>
+      </view>
+      <!-- <min-modal ref="test"></min-modal> -->
     </view>
-    <!-- <min-modal ref="test"></min-modal> -->
+    <min-404 v-if="!isData"></min-404>
   </view>
-  <min-404 v-if="!isData"></min-404>
-</view>
 </template>
 
 <script>
@@ -38,14 +52,14 @@ const nums = [
   { txt: '8座' },
   { txt: '10座' },
   { txt: '12座' },
-  { txt: '12座以上' }
+  { txt: '12座以上' },
 ]
 export default {
   name: 'submit-leads',
   navigate: ['navigateTo'],
-  data () {
+  data() {
     return {
-      list:{},
+      list: {},
       date: [],
       nightArr: [],
       current: Number,
@@ -62,28 +76,36 @@ export default {
       socketOpen: false,
       socketMsgQueue: [],
       id: '',
-      deskInfo: { desk_name: 'null', seats: 0, group_name: 'null', minim_charge: 'null' },
-      storeInfo: { head_img: '../../static/images/headurl60.png', store_name: 'null' },
+      deskInfo: {
+        desk_name: 'null',
+        seats: 0,
+        group_name: 'null',
+        minim_charge: 'null',
+      },
+      storeInfo: {
+        head_img: '../../static/images/headurl60.png',
+        store_name: 'null',
+      },
       bookingDate: {},
       storeSetting: {},
       nums,
       dates: '',
       isKua: Number,
-      isData: 123
+      isData: 123,
     }
   },
   computed: {
-    txt () {
+    txt() {
       const value = this.nums[this.deskInfo.seats].txt
       return value
-    }
+    },
   },
-  onLoad () {
+  onLoad() {
     // this.id = this.$parseURL().id
     console.log(this.$parseURL().item)
     this.list = this.$parseURL().item
   },
-  mounted () {
+  mounted() {
     // this.getData(this.id)
     //   .then(res => {
     //     console.log(res)
@@ -91,13 +113,16 @@ export default {
     //     this.storeInfo = res.storeInfo
     //     this.bookingDate = res.bookingDate
     //     this.storeSetting = res.storeSetting
-         //this.getDate(this.storeSetting.store_business_time.start, this.storeSetting.store_business_time.end)
+    //this.getDate(this.storeSetting.store_business_time.start, this.storeSetting.store_business_time.end)
     //   })business_start_time
-    this.getDate(this.list.store_config.business_start_time,this.list.store_config.business_end_time)
+    this.getDate(
+      this.list.store_config.business_start_time,
+      this.list.store_config.business_end_time
+    )
   },
   methods: {
     // 获取时间
-    getDate (start, end) {
+    getDate(start, end) {
       const ia = 30 * 60 * 1000
       if (this.list.store_config.business_is_cross !== 1) {
         // 没有跨天
@@ -142,50 +167,50 @@ export default {
       this.date = arr
       this.nightArr = brr
     },
-    chioce (n) {
+    chioce(n) {
       this.isKua = n
-      console.log(  this.isKua)
+      console.log(this.isKua)
     },
     // 提交
-    submit () {
+    submit() {
       /**
-         * 桌子Id  客户姓名  客户手机号  预约日期（例 2020-01-01）  预抵时间 （例 20:00）  是否生日（1否，2：是）  备注  是否跨天
-         */
+       * 桌子Id  客户姓名  客户手机号  预约日期（例 2020-01-01）  预抵时间 （例 20:00）  是否生日（1否，2：是）  备注  是否跨天
+       */
       let dates = this.dates
       const datesNum = this.dates.indexOf(' ')
       dates = dates.slice(0, datesNum)
       const data = {
-        store_id:  this.list.id,
+        store_id: this.list.id,
         client_name: this.name1,
         client_mobile: this.phone,
         business_date: dates,
         arrival_time: this.tsetvalue,
         is_birthday: this.isShengri ? 1 : 0,
         remark: this.value,
-        is_across: this.isKua 
+        is_across: this.isKua,
       }
       if (!data.client_name) {
         uni.showToast({
           title: '请输入姓名',
-          icon: 'none'
+          icon: 'none',
         })
       } else if (!this.$minCommon.checkMobile(data.client_mobile)) {
         uni.showToast({
           title: '请输入有效电话姓名',
-          icon: 'none'
+          icon: 'none',
         })
       } else if (!data.business_date) {
         uni.showToast({
           title: '请选择预定日期',
-          icon: 'none'
+          icon: 'none',
         })
       } else if (!data.arrival_time) {
         uni.showToast({
           title: '请选择预达时间',
-          icon: 'none'
+          icon: 'none',
         })
       } else {
-          console.log(data)
+        console.log(data)
         this.addData(data)
         // .then(res => {
         //   uni.navigateTo({
@@ -196,41 +221,39 @@ export default {
       }
     },
     // 提交
-    addData (data) {
-        this.$minApi.postClue(data).then(res => {
-              console.log(res)
-              if(res.length === 0){
-                  this.$showToast('提交成功')
-                  setTimeout(()=>{
-                     uni.redirectTo({
-                          url: '../my-clue/index'
-                      });
-                  },2000)
-              }
-          })
-      
+    addData(data) {
+      this.$minApi.postClue(data).then(res => {
+        console.log(res)
+        if (res.length === 0) {
+          this.$showToast('提交成功')
+          setTimeout(() => {
+            uni.redirectTo({
+              url: '../my-clue/index',
+            })
+          }, 2000)
+        }
+      })
     },
-    click () {
+    click() {
       this.table = false
     },
-    blur () {
+    blur() {
       console.log(this.table)
       this.table = true
     },
     // 选择预约日期
-    goChioce () {
+    goChioce() {
       this.$minRouter.push({
         name: 'reservation-date',
-        params: { store_id:  this.list.id }
+        params: { store_id: this.list.id },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .order-make {
- 
   .mid-view {
     width: 690rpx;
     height: auto;
@@ -253,7 +276,7 @@ export default {
   .chioce-date {
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     .chioce-date-item {
       width: 112rpx;
       height: 58rpx;
