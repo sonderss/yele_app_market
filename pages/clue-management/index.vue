@@ -28,20 +28,38 @@
               <image src="/static/images/phone.png" />
             </view>
           </view>
-          <view>预抵时间：{{item.business_date*1 ?  $minCommon.formatDate(new Date( item.business_date*1000),'yyyy/MM/dd hh:mm:ss') :'暂无数据' }}</view>
-          <view v-if="item.clue_status === 3">取消类型：{{item.cancel_type === 1 ? '系统自动取消(超时未到店)  ':'员工自动取消'}}</view>
+          <view>预抵时间：{{item.business_date*1 ? $minCommon.formatDate(new Date( item.business_date*1000),'yyyy/MM/dd hh:mm:ss') :'暂无数据' }}</view>
+          <view
+            v-if="item.clue_status === 3"
+          >取消类型：{{item.cancel_type === 1 ? '系统自动取消(超时未到店) ':'员工自动取消'}}</view>
           <view style="display:flex;justify-content: space-between;">
             <view style="width:130rpx">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注&nbsp;:</view>
             <view style="margin-left:18rpx;flex:1">{{item.remark}}</view>
           </view>
         </view>
-          <view :class="item.clue_status === 0 ? 'bottom_view_teshu  min-border-top':'bottom_view  min-border-top' ">
-            <view class="f28" v-if="item.clue_status !== 0">{{staus[item.clue_status].desc}}: {{$minCommon.formatDate(new Date(item.operating_time*1000),'yyyy/MM/dd hh:mm:ss')}}</view>
-            <view view class="btn  m-right-20" v-if="item.clue_status === 0" @click="ignore(item.id)">忽略</view>
-            <view view class="btn a" style="border:none" v-if="item.clue_status === 1 || item.clue_status === 0" @click="book(item.id)">预约</view>
-            <view view class="btn c" v-if="item.clue_status === 2" @click="desk(item.desk_id)">查看详情</view>
-            <view view class="btn d" v-if="item.clue_status === 3" @click="reBook(item.id)">重新预约</view>
-			    </view>
+        <view
+          :class="item.clue_status === 0 ? 'bottom_view_teshu  min-border-top':'bottom_view  min-border-top' "
+        >
+          <view
+            class="f28"
+            v-if="item.clue_status !== 0"
+          >{{staus[item.clue_status].desc}}: {{$minCommon.formatDate(new Date(item.operating_time*1000),'yyyy/MM/dd hh:mm:ss')}}</view>
+          <view
+            view
+            class="btn m-right-20"
+            v-if="item.clue_status === 0"
+            @click="ignore(item.id)"
+          >忽略</view>
+          <view
+            view
+            class="btn a"
+            style="border:none"
+            v-if="item.clue_status === 1 || item.clue_status === 0"
+            @click="book(item.id)"
+          >预约</view>
+          <view view class="btn c" v-if="item.clue_status === 2" @click="desk(item.desk_id)">查看详情</view>
+          <view view class="btn d" v-if="item.clue_status === 3" @click="reBook(item.id)">重新预约</view>
+        </view>
       </view>
     </view>
 
@@ -51,72 +69,79 @@
 
 <script>
 // 线索状态: 0 -待处理 1-已忽略 2-已预约 3-已取消
-	const staus = [{name:'待处理',desc:''},{name:'已忽略',desc:'忽略时间'},{name:'已预约',desc:"预约时间"},{name:'已取消',desc:"取消时间"}]
+const staus = [
+  { name: '待处理', desc: '' },
+  { name: '已忽略', desc: '忽略时间' },
+  { name: '已预约', desc: '预约时间' },
+  { name: '已取消', desc: '取消时间' },
+]
 export default {
-  name: "clue-management",
-  navigate: ["navigateTo"],
+  name: 'clue-management',
+  navigate: ['navigateTo'],
   data() {
     return {
       currten: 0,
       staus,
       list: [],
-      main: []
-    };
+      main: [],
+    }
   },
   mounted() {
     this.getData()
   },
   methods: {
-    getData(){
-        this.$minApi.getClueManagement().then(res => {
-          this.list = res;
-          console.log(this.list);
-          this.main = this.list[0].list;
-        });
+    getData() {
+      this.$minApi.getClueManagement().then(res => {
+        this.list = res
+        console.log(this.list)
+        this.main = this.list[0].list
+      })
     },
     active(n) {
-      this.currten = n;
-      this.main = this.list[n].list;
-      console.log(this.list[n]);
+      this.currten = n
+      this.main = this.list[n].list
+      console.log(this.list[n])
     },
     makePhone(e) {
       uni.makePhoneCall({
-        phoneNumber: e //仅为示例
-      });
+        phoneNumber: e, //仅为示例
+      })
     },
     // 忽略
-    ignore(clue_id){
-        this.$minApi.getIgnore({
-            clue_id
-        }).then(res=>{
+    ignore(clue_id) {
+      this.$minApi
+        .getIgnore({
+          clue_id,
+        })
+        .then(res => {
           console.log(res)
           this.$showToast('操作成功')
           setTimeout(() => {
             this.getData()
-          },2000)
+          }, 2000)
         })
     },
     // 预约
-    book(clue_id){
-        uni.navigateTo({
-          url:'../store/apin-store?clue_id='+clue_id
-        })
+    book(clue_id) {
+      uni.navigateTo({
+        url: '../store/apin-store?clue_id=' + clue_id,
+      })
     },
     // 查看详情
-    desk(id){
-        this.$minRouter.push({
-          name:"platform-detail",
-          params:{id}
-        })
+    desk(id) {
+      this.$minRouter.push({
+        name: 'platform-detail',
+        params: { id },
+      })
     },
     // 重新预约
-    reBook(clue_id){
-         uni.navigateTo({
-            url:'../store/apin-store?clue_id='+clue_id
-        })
-    }
-  }
-};
+    reBook(clue_id) {
+      uni.navigateTo({
+        url: '../store/apin-store?clue_id=' + clue_id,
+      })
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -129,20 +154,20 @@ export default {
   margin-bottom: 40rpx;
   .item {
     width: 158rpx;
-   padding: 12rpx 0;
+    height: 66rpx;
     background: #fff;
     border-radius: 5rpx;
     text-align: center;
-    line-height: 48rpx;
+    line-height: 66rpx;
     margin-bottom: 20rpx;
   }
   .item_active {
     width: 158rpx;
-    padding: 12rpx 0;
+    height: 66rpx;
     background: rgba(255, 224, 1, 1);
     border-radius: 5rpx;
     text-align: center;
-    line-height: 48rpx;
+    line-height: 66rpx;
     font-weight: bold;
     margin-bottom: 20rpx;
   }
@@ -183,47 +208,48 @@ export default {
     }
   }
 }
-.bottom_view{
-	  height: 80rpx;line-height: 77rpx;
-	  display: flex;
-	  justify-content: space-between;
-	  align-items: center;
-	  .btn{
-		  width:142rpx;
-			height:58rpx;
-			background:rgba(255,255,255,1);
-			border:1rpx solid rgba(231,231,231,1);
-			border-radius:10rpx;
-			text-align: center;
-			line-height: 58rpx;
-			font-size: 26rpx;
-	  }
-    .a{
-      width:142rpx;
-			height:58rpx;
-			background:rgba(255,255,255,1);
-			border-radius:10rpx;
-			text-align: center;
-			line-height: 58rpx;
-			font-size: 26rpx;
-      background: #FFE001;
-    }
+.bottom_view {
+  height: 80rpx;
+  line-height: 77rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .btn {
+    width: 142rpx;
+    height: 58rpx;
+    background: rgba(255, 255, 255, 1);
+    border: 1rpx solid rgba(231, 231, 231, 1);
+    border-radius: 10rpx;
+    text-align: center;
+    line-height: 58rpx;
+    font-size: 26rpx;
   }
-  .bottom_view_teshu{
-	  height: 80rpx;line-height: 77rpx;
-	  display: flex;
-	  justify-content: flex-end;
-	  align-items: center;
-	  .btn{
-		    width:142rpx;
-			height:58rpx;
-			background:rgba(255,255,255,1);
-			border:1rpx solid rgba(231,231,231,1);
-			border-radius:10rpx;
-			text-align: center;
-			line-height: 58rpx;
-			font-size: 26rpx;
-	  }
-    
+  .a {
+    width: 142rpx;
+    height: 58rpx;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10rpx;
+    text-align: center;
+    line-height: 58rpx;
+    font-size: 26rpx;
+    background: #ffe001;
   }
+}
+.bottom_view_teshu {
+  height: 80rpx;
+  line-height: 77rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  .btn {
+    width: 142rpx;
+    height: 58rpx;
+    background: rgba(255, 255, 255, 1);
+    border: 1rpx solid rgba(231, 231, 231, 1);
+    border-radius: 10rpx;
+    text-align: center;
+    line-height: 58rpx;
+    font-size: 26rpx;
+  }
+}
 </style>

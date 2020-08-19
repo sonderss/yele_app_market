@@ -1,139 +1,141 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/start",
 			"style": {
-			  "app-plus": {"titleNView": false}
+				"app-plus": {
+					"titleNView": false
+				}
 			}
-      },
+		},
 		{
 			"path": "pages/login/index",
 			"style": {
 				"app-plus": {
-					"titleNView": false
+					"titleNView": false,
+					"bounce":"none"
 				},
-				"navigationBarTextStyle":"black"
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
-		  "path": "pages/set-cardpsd/index",
+			"path": "pages/set-cardpsd/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"设置提现密码",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "设置提现密码",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
-			"path":"pages/width-draw/index",
+			"path": "pages/width-draw/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"提现",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提现",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
-			"path":"pages/release-record/index",
+			"path": "pages/release-record/index",
 			"style": {
-				"enablePullDownRefresh":true,
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"冻结明细",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
-				//   "buttons":[
-				//  {
-				//    "width":"auto",
-				//    "text": "全部门店\ue6b2",
-				//    "fontSize":"28rpx",
-				//    "fontSrc":"/static/font/iconfont.ttf"
-				//  }
-				//   ]
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"titleText": "冻结明细",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+						//   "buttons":[
+						//  {
+						//    "width":"auto",
+						//    "text": "全部门店\ue6b2",
+						//    "fontSize":"28rpx",
+						//    "fontSrc":"/static/font/iconfont.ttf"
+						//  }
+						//   ]
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
-			"path":"pages/commission-deils/index",
+			"path": "pages/commission-deils/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"提成详情",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提成详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
-			"path":"pages/commission-details/index",
+			"path": "pages/commission-details/index",
 			"style": {
-			  "enablePullDownRefresh":true,
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"提成明细",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提成明细",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
-			"path":"pages/salary-details/index",
+			"path": "pages/salary-details/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"工资详情",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "工资详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
-			"path":"pages/withdrawals-record/index",
+			"path": "pages/withdrawals-record/index",
 			"style": {
-				"enablePullDownRefresh":true,
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"提现记录",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提现记录",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
-		  {
-			"path":"pages/withdrawals-d/index",
-			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"提现详情",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
-				}
-			  }
-			}
-		  },
+		},
 		{
-			"path":"pages/my-income/index",
+			"path": "pages/withdrawals-d/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"我的收入",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "提现详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
+		{
+			"path": "pages/my-income/index",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "我的收入",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
 		{
 			"path": "pages/pay-code/index",
 			"style": {
@@ -141,31 +143,31 @@
 					"titleNView": false
 				}
 			}
-		  },
+		},
 		{
 			"path": "pages/bind-bank-card/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"绑定银行卡",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "绑定银行卡",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
-		  {
+		},
+		{
 			"path": "pages/token-phone/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"验证原手机号",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "验证原手机号",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
 			"path": "pages/page",
 			"style": {
@@ -175,24 +177,24 @@
 			}
 		},
 		{
-			"path":"pages/authentication/index",
+			"path": "pages/authentication/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"身份验证",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "身份验证",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
 			"path": "pages/platform-admin/index",
 			"style": {
 				"navigationBarTitleText": "桌台管理",
 				"titleNView": {
-					"backgroundColor":"#030313",
-				  "titleColor":"#FFE001",
+					"backgroundColor": "#030313",
+					"titleColor": "#FFE001",
 					"buttons": [{
 						"text": "选择日期",
 						"fontSize": "14px",
@@ -348,9 +350,9 @@
 
 			"style": {
 				"navigationStyle": "custom",
-				"backgroundColor":"#000",
-				"app-plus":{
-					"background":"#000"
+				"backgroundColor": "#000",
+				"app-plus": {
+					"background": "#000"
 				}
 			}
 		},
@@ -403,8 +405,9 @@
 						"titleText": "选择门店",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001",
-						"buttons":[{
-							"text":"按线索订台",
+						"fontWeight": "bloder",
+						"buttons": [{
+							"text": "按线索订台",
 							"fontSize": "14px",
 							"width": "auto"
 						}]
@@ -509,77 +512,77 @@
 			}
 		},
 		{
-			"path":"pages/reservation-success/index",
+			"path": "pages/reservation-success/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"支付成功",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "支付成功",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
-			"path":"pages/package-details/index",
+			"path": "pages/package-details/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"套餐详情",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "套餐详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
-			"path":"pages/packages-detail/index",
+			"path": "pages/packages-detail/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"套餐详情2级",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "套餐详情2级",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
 			"path": "pages/product-details/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"商品详情",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "商品详情",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
 			"path": "pages/placean-order/orderstart",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"确认订单",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "确认订单",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
 		},
 		{
 			"path": "pages/placean-order/index",
 			"style": {
-			  "app-plus":{
-				"titleNView":{
-				  "titleText":"下单",
-				  "backgroundColor":"#030313",
-				  "titleColor":"#FFE001"
+				"app-plus": {
+					"titleNView": {
+						"titleText": "下单",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
 				}
-			  }
 			}
-		  },
+		},
 		{
 			"path": "pages/announcement-detail/index",
 			"style": {
@@ -644,7 +647,8 @@
 			"path": "pages/index/index",
 			"style": {
 				"app-plus": {
-					"titleNView": false
+					"titleNView": false,
+					"bounce":"none"
 				}
 			}
 		},

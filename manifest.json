@@ -53,7 +53,8 @@
             "ios" : {},
             /* ios打包配置 */
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "share" : {}
             },
             "icons" : {
                 "android" : {
@@ -119,11 +120,11 @@
                     "storyboard" : "C:/Users/Administrator/Desktop/CustomStoryboard.zip"
                 },
                 "android" : {
-                    "hdpi" : "C:/Users/Administrator/Desktop/one.png",
-                    "xhdpi" : "C:/Users/Administrator/Desktop/one.png",
-                    "xxhdpi" : "C:/Users/Administrator/Desktop/one.png"
+                    "hdpi" : "unpackage/res/drawable-hdpi/splash.9.png",
+                    "xhdpi" : "unpackage/res/drawable-xhdpi/splash.9.png",
+                    "xxhdpi" : "unpackage/res/drawable-xxhdpi/splash.9.png"
                 },
-                "iosStyle" : "default"
+                "iosStyle" : "common"
             }
         }
     },

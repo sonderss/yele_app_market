@@ -3,25 +3,45 @@
     <scroll-view
       scroll-y
       :style="{transition: top === 0 ? 'transform 300ms':'',transform: 'translateY('+ top + 'rpx' +')',}"
-      class=" p-tb-20 p-lr-30"
+      class="p-tb-20 p-lr-30"
     >
-
-    <view class="btns">
-      <view :class="status === item.value ? 'btn active' : 'btn'" @click="chioceItem(item.value)" v-for="(item,index) in title" :key="index">{{item.name}}</view>
-    </view>
-	<view class="platform-wrap" v-for="i in getDataChange" :key="i.id">
-	  <view class="title">
-		  <min-cell-item :border="false" :img="i.head_img" :title="`${i.store_name}`" :label="i.address"></min-cell-item>
-	  </view>
-	  <view class="list">
-	    <view class="item" :class="statusArr[item.desk_status].class" v-for="(item, index) in i.desk_lists" :key="index"  @click="goDetail(item.id,item.desk_status)">
-	      <view class="name">{{item.desk_name}}</view>
-	      <view class="status">{{statusArr[item.desk_status].name}}</view>
-	      <view class="count">{{item.amount ? `$ ${item.amount}`:'未消费'}}</view>
-	    </view>
-	  </view>
-	</view>
-    <min-popup :show="show" @close="close" heightSize="600" style="padding:0;margin:0">
+      <view class="btns">
+        <view
+          :class="status === item.value ? 'btn active' : 'btn'"
+          @click="chioceItem(item.value)"
+          v-for="(item,index) in title"
+          :key="index"
+        >{{item.name}}</view>
+      </view>
+      <view class="platform-wrap" v-for="i in getDataChange" :key="i.id">
+        <view class="title">
+          <min-cell-item
+            :border="false"
+            :img="i.head_img"
+            :title="`${i.store_name}`"
+            :label="i.address"
+          ></min-cell-item>
+        </view>
+        <view class="list">
+          <view
+            class="item"
+            :class="statusArr[item.desk_status].class"
+            v-for="(item, index) in i.desk_lists"
+            :key="index"
+            @click="goDetail(item.id,item.desk_status)"
+          >
+            <view class="name">{{item.desk_name}}</view>
+            <view class="status">{{statusArr[item.desk_status].name}}</view>
+            <view class="count">{{item.amount ? `$ ${item.amount}`:'未消费'}}</view>
+          </view>
+        </view>
+      </view>
+      <!-- <min-popup size="height" :show="show" @close='close'>
+      <min-picker  @cancel="cancel" @sure="sure"></min-picker>
+      </min-popup>-->
+      <min-404 id="none" v-if="getDataChange.length === 0"></min-404>
+    </scroll-view>
+    <min-popup :show="show" @close="close" heightSize="600">
       <picker-view
         :indicator-style="indicatorStyle"
         :value="value"
@@ -34,15 +54,9 @@
       </picker-view>
       <view class="btn_view">
         <text @click="cancel">取消</text>
-        <view class="btn" @click="sure">确认</view>
+        <view class="btn" @click.stop="sures">确认</view>
       </view>
     </min-popup>
-    <!-- <min-popup size="height" :show="show" @close='close'>
-      <min-picker  @cancel="cancel" @sure="sure"></min-picker>
-    </min-popup> -->
-    <min-404 id="none" v-if="getDataChange.length === 0"></min-404>
-
-     </scroll-view>
   </view>
 </template>
 
@@ -57,16 +71,16 @@ const statusArr = [
   { name: '点单中', class: 'in-order' },
   { name: '待确认', class: 'be-confirm' },
   { name: '已开台', class: 'been-open' },
-  { name: '清台中', class: 'leisure' }
+  { name: '清台中', class: 'leisure' },
 ]
 // 座位数量:0 - 未选,1 - 1座，2 - 2座，3 - 3座，4 - 4座，5 - 6座，6 - 8座，7 - 10座，8 - 12座，9 - 12座以上
 export default {
   name: 'redplatform-admin',
-  navigate: ['navigateTo', 'switchTab','redirectTo'],
-  data () {
+  navigate: ['navigateTo', 'switchTab', 'redirectTo'],
+  data() {
     return {
       statusArr,
-      list: {desks:[]},
+      list: { desks: [] },
       mines: [],
       show: false,
       date: '',
@@ -74,16 +88,16 @@ export default {
       num: 0,
       status: 999,
       testArrabc: [],
-      top:"",
-      lastY:'',
-       value: [],
-       datas:[],
+      top: '',
+      lastY: '',
+      value: [],
+      datas: [],
       indicatorStyle: `height: ${Math.round(
         uni.getSystemInfoSync().screenWidth / (750 / 100)
       )}rpx;`,
     }
   },
-  onLoad () {
+  onLoad() {
     const month = new Date().getMonth() + 1
     const day = new Date().getDate()
     // const year = new Date().getFullYear()
@@ -96,29 +110,31 @@ export default {
     const titleObj = currentWebview.getStyle().titleNView
     titleObj.buttons[0].text = `${month}月${day}日`
     currentWebview.setStyle({
-      titleNView: titleObj
+      titleNView: titleObj,
     })
     // #endif
+    this.datas = this.getBookTimes()
   },
-  mounted () {
+  mounted() {
     // this.getData(this.date)
     // this.getData('2020-3-18')
   },
-  onShow(){
+  onShow() {
     this.getData(this.date)
   },
-  onNavigationBarButtonTap () {
+  onNavigationBarButtonTap() {
     this.show = !this.show
   },
   computed: {
     // 返回数组
-    getDataChange () {
-      
-      return   this.filterData((this.list.desks)).length > 0 ?  this.filterData((this.list.desks)) : []
-    }
+    getDataChange() {
+      return this.filterData(this.list.desks).length > 0
+        ? this.filterData(this.list.desks)
+        : []
+    },
   },
   methods: {
-    newArr (arr) {
+    newArr(arr) {
       let brr = {}
       const newArr = []
       arr.map(item => {
@@ -130,7 +146,7 @@ export default {
       return newArr
     },
     // 封装一个筛选函数
-    filterData (array) {
+    filterData(array) {
       let arr = []
       // 定义一个分组，任何改变都根据这个分组来操作]
       let newListDesk = []
@@ -148,9 +164,17 @@ export default {
         // 去除新组重复的项
         newListDesk = this.newArr(newListDesk)
         let arrData = []
-        // 去除具体项不符合的条件 
+        // 去除具体项不符合的条件
         newListDesk.map((item, index) => {
-          const obj = { desk_lists: [], id: item.id, store_name: item.store_name,address: item.address, head_img:item.head_img,hours:item.hours,id:item.id,}
+          const obj = {
+            desk_lists: [],
+            id: item.id,
+            store_name: item.store_name,
+            address: item.address,
+            head_img: item.head_img,
+            hours: item.hours,
+            id: item.id,
+          }
           item.desk_lists.map(item2 => {
             if (item2.desk_status === this.status) {
               obj.desk_lists.push(item2)
@@ -165,7 +189,7 @@ export default {
       return arr
     },
     // 导航选中事件
-    chioceItem (status) {
+    chioceItem(status) {
       // 已预约 status 3
       this.status = status
       /**
@@ -176,8 +200,9 @@ export default {
        */
     },
     // 获取数据
-    getData (date) {
-      this.$minApi.TableList({ date })
+    getData(date) {
+      this.$minApi
+        .TableList({ date })
         .then(res => {
           this.list = res
           this.mines = res.desks
@@ -191,25 +216,49 @@ export default {
         })
     },
     // 台详情
-    goDetail (id, status) {
+    goDetail(id, status) {
       this.$minRouter.push({
         name: 'platform-detail',
-        params: { id: id,date: this.date }
+        params: { id: id, date: this.date },
       })
     },
+    // 获取预约时间
+    getBookTimes() {
+      let now = new Date()
+      let now_day = now.getDay()
+      let now_time = now.getTime()
+      let result = [0, 1, 2, 3, 4, 5, 6]
+      return result.map(
+        i =>
+          `${new Date(
+            now_time + 24 * 60 * 60 * 1000 * i - now_day
+          ).getFullYear()}-${
+            new Date(now_time + 24 * 60 * 60 * 1000 * i - now_day).getMonth() +
+            1
+          }-${new Date(now_time + 24 * 60 * 60 * 1000 * i - now_day).getDate()}`
+      )
+    },
     // 日期选择器关闭
-    close () {
+    close() {
       this.show = false
     },
     // 日期选择器取消
-    cancel () {
+    cancel() {
       this.close()
     },
+    bindChange(e) {
+      this.num = e.detail.value[0]
+    },
     // 日期选择器确认
-    sure (e) {
-      this.date = e.b + '月' + e.c + '日'
-        let a = e.a + '-'+e.b+'-'+e.c
-      this.date = e.b + '月' + e.c + '日'
+    sures(e) {
+      let a = this.datas[this.num]
+      this.date = a
+      console.log(this.date)
+      let ti = this.date.split('-')
+      let t = ti[1] + '月' + ti[2] + '日'
+      this.value = []
+      this.value.push(this.num)
+      this.show = false
       console.log(this.date)
       // #ifdef APP-PLUS
       const pages = getCurrentPages()
@@ -217,42 +266,39 @@ export default {
       const currentWebview = page.$getAppWebview()
       const titleObj = currentWebview.getStyle().titleNView
       titleObj.buttons[0].text = ''
-      titleObj.buttons[0].text = this.date
+      titleObj.buttons[0].text = t
       currentWebview.setStyle({
-        titleNView: titleObj
+        titleNView: titleObj,
       })
-       this.getData(a)
       // #endif
+      this.getData(a)
     },
-    bindChange (e) {
-      this.num = e.detail.value[0]
-    },
-     start(e) {
-      this.lastY = e.changedTouches[0].pageY;
+    start(e) {
+      this.lastY = e.changedTouches[0].pageY
     },
     move(e) {
-      let currentY = e.changedTouches[0].pageY;
-      if(this.top < currentY - this.lastY){
+      let currentY = e.changedTouches[0].pageY
+      if (this.top < currentY - this.lastY) {
         //   // 像下滚动
-         this.top = currentY - this.lastY;
-          this.flag = true
-      }else  {
-          // 向上滚动
-          //  this.top = 0
-          this.top = currentY - this.lastY;
-          this.flag = false
+        this.top = currentY - this.lastY
+        this.flag = true
+      } else {
+        // 向上滚动
+        //  this.top = 0
+        this.top = currentY - this.lastY
+        this.flag = false
       }
     },
     end(e) {
-      if(this.top >= 300){
+      if (this.top >= 300) {
         //  this.$minRouter.push({ name: "seat",params:{url:'index'}});
       }
-      return this.top = 0;
-    }
-  }
+      return (this.top = 0)
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-@import  './index.scss';
+@import './index.scss';
 </style>

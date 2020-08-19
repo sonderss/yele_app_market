@@ -95,6 +95,8 @@ export default {
   fileUpLoad: data => minRequest.post('/5ebdf239b49c2', data),
   // 我的下线 5eb7b9fc73cb3
   myDownLine: () => minRequest.get('/5eb7b9fc73cb3'),
+  // 我的下线列表  5f363a8bb6d05?condition=&time_order=2&commission_order=1&limit=10&page=1
+  getMyDownLineList: data => minRequest.get('/5f363a8bb6d05', data),
   // 查询订单状态 5ebf582732acc?order_id=404
   getOrderStatus: data => minRequest.get('/5ebf582732acc', data),
   // 获取H5页面路径

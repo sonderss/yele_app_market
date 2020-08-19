@@ -8,7 +8,7 @@
     <view class="m-lr-30 p-lr-30">
       <view class="inp p-left-30 min-flex min-flex-main-start min-border-bottom">
         <image class="icon" src="/static/images/login/user.png"></image>
-        <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="11">
+        <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="11" :adjust-position="false">
         <view class="clear-icon" v-show="mobile" @click="mobile = ''">
           <image src="/static/images/clear.png"></image>
         </view>
@@ -16,7 +16,7 @@
       <view class="inp p-left-30 min-flex min-flex-main-between min-border-bottom">
         <view class="min-flex min-flex-main-start">
           <image class="icon" src="/static/images/login/lock.png"></image>
-          <input type="number" maxlength="6" v-model="code" placeholder="请输入验证码">
+          <input type="number" maxlength="6" v-model="code" placeholder="请输入验证码" :adjust-position="false">
         </view>
         <view class="code" @click="getVerificationCode" v-if="countDown === 0">获取验证码</view>
         <view v-else>{{countDown}} s</view>
@@ -37,15 +37,22 @@ export default {
   data () {
     return {
       countDown: 0,
-      code: '521125',
-      mobile: '13112233445'
+      code: '',
+      mobile: ''
     }
   },
   onLoad(){
-    if(!this.$store.state.status.dev){
-       this.code = ''
-       this.mobile = ''
-    }
+    uni.getStorage({
+      key: 'userInfo',
+      success: res => {
+        console.log(JSON.parse(res.data))
+        this.mobile = JSON.parse(res.data).phone
+      }
+    })
+    // if(!this.$store.state.status.dev){
+    //    this.code = ''
+    //    this.mobile = ''
+    // }
   },
   methods: {
     getVerificationCode () { // 获取验证码
@@ -62,6 +69,15 @@ export default {
       if (!this.$minCommon.checkMobile(this.mobile) || this.code.length !== 6) return this.$showToast('请正确填写信息')
       this.$minApi.login({ mobile: this.mobile, code: this.code }).then(res => {
         this.$showToast('登录成功')
+          uni.setStorage({
+            key: 'userInfo',
+            data: JSON.stringify({
+              phone: this.mobile,
+            }),
+            success: function () {
+              console.log('success')
+            },
+          })
         setTimeout(() => {
           this.$store.dispatch('user/setUserInfo', res)
           uni.redirectTo({

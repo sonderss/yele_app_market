@@ -1,61 +1,56 @@
 <template>
   <view class="order-make p-tb-20 p-lr-30">
-            <min-pcitem desk  :list="$parseURL().store" />
-            <view class="goods-wrap m-top-20 p-lr-20">
-                <view class="p-tb-30 min-border-bottom">
-                    商品
-                    <view
-                    class="status"
-                    :class="$minCommon.getOrderStatus(2).color"
-                    ></view>
-                </view>
-                <view class="content p-top-10" v-if="products.length === 0">
-                       <view class="product_btn" @click="toOrder">
-                        去选购商品 >>
-                       </view>
-                </view>
-                <view class="goods-list p-top-10" v-if="products.length >= 1">
-                    <view class="m-tb-20" v-for="item in products" :key="item.id">
-                        <min-goods-item
-                            :name='item.product_name'
-                            :price="item.order_price"
-                            :icon="item.product_img"
-                            :specification="item.sku"
-                            :value="item.quantity"
-                        ></min-goods-item>
-                    </view>
-                </view>
-            </view>
+    <min-pcitem desk :list="$parseURL().store" :isBorder="false" />
+    <view class="goods-wrap m-top-20 p-lr-20">
+      <view class="p-tb-30 min-border-bottom">
+        商品
+        <view class="status" :class="$minCommon.getOrderStatus(2).color"></view>
+      </view>
+      <view class="content p-top-10" v-if="products.length === 0">
+        <view class="product_btn" @click="toOrder">去选购商品 >></view>
+      </view>
+      <view class="goods-list p-top-10" v-if="products.length >= 1">
+        <view class="m-tb-20" v-for="item in products" :key="item.id">
+          <min-goods-item
+            :name="item.product_name"
+            :price="item.order_price"
+            :icon="item.product_img"
+            :specification="item.sku"
+            :value="item.quantity"
+          ></min-goods-item>
+        </view>
+      </view>
+    </view>
 
-            <view class="card p-lr-20 m-tb-20">
-                <view class="p-tb-30 min-border-bottom">台位信息</view>
-                <view class="main p-tb-20">
-                    <view>
-                    台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
-                    <text class="emp">{{$parseURL().desk.desk_name}}</text>
-                    </view>
-                    <view>低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{$parseURL().desk.minimum_consume}}</view>
-                </view>
-            </view>
+    <view class="card p-lr-20 m-tb-20">
+      <view class="p-tb-30 min-border-bottom">台位信息</view>
+      <view class="main p-tb-20">
+        <view>
+          台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+          <text class="emp">{{$parseURL().desk.desk_name}}</text>
+        </view>
+        <view>低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{$parseURL().desk.minimum_consume}}</view>
+      </view>
+    </view>
 
-            <view class="card p-lr-20 m-tb-20">
-                <view class="p-tb-30 min-border-bottom">客户信息</view>
-                <view class="main p-tb-20">
-                    <view>
-                    客户姓名：
-                    <text class="">{{$parseURL().desk.client_name?$parseURL().desk.client_name:"暂无"}}</text>
-                    </view>
-                    <view>联系电话：{{$parseURL().desk.client_mobile?$parseURL().desk.client_mobile:'暂无'}}</view>
-                </view>
-            </view>
+    <view class="card p-lr-20 m-tb-20">
+      <view class="p-tb-30 min-border-bottom">客户信息</view>
+      <view class="main p-tb-20">
+        <view>
+          客户姓名：
+          <text class>{{$parseURL().desk.client_name?$parseURL().desk.client_name:"暂无"}}</text>
+        </view>
+        <view>联系电话：{{$parseURL().desk.client_mobile?$parseURL().desk.client_mobile:'暂无'}}</view>
+      </view>
+    </view>
 
-        <min-goods-submit 
-         buttonText="去支付"
-         :bgCor="products.length !== 0 ?  '' : '#CCC' "
-          :totalAmount='totalAmountE'
-         @submit="submit"
-        />
-       <!-- 支付弹窗 -->
+    <min-goods-submit
+      buttonText="去支付"
+      :bgCor="products.length !== 0 ?  '' : '#CCC' "
+      :totalAmount="totalAmountE"
+      @submit="submit"
+    />
+    <!-- 支付弹窗 -->
     <min-popup :show="showPayPop" @close="closePayPop" heightSize="500">
       <view class="p-lr-30">
         <view class="top_view min-border-bottom">
@@ -71,178 +66,185 @@
 
 <script>
 export default {
-        name:"order-make",
-        navigate:["navigateTo"],
-        data(){
-            return{
-                list:{},
-                products:[],
-                totalAmountE:"",
-                payType:1,
-                showPayPop:false
-            }
-        },
-        mounted(){
-          // this.products = this.$store.state.goods.orderSelArr
-        },
-        onShow(){
-          console.log(this.$parseURL())
-          if(this.$parseURL().orderId){
-              this.$minApi.previewOrder({
-                order_id:this.$parseURL().orderId,
-                desk_id:this.$parseURL().desk.id,
-                isLoading:true
-              }).then(res=>{
-                this.products = res.order_product_list
-                this.totalAmountE = res.order_info.order_total
-              })
-          }
-        },
-        methods:{
-            // 支付弹窗
-            submit () {
-              if(this.products.length === 0) return this.$showToast('请选择商品')
-              this.showPayPop = true
-            },
-            closePayPop () {
-              this.showPayPop = false
-            },
-            toOrder(){
+  name: 'order-make',
+  navigate: ['navigateTo'],
+  data() {
+    return {
+      list: {},
+      products: [],
+      totalAmountE: '',
+      payType: 1,
+      showPayPop: false,
+    }
+  },
+  mounted() {
+    // this.products = this.$store.state.goods.orderSelArr
+  },
+  onShow() {
+    console.log(this.$parseURL())
+    if (this.$parseURL().orderId) {
+      this.$minApi
+        .previewOrder({
+          order_id: this.$parseURL().orderId,
+          desk_id: this.$parseURL().desk.id,
+          isLoading: true,
+        })
+        .then(res => {
+          this.products = res.order_product_list
+          this.totalAmountE = res.order_info.order_total
+        })
+    }
+  },
+  methods: {
+    // 支付弹窗
+    submit() {
+      if (this.products.length === 0) return this.$showToast('请选择商品')
+      this.payType = 1
+      this.showPayPop = true
+    },
+    closePayPop() {
+      this.showPayPop = false
+    },
+    toOrder() {
+      this.$minRouter.push({
+        name: 'placean-order',
+        params: { data: this.$parseURL() },
+      })
+    },
+    // 弹窗
+    pay_money() {
+      console.log(this.payType)
+      // if(this.payType === 1 || this.payType === 2){
+      //     this.$minRouter.push({
+      //       name:"pay-code"
+      //     })
+      // }else{
+      this.$minApi
+        .confirmOrder({
+          order_id: this.$parseURL().orderId,
+          desk_id: this.$parseURL().desk.id,
+          payment_id: this.payType,
+        })
+        .then(res => {
+          console.log(res)
+          if (!res.paid) {
+            // this.$showToast('第三方支付开发中')
+            this.closePayPop()
+            this.$minRouter.push({
+              name: 'pay-code',
+              params: {
+                info: {
+                  payment_id: this.payType,
+                  money: this.totalAmountE,
+                  desk_name: this.$parseURL().desk.desk_name,
+                },
+                data: res.payParam,
+                id: res.id,
+                order_id: this.$parseURL().order_id,
+              },
+            })
+          } else {
+            this.closePayPop()
+            this.$showToast('支付成功')
+            setTimeout(() => {
               this.$minRouter.push({
-                name:"placean-order",
-                params:{data:this.$parseURL()}
+                name: 'redreservation-success',
+                type: 'redirectTo',
+                params: { order_id: this.$parseURL().orderId },
               })
-            },
-            // 弹窗
-            pay_money () {
-              console.log(this.payType);
-              // if(this.payType === 1 || this.payType === 2){
-              //     this.$minRouter.push({
-              //       name:"pay-code"
-              //     })
-              // }else{
-                this.$minApi
-                .confirmOrder({
-                  order_id:this.$parseURL().orderId,
-                  desk_id: this.$parseURL().desk.id,
-                  payment_id: this.payType
-                })
-                .then(res => {
-                  console.log(res)
-                  if(!res.paid){
-                        // this.$showToast('第三方支付开发中')
-                        this.closePayPop()
-                        this.$minRouter.push({
-                          name:"pay-code",
-                          params:{
-                            info:{ payment_id: this.payType,money:this.totalAmountE,desk_name:this.$parseURL().desk.desk_name},
-                            data: res.payParam,
-                            id:res.id,
-                            order_id:this.$parseURL().order_id
-                          }
-                        })
-                  }else{
-                    this.closePayPop()
-                    this.$showToast('支付成功')
-                    setTimeout(() => {
-                         this.$minRouter.push({
-                           name:'redreservation-success',
-                           type:'redirectTo',
-                           params:{order_id:this.$parseURL().orderId}
-                         })
-                    },2000)
-                  }
-                })
-            },
-        },
-        onLoad(){
-            console.log(this.$parseURL())
-        }
+            }, 2000)
+          }
+        })
+    },
+  },
+  onLoad() {
+    console.log(this.$parseURL())
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .goods-wrap {
-    background: #fff;
-    padding-bottom: 20rpx;
-    .status {
-      float: right;
-      &.cancel,
-      &.return {
-        color: #333333;
-      }
-      &.not-produce {
-        color: #0090ff;
-      }
+  background: #fff;
+  padding-bottom: 20rpx;
+  .status {
+    float: right;
+    &.cancel,
+    &.return {
+      color: #333333;
     }
-    .count {
-      float: right;
+    &.not-produce {
+      color: #0090ff;
     }
   }
-.content{
-    width:100%;
-    height:288rpx;
-    background:rgba(255,255,255,1);
-    border-radius:10rpx;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .product_btn{
-        width:248rpx;
-        height:68rpx;
-        background:rgba(255,224,1,1);
-        border-radius:10rpx;
-        font-size: 28rpx;
-        line-height: 68rpx;
-        text-align: center;
-    }
+  .count {
+    float: right;
+  }
 }
-.card{
-    background: #fff;
-    border-radius: 10rpx;
-    .main{
-      position: relative;
-      &>view{
-        margin-bottom: 10rpx;
-        &:last-child{
-          margin: 0;
-        }
-      }
-      .emp{
-        display: inline-block;
-        font-weight: bold;
-        color: #FE0000;
-      }
-    }
-  }
-  .top_view {
-    height: 83rpx;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .money {
-      font-weight: bold;
-      font-size: 30rpx;
-      color: #ff0000;
-    }
-  }
-  .pays {
-    display: flex;
-    flex-wrap: column;
-    flex-wrap: wrap;
-    align-content: space-between;
-    .pay {
-      width: 50%;
-    }
-  }
-  .btn_pay {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 98rpx;
+.content {
+  width: 100%;
+  height: 288rpx;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .product_btn {
+    width: 248rpx;
+    height: 68rpx;
     background: rgba(255, 224, 1, 1);
-    line-height: 98rpx;
+    border-radius: 10rpx;
+    font-size: 28rpx;
+    line-height: 68rpx;
     text-align: center;
   }
+}
+.card {
+  background: #fff;
+  border-radius: 10rpx;
+  .main {
+    position: relative;
+    & > view {
+      margin-bottom: 10rpx;
+      &:last-child {
+        margin: 0;
+      }
+    }
+    .emp {
+      display: inline-block;
+      font-weight: bold;
+      color: #fe0000;
+    }
+  }
+}
+.top_view {
+  height: 83rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .money {
+    font-weight: bold;
+    font-size: 30rpx;
+    color: #ff0000;
+  }
+}
+.pays {
+  display: flex;
+  flex-wrap: column;
+  flex-wrap: wrap;
+  align-content: space-between;
+  .pay {
+    width: 50%;
+  }
+}
+.btn_pay {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 98rpx;
+  background: rgba(255, 224, 1, 1);
+  line-height: 98rpx;
+  text-align: center;
+}
 </style>
