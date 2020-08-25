@@ -14,7 +14,7 @@
           >
             <view class="name">{{item2.desk_name}}</view>
             <view class="status">{{statusArr[item2.desk_status].name}}</view>
-            <view class="count">{{item2.minimum_consume}}</view>
+            <view class="count" style="font-size:26rpx">{{item2.seats}}座</view>
           </view>
         </view>
       </view>
@@ -108,7 +108,7 @@ export default {
         color: #fff;
       }
       .status {
-        margin: 4rpx 0;
+        font-weight: 700;
       }
       &.reserved {
         // 已预约

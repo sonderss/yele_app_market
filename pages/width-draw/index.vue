@@ -26,6 +26,7 @@
     </view>
     <text class="warn">手续费：￥{{tixianInfo.fee ? tixianInfo.fee : '1'}}</text>
     <view class="submit" @click="submit">提现</view>
+      <view class="btm_descsss" @click="toVipInfo">通联用户协议</view>
   </view>
 </template>
 <script>
@@ -94,6 +95,28 @@ export default {
         return this.$showToast('你尚未绑定银行卡')
       this.money = this.tixianInfo.can_cash_withdraw
     },
+    toVipInfo() {
+            uni.navigateTo({
+              url:"../bind-bank-card/userInfo"
+            })
+            // this.$minApi.getUserVip().then(res => {
+            //     console.log(res)
+            //     if (res.url) {
+            //         // this.$store.dispatch('status/setvipUrl',res.url)
+            //         this.url = res.url
+            //         // this.$minRouter.push({
+            //         //   name:'webview'
+            //         // })
+            //     } else {
+            //         // this.$minRouter.push({
+            //         //     name: 'authentication',
+            //         //     params: {
+            //         //         isBind: true
+            //         //     }
+            //         // })
+            //     }
+            // })
+        }
   },
 }
 </script>
@@ -171,5 +194,21 @@ export default {
 .input-placeholder {
   font-size: 30rpx;
   line-height: 40rpx;
+}
+
+.btm_descsss {
+    width: 100%;
+    height: 50rpx;
+    line-height: 50rpx;
+    position: absolute;
+    bottom: 50rpx;
+    left: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-size: 20rpx;
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: rgba(101, 101, 101, 1);
 }
 </style>

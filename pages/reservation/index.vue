@@ -1,6 +1,10 @@
 <template>
   <view class="reservation p-tb-20 p-lr-30">
-    <min-pcitem :list="$parseURL().store" @emitE="toEmint($parseURL().store)" />
+    <min-pcitem
+      :list="$parseURL().store"
+      @emitE="toEmint($parseURL().store)"
+      :isBorder="false"
+    />
     <min-cell :card="false" class="m-tb-20">
       <min-cell-item
         title="桌台分组"
@@ -12,12 +16,29 @@
     </min-cell>
 
     <min-cell :card="false" class="m-tb-20">
-      <min-cell-item :border="false" title="当前桌号" arrow :tail="desk.desk_name" @eventParent="searchDesk"></min-cell-item>
+      <min-cell-item
+        :border="false"
+        title="当前桌号"
+        arrow
+        :tail="desk.desk_name"
+        @eventParent="searchDesk"
+      ></min-cell-item>
     </min-cell>
 
     <min-cell class="mid-view" :card="false">
-      <min-desc-input desc="客户姓名" v-model="name1"  sign="*" placeholder="请输入姓名"></min-desc-input>
-      <min-desc-input desc="联系电话" v-model="phone" :maxlength='11' sign="*" placeholder="请输入联系电话"></min-desc-input>
+      <min-desc-input
+        desc="客户姓名"
+        v-model="name1"
+        sign="*"
+        placeholder="请输入姓名"
+      ></min-desc-input>
+      <min-desc-input
+        desc="联系电话"
+        v-model="phone"
+        :maxlength="11"
+        sign="*"
+        placeholder="请输入联系电话"
+      ></min-desc-input>
 
       <view @click="goChioce">
         <min-desc-input
@@ -51,55 +72,59 @@
 
 <script>
 export default {
-  name: "reservation",
-  navigate: ["navigateTo"],
+  name: 'reservation',
+  navigate: ['navigateTo'],
   data() {
     return {
       desk: {},
-      name1:"",
-      phone:'',
-      dates:'',
+      name1: '',
+      phone: '',
+      dates: '',
       date: [],
       nightArr: [],
-      tsetvalue:'',
-          current: Number,
+      tsetvalue: '',
+      current: Number,
       // nextCurrent: Number,
       isShengri: false,
-      value:'',
-      table:''
-    };
+      value: '',
+      table: ''
+    }
   },
   onBackPress(e) {
     uni.redirectTo({
-      url: "../index/index"
-    });
+      url: '../index/index'
+    })
     // return true 表示禁止默认返回
-    return true;
+    return true
   },
   methods: {
     toEmint() {
       // 切换门店
-      console.log("切换门店");
+      console.log('切换门店')
       uni.navigateTo({
-        url: "../store/apin-store"
-      });
+        url: '../store/apin-store'
+      })
     },
     // 搜索桌台
-    searchDesk(){
+    searchDesk() {
       console.log(this.$parseURL().group.id)
-       this.$minRouter.push({
-         name:'search-table',
-         params:{group_id:this.$parseURL().group.id,group_name:this.$parseURL().group.group_name,date:this.$parseURL().date}
-       })
+      this.$minRouter.push({
+        name: 'search-table',
+        params: {
+          group_id: this.$parseURL().group.id,
+          group_name: this.$parseURL().group.group_name,
+          date: this.$parseURL().date
+        }
+      })
     },
     backChinceGroup() {
       this.$minRouter.push({
-        name: "choose-table",
+        name: 'choose-table',
         params: { item: this.$parseURL().store }
-      });
+      })
     },
-     // 获取时间
-    getDate (start, end) {
+    // 获取时间
+    getDate(start, end) {
       const ia = 30 * 60 * 1000
       if (this.$parseURL().store.store_config.business_is_cross !== 1) {
         // 没有跨天
@@ -144,30 +169,32 @@ export default {
       this.date = arr
       this.nightArr = brr
     },
-    chioce (n) {
+    chioce(n) {
       this.isKua = n
-      console.log(  this.isKua)
+      console.log(this.isKua)
     },
     // 提交
-    submit () {
+    submit() {
       /**
-         * 桌子Id  客户姓名  客户手机号  预约日期（例 2020-01-01）  预抵时间 （例 20:00）  是否生日（1否，2：是）  备注  是否跨天
-         */
+       * 桌子Id  客户姓名  客户手机号  预约日期（例 2020-01-01）  预抵时间 （例 20:00）  是否生日（1否，2：是）  备注  是否跨天
+       */
       let dates = this.dates
       const datesNum = this.dates.indexOf(' ')
       dates = dates.slice(0, datesNum)
       const data = {
         store_id: this.$parseURL().store.id,
-        clue_id:this.$parseURL().store.clue_id ? this.$parseURL().store.clue_id : 0,
-        desk_group_id:this.$parseURL().group.id,
-        desk_id:this.desk.id,
+        clue_id: this.$parseURL().store.clue_id
+          ? this.$parseURL().store.clue_id
+          : 0,
+        desk_group_id: this.$parseURL().group.id,
+        desk_id: this.desk.id,
         client_name: this.name1,
         client_mobile: this.phone,
         business_date: dates,
         arrival_time: this.tsetvalue,
         is_birthday: this.isShengri ? 1 : 0,
         remark: this.value,
-        is_across: this.isKua 
+        is_across: this.isKua
       }
       if (!data.client_name) {
         uni.showToast({
@@ -190,58 +217,64 @@ export default {
           icon: 'none'
         })
       } else {
-          console.log(data)
+        console.log(data)
         this.addData(data)
       }
     },
     // 提交
-    addData (data) {
-        this.$minApi.appMent(data).then(res => {
-              console.log(res)
-              this.$showToast('预约成功')
-              setTimeout(() =>{
-                this.$minRouter.push({
-                  name:'appointment-information',
-                  params:{data:res,store:this.$parseURL().store,group_name:this.$parseURL().group.group_name,remaks:this.value}
-                })
-              },2000)
-           
+    addData(data) {
+      this.$minApi.appMent(data).then(res => {
+        console.log(res)
+        this.$showToast('预约成功')
+        setTimeout(() => {
+          this.$minRouter.push({
+            name: 'appointment-information',
+            params: {
+              data: res,
+              store: this.$parseURL().store,
+              group_name: this.$parseURL().group.group_name,
+              remaks: this.value
+            }
           })
-      
+        }, 2000)
+      })
     },
-    click () {
+    click() {
       this.table = false
     },
-    blur () {
+    blur() {
       console.log(this.table)
       this.table = true
     },
     // 选择预约日期
-    goChioce () {
+    goChioce() {
       this.$minRouter.push({
         name: 'reservation-date',
-        params: { store_id:  this.$parseURL().store.id }
+        params: { store_id: this.$parseURL().store.id }
       })
     }
   },
   onLoad() {
-    console.log(this.$parseURL());
+    console.log(this.$parseURL())
     this.$minApi
       .getIdelDesk({
         group_id: this.$parseURL().group.id,
         date: this.$parseURL().date.slice(0, 10)
       })
       .then(res => {
-        console.log(res);
-        this.desk = res;
-      });
-      // 获取营业预约时间
-      this.getDate(this.$parseURL().store.store_config.business_start_time,this.$parseURL().store.store_config.business_end_time)
+        console.log(res)
+        this.desk = res
+      })
+    // 获取营业预约时间
+    this.getDate(
+      this.$parseURL().store.store_config.business_start_time,
+      this.$parseURL().store.store_config.business_end_time
+    )
   }
-};
+}
 </script>
 
-<style  lang="scss" scoped>
+<style lang="scss" scoped>
 .btn {
   width: 100%;
   position: fixed;

@@ -1,11 +1,10 @@
 <template>
-  <view class="nodata-wrap" @click="oLoad" :style="{'padding-top':pTop}">
-    <image class="nodata" :src="src"  />
-    <view class="text">{{txt}}</view>
+  <view class="nodata-wrap" @click="oLoad" :style="{ 'padding-top': pTop }">
+    <image class="nodata" :src="src" />
+    <view class="text">{{ txt }}</view>
   </view>
 </template>
 <script>
-
 export default {
   props: {
     id: {
@@ -15,14 +14,18 @@ export default {
     pTop: {
       type: String,
       default: ''
+    },
+    desc: {
+      type: String,
+      default: ''
     }
   },
-  data () {
+  data() {
     return {
       status: 'none'
     }
   },
-  created () {
+  created() {
     this.status = this.id
     this.isNetworkCanUse(usable => {
       if (!usable) {
@@ -42,7 +45,7 @@ export default {
     })
   },
   methods: {
-    isNetworkCanUse (callback) {
+    isNetworkCanUse(callback) {
       uni.getNetworkType({
         success: res => {
           if (res.networkType === '2g' || res.networkType === 'none') {
@@ -53,40 +56,46 @@ export default {
             callback(true)
           }
         },
-        fail () {
+        fail() {
           // eslint-disable-next-line standard/no-callback-literal
           callback(false)
         }
       })
     },
-    oLoad () {
+    oLoad() {
       this.$emit('input', true)
     }
   },
   computed: {
     // eslint-disable-next-line vue/return-in-computed-property
-    txt () {
+    txt() {
       let t = ''
       switch (this.status) {
-        case ('none'):
+        case 'none':
           t = '暂无数据'
           break
-        case ('net'):
+        case 'net':
           t = '网络意外断开，请检查网络'
+          break
+        case 'my':
+          t = this.desc
           break
         default:
           t = '暂无收藏'
       }
       return t
     },
-    src () {
+    src() {
       let s = ''
       switch (this.status) {
-        case ('none'):
+        case 'none':
           s = '../../static/images/nodata.png'
           break
-        case ('net'):
+        case 'net':
           s = '../../static/images/netDown.png'
+          break
+        case 'my':
+          s = '../../static/images/nodata.png'
           break
         default:
           s = '../../static/images/favorite.png'
@@ -96,6 +105,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

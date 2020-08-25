@@ -1,14 +1,33 @@
 <template>
   <view>
-    <view class="min-search min-flex" :style="{'background': bgColor,height:heightSize}">
-      <image class="search-icon" @click="$emit('search')" src="/static/images/search.png"></image>
-      <input class="search min-flex-1" type="text" confirm-type="search" :placeholder="placeholder"
+    <view
+      class="min-search min-flex"
+      :style="{
+        background: bgColor,
+        height: heightSize,
+        borderRadius
+      }"
+    >
+      <image
+        class="search-icon"
+        @click="$emit('search')"
+        src="/static/images/search.png"
+      />
+      <input
+        class="search min-flex-1"
+        type="text"
+        confirm-type="search"
+        :placeholder="placeholder"
         @input="handleInput"
         :value="value"
-		@focus="onfocus"
+        @focus="onfocus"
+      />
+      <view
+        v-show="String(value)"
+        @click="handleClose"
+        class="search-close-box min-flex"
       >
-      <view v-show="String(value)" @click="handleClose" class="search-close-box min-flex">
-        <image class="search-close" src="/static/images/close.png"></image>
+        <image class="search-close" src="/static/images/close.png" />
       </view>
     </view>
   </view>
@@ -29,25 +48,28 @@ export default {
       type: String,
       default: '#fff'
     },
-    heightSize:{
-      type:String,
-      default:""
+    heightSize: {
+      type: String,
+      default: ''
+    },
+    borderRadius: {
+      type: String,
+      default: ''
     }
   },
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
   methods: {
-    handleClose () {
+    handleClose() {
       this.$emit('input', '')
     },
-    handleInput (e) {
+    handleInput(e) {
       this.$emit('input', e.target.value)
     },
-	onfocus(){
-		this.$emit('focus')
-	}
+    onfocus() {
+      this.$emit('focus')
+    }
   }
 }
 </script>
@@ -56,7 +78,7 @@ export default {
 .min-search {
   position: relative;
   padding: 0 30rpx;
-  height:70rpx;
+  height: 70rpx;
   font-size: 28rpx;
   border-radius: 4px;
   .search-icon {
@@ -75,6 +97,5 @@ export default {
     width: 32rpx;
     height: 32rpx;
   }
-
 }
 </style>

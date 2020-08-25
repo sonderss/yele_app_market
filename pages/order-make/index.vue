@@ -1,10 +1,10 @@
 <template>
   <view class="order-make p-tb-20 p-lr-30">
-    <min-pcitem desk :list="$parseURL().store" :isBorder="false" />
+    <min-pcitem desk :list="$parseURL().store" :isBorder="false" @emitE="toChioceStore" />
     <view class="goods-wrap m-top-20 p-lr-20">
       <view class="p-tb-30 min-border-bottom">
         商品
-        <view class="status" :class="$minCommon.getOrderStatus(2).color"></view>
+        <view class="status" v-if="products.length >= 1" @click="toOrder"></view>
       </view>
       <view class="content p-top-10" v-if="products.length === 0">
         <view class="product_btn" @click="toOrder">去选购商品 >></view>
@@ -23,7 +23,10 @@
     </view>
 
     <view class="card p-lr-20 m-tb-20">
-      <view class="p-tb-30 min-border-bottom">台位信息</view>
+      <view class="p-tb-30 min-border-bottom desk_info_titel">
+        <view>台位信息</view>
+        <view class="bg_arrow" @click="toChioceDesk"></view>
+      </view>
       <view class="main p-tb-20">
         <view>
           台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
@@ -51,11 +54,21 @@
       @submit="submit"
     />
     <!-- 支付弹窗 -->
-    <min-popup :show="showPayPop" @close="closePayPop" heightSize="500">
+    <min-popup :show="showPayPop" @close="closePayPop" heightSize="800">
       <view class="p-lr-30">
-        <view class="top_view min-border-bottom">
-          <view class="f26">本次支付</view>
-          <view class="money">￥{{totalAmountE}}</view>
+        <view class="top_view">
+          <text class="title">请选择支付方式</text>
+          <view class="close_pay" @click="closePayPop"></view>
+          <!-- <view class="f26">本次支付</view>
+          <view class="money">￥{{totalAmountE}}</view>-->
+        </view>
+        <view class="min-border-bottom mid_view">
+          <view class="moey_desc min-border-bottom p-bottom-30">金额</view>
+          <view class="main_view">
+            <view class="f28 m-top-20">订单金额：￥{{actual_total}}</view>
+            <view class="f28 m-top-10">应付金额：￥{{totalAmountE}}</view>
+          </view>
+          <view class="f28 m-top-20 p-bottom-20" style="font-weight: bolder;">支付方式</view>
         </view>
         <min-pay :isTitle="false" :mTop="false" v-model="payType" />
         <view class="btn_pay" @click="pay_money">支付</view>
@@ -75,6 +88,7 @@ export default {
       totalAmountE: '',
       payType: 1,
       showPayPop: false,
+      actual_total: '',
     }
   },
   mounted() {
@@ -92,6 +106,7 @@ export default {
         .then(res => {
           this.products = res.order_product_list
           this.totalAmountE = res.order_info.order_total
+          this.actual_total = res.order_info.actual_total
         })
     }
   },
@@ -156,6 +171,27 @@ export default {
           }
         })
     },
+    toChioceDesk() {
+      // 台位
+      this.$minRouter.push({
+        name: 'chioce-table',
+        params: {
+          store_name: this.$parseURL().store.store_name,
+          address: this.$parseURL().store.address,
+          head_img: this.$parseURL().store.head_img,
+          id: this.$parseURL().store.id,
+        },
+      })
+      this.$store.dispatch('status/setId', this.$parseURL().store.id)
+      // uni.navigateBack({
+      //   delta: 1,
+      // })
+    },
+    toChioceStore() {
+      uni.navigateBack({
+        delta: 2,
+      })
+    },
   },
   onLoad() {
     console.log(this.$parseURL())
@@ -169,13 +205,11 @@ export default {
   padding-bottom: 20rpx;
   .status {
     float: right;
-    &.cancel,
-    &.return {
-      color: #333333;
-    }
-    &.not-produce {
-      color: #0090ff;
-    }
+    width: 40rpx;
+    height: 40rpx;
+    background-image: url('/static/images/yellow-add.png');
+    background-size: cover;
+    background-position: center;
   }
   .count {
     float: right;
@@ -220,12 +254,40 @@ export default {
 .top_view {
   height: 83rpx;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
+  .close_pay {
+    position: absolute;
+    right: 0;
+    width: 34rpx;
+    height: 34rpx;
+    background-image: url('/static/images/wine-close.png');
+    background-size: contain;
+  }
+  .title {
+    color: #343434;
+    font-weight: 700;
+    font-size: 32rpx;
+  }
   .money {
     font-weight: bold;
     font-size: 30rpx;
     color: #ff0000;
+  }
+}
+.mid_view {
+  margin-top: 30rpx;
+  color: #343434;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+
+  .moey_desc {
+    font-size: 30rpx;
+    font-weight: bolder;
+  }
+  .main_view {
+    height: 110rpx;
   }
 }
 .pays {
@@ -246,5 +308,17 @@ export default {
   background: rgba(255, 224, 1, 1);
   line-height: 98rpx;
   text-align: center;
+}
+.desk_info_titel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .bg_arrow {
+    width: 24rpx;
+    height: 24rpx;
+    background-image: url('/static/images/arrow.png');
+    background-size: cover;
+  }
 }
 </style>

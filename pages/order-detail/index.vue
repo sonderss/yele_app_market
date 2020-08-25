@@ -1,17 +1,22 @@
 <template>
   <view class="order-detail p-tb-20 p-lr-30">
-     <min-pcitem  :list="itema"  :showArray="false" ></min-pcitem>
-     <view style="height:20rpx"></view>
-    <view class="goods-wrap  p-lr-20">
+    <min-pcitem :list="itema" :showArray="false" :isBorder="false"></min-pcitem>
+    <view style="height:20rpx"></view>
+    <view class="goods-wrap p-lr-20">
       <view class="p-tb-30 min-border-bottom">
         商品
         <view
-        class="status"
+          class="status"
           :class="$minCommon.getOrderStatus(list.order_status).color"
-        >{{$minCommon.getOrderStatus(list.order_status).desc}}</view>
+          >{{ $minCommon.getOrderStatus(list.order_status).desc }}</view
+        >
       </view>
       <view class="goods-list p-top-10">
-        <view class="p-tb-20" v-for="item in list.order_product_list" :key="item.id">
+        <view
+          class="p-tb-20"
+          v-for="item in list.order_product_list"
+          :key="item.id"
+        >
           <!--已出品-->
           <min-goods-item
             :name="item.product_name"
@@ -33,65 +38,111 @@
         <view class="item">订单金额：￥159332.00</view>
         <view class="item">已付金额：￥159332.00</view>
       </view>
-    </view> -->
+    </view>-->
     <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-30 min-border-bottom">订单信息</view>
       <view class="main p-tb-30">
-        <view class="item">订 单 号 ：{{list.order_sn}}</view>
-        <view class="item">订单类型：{{list.pay_type === 0 ? '先付' :'后付'}}</view>
-        <view class="item">下单人员：{{list.confirm_user_name ? list.confirm_user_name  : '暂无'}}  {{$minCommon.formatDate(new Date(list.create_time*1000),'yyyy/MM/dd hh:mm:ss') }}</view>
-        <view class="item">订单金额：￥{{list.order_total}}</view>
-        <view class="item">已付金额：￥{{list.pay_price}}</view>
-        <view class="item" v-if="list.order_status !== 0 && list.order_status !== 1">确认时间：{{list.confirm_user_name}} {{list.confirm_time}}</view>
+        <view class="item">订 单 号 ：{{ list.order_sn }}</view>
+        <view class="item"
+          >订单类型：{{ list.pay_type === 0 ? '先付' : '后付' }}</view
+        >
+        <view class="item"
+          >下单人员：{{
+            list.confirm_user_name ? list.confirm_user_name : '暂无'
+          }}
+          {{
+            $minCommon.formatDate(
+              new Date(list.create_time * 1000),
+              'yyyy/MM/dd hh:mm:ss'
+            )
+          }}</view
+        >
+        <view class="item">订单金额：￥{{ list.order_total }}</view>
+        <view class="item">已付金额：￥{{ list.pay_price }}</view>
+        <view
+          class="item"
+          v-if="list.order_status !== 0 && list.order_status !== 1"
+          >确认时间：{{ list.confirm_user_name }} {{ list.confirm_time }}</view
+        >
         <view class="item">
           支付状态：
-          <text
-            :class="$minCommon.getOrderStatus(list.order_status).color"
-          >{{ list.pay_status === 0 ?'未付清' : '已付清'}}</text>
+          <text :class="$minCommon.getOrderStatus(list.order_status).color">{{
+            list.pay_status === 0 ? '未付清' : '已付清'
+          }}</text>
         </view>
       </view>
     </view>
     <view class="card p-lr-20 m-top-20" v-if="list.is_signoff === 1">
       <view class="top p-tb-30 min-border-bottom">签折信息</view>
       <view class="main p-tb-30">
-        <view class="item">签折方式：{{type[list.order_status]}}</view>
-        <view class="item" v-if="list.signoff_type !== 0 && list.signoff_type !== 1">
-            <view class="method-view min-border-bottom">
-              <view class="left">优惠内容：</view>
-              <view class="right">
-                <view  class="right_view" v-for="i in list.order_product_list" :key="i.id">
-                    <text class="min-ellipsis" style="width:300rpx">{{i.product_name}}</text>
-                    <text class="min-ellipsis" style="">￥{{i.signoff_price}}</text>
-                </view>
+        <view class="item">签折方式：{{ type[list.order_status] }}</view>
+        <view
+          class="item"
+          v-if="list.signoff_type !== 0 && list.signoff_type !== 1"
+        >
+          <view class="method-view min-border-bottom">
+            <view class="left">优惠内容：</view>
+            <view class="right">
+              <view
+                class="right_view"
+                v-for="i in list.order_product_list"
+                :key="i.id"
+              >
+                <text class="min-ellipsis" style="width:300rpx">{{
+                  i.product_name
+                }}</text>
+                <text class="min-ellipsis" style>￥{{ i.signoff_price }}</text>
               </view>
             </view>
+          </view>
         </view>
-        <view class="item">优惠金额：￥{{list.discount_price}}</view>
-        <view class="item">签折人员：{{list.signoff_user_name}}</view>
+        <view class="item">优惠金额：￥{{ list.discount_price }}</view>
+        <view class="item">签折人员：{{ list.signoff_user_name }}</view>
       </view>
     </view>
     <view class="card p-lr-20 m-top-20">
       <view class="top p-tb-30 min-border-bottom">客户信息</view>
       <view class="main p-tb-30">
-        <view class="item">客户姓名：{{list.client_name ? list.client_name : '暂无'}}</view>
-        <view class="item">联系电话：{{list.client_mobile ? list.client_mobile : '暂无'}}</view>
+        <view class="item"
+          >客户姓名：{{ list.client_name ? list.client_name : '暂无' }}</view
+        >
+        <view class="item"
+          >联系电话：{{
+            list.client_mobile ? list.client_mobile : '暂无'
+          }}</view
+        >
       </view>
     </view>
     <view class="card p-lr-20 m-tb-20">
       <view class="top p-tb-30 min-border-bottom">台位信息</view>
       <view class="main p-tb-30">
-        <view class="item">台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{list.desk_name}}</view>
-        <view class="item">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：{{list.desk_group}}</view>
-        <view
-          class="item"
-        >低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{list.desk_minimum_consume}}</view>
-        <view class="item">座&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{list.desk_seats }}</view>
+        <view class="item"
+          >台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{
+            list.desk_name
+          }}</view
+        >
+        <view class="item"
+          >分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：{{
+            list.desk_group
+          }}</view
+        >
+        <view class="item"
+          >低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{
+            list.desk_minimum_consume
+          }}</view
+        >
+        <view class="item"
+          >座&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：{{
+            list.desk_seats
+          }}</view
+        >
       </view>
     </view>
-    <view class="" style="height:200rpx"></view>
+    <view class style="height:200rpx"></view>
     <min-goods-submit
       @leftClick="leftClick"
       :leftText="leftText"
+      leftTextColor="#666"
       @submit="submit"
       :totalAmount="totalAmount"
       :buttonText="buttonText"
@@ -103,7 +154,7 @@
       <view class="p-lr-30">
         <view class="top_view min-border-bottom">
           <view class="f26">本次支付</view>
-          <view class="money">￥{{list.unpay_price}}</view>
+          <view class="money">￥{{ list.unpay_price }}</view>
         </view>
         <min-pay :isTitle="false" :mTop="false" v-model="payType" />
         <view class="btn_pay" @click="pay_money">支付</view>
@@ -117,8 +168,8 @@
 const type = ['全单打折', '全单优惠', '单品打折', '单品优惠']
 export default {
   name: 'redorder-detail',
-  navigate: ['navigateTo','redirectTo'],
-  data () {
+  navigate: ['navigateTo', 'redirectTo'],
+  data() {
     return {
       leftText: '',
       totalAmount: '',
@@ -128,10 +179,10 @@ export default {
       showPayPop: false,
       payType: 1,
       showSubmit: false,
-      itema:{store_config:{business_start_time:''}}
+      itema: { store_config: { business_start_time: '' } }
     }
   },
-  onShow () {
+  onShow() {
     console.log(this.$parseURL())
     this.showSubmit = false
     this.$minApi
@@ -142,10 +193,10 @@ export default {
         console.log(res)
         this.list = res
         this.itema.store_name = this.list.store_name
-        this.itema.store_config.business_start_time = this.list.business_start_time 
-        this.itema.store_config.business_end_time = this.list.business_end_time 
-         this.itema.address = this.list.address 
-         this.itema.head_img = this.list.head_img
+        this.itema.store_config.business_start_time = this.list.business_start_time
+        this.itema.store_config.business_end_time = this.list.business_end_time
+        this.itema.address = this.list.address
+        this.itema.head_img = this.list.head_img
         if (this.list.order_status === 0) {
           this.leftText = '取消订单'
           this.buttonText = '去支付'
@@ -161,8 +212,8 @@ export default {
   },
   methods: {
     // 查看原订单
-    viewOldOrder(){
-      return this.$showToast("正在开发中")
+    viewOldOrder() {
+      return this.$showToast('正在开发中')
       // if(!this.list.origin_order.id) return this.$showToast("该订单没有原订单")
       // console.log("原订单ID",this.list.origin_order.id)
       //  this.$minApi
@@ -185,7 +236,7 @@ export default {
       //   }
       // })
     },
-    leftClick () {
+    leftClick() {
       if (this.list.order_status !== 0) return false
       // 取消订单
       this.$refs.show.handleShow({
@@ -204,64 +255,68 @@ export default {
               })
               .then(res => {
                 console.log(res)
-                  this.$showToast('取消成功!')
-                  setTimeout(() => {
-                       this.$minRouter.push({
-                         name:"cancel-success",
-                         params:{res}
-                       })
-                  }, 2000)
+                this.$showToast('取消成功!')
+                setTimeout(() => {
+                  this.$minRouter.push({
+                    name: 'cancel-success',
+                    params: { res }
+                  })
+                }, 2000)
               })
           }
         }
       })
     },
     // 弹窗
-    pay_money () {
+    pay_money() {
       let obj = {
-        payment_id:this.payType,
-        target_id:this.list.id,
-        target_type:1
+        payment_id: this.payType,
+        target_id: this.list.id,
+        target_type: 1
       }
-        this.closePayPop()
+      this.closePayPop()
       this.$minApi.postPay(obj).then(res => {
-          console.log(res)
-           if(res.paid === 1){ 
-             this.$showToast('支付成功！')
-              setTimeout(() => {
-                this.$minRouter.push({
-                  name: 'reservation-success',
-                  params:{order_id:this.$parseURL().ordr_id} 
-                })
-              }, 2000)
-            }else{
-              // this.$showToast('第三方支付开发中')
-                this.$minRouter.push({
-                  name:"pay-code",
-                  params:{
-                    info:{ payment_id: this.payType,money:this.list.unpay_price,desk_name:this.list.desk_name},
-                    data: res.payParam,
-                    id:res.id,
-                    order_id:this.$parseURL().ordr_id
-                  }
-                })
+        console.log(res)
+        if (res.paid === 1) {
+          this.$showToast('支付成功！')
+          setTimeout(() => {
+            this.$minRouter.push({
+              name: 'reservation-success',
+              params: { order_id: this.$parseURL().ordr_id }
+            })
+          }, 2000)
+        } else {
+          // this.$showToast('第三方支付开发中')
+          this.$minRouter.push({
+            name: 'pay-code',
+            params: {
+              info: {
+                payment_id: this.payType,
+                money: this.list.unpay_price,
+                desk_name: this.list.desk_name
+              },
+              data: res.payParam,
+              id: res.id,
+              order_id: this.$parseURL().ordr_id
             }
+          })
+        }
       })
     },
     // 支付弹窗
-    submit () {
+    submit() {
       this.showPayPop = true
     },
-    closePayPop () {
+    closePayPop() {
       this.showPayPop = false
     },
-    goodsDeatil (index) {
+    goodsDeatil(index) {
       // 跳到商品详情页
       this.$minRouter.push({
         name: 'product-details'
       })
     },
-    changeImage(e){
+    changeImage(e) {
       console.log(e)
     }
   }
@@ -319,8 +374,8 @@ export default {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            .right_view{
-                display: flex;
+            .right_view {
+              display: flex;
               justify-content: space-between;
               align-items: center;
             }

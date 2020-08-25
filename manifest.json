@@ -1,5 +1,5 @@
 {
-    "name" : "平台",
+    "name" : "YelePlatform",
     "appid" : "__UNI__A085CC0",
     "description" : "",
     "versionName" : "1.0.0",
@@ -89,42 +89,8 @@
                 }
             },
             "splashscreen" : {
-                "ios" : {
-                    "iphone" : {
-                        "portrait-896h@3x" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-896h@3x" : "C:/Users/Administrator/Desktop/one.png",
-                        "portrait-896h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-896h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "iphonex" : "C:/Users/Administrator/Desktop/one.png",
-                        "iphonexl" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina35" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina40l" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina40" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina55" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina55l" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina47" : "C:/Users/Administrator/Desktop/one.png",
-                        "retina47l" : "C:/Users/Administrator/Desktop/one.png"
-                    },
-                    "ipad" : {
-                        "portrait-1366h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-1366h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "portrait-1194h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-1194h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "portrait-1112h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-1112h@2x" : "C:/Users/Administrator/Desktop/one.png",
-                        "portrait-retina7" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape-retina7" : "C:/Users/Administrator/Desktop/one.png",
-                        "portrait7" : "C:/Users/Administrator/Desktop/one.png",
-                        "landscape7" : "C:/Users/Administrator/Desktop/one.png"
-                    },
-                    "storyboard" : "C:/Users/Administrator/Desktop/CustomStoryboard.zip"
-                },
-                "android" : {
-                    "hdpi" : "unpackage/res/drawable-hdpi/splash.9.png",
-                    "xhdpi" : "unpackage/res/drawable-xhdpi/splash.9.png",
-                    "xxhdpi" : "unpackage/res/drawable-xxhdpi/splash.9.png"
-                },
-                "iosStyle" : "common"
+                "iosStyle" : "common",
+                "androidStyle" : "common"
             }
         }
     },

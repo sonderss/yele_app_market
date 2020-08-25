@@ -7,6 +7,8 @@ export default {
   login: data => minRequest.post('/5e1d2d4b04423', data),
   // 更新用户信息 5ea11102e176d
   uoDateuserInfo: data => minRequest.post('/5ea11102e176d', data),
+  // 门店列表 5f3f6d4e5dadd
+  getStoreList: data => minRequest.get('/5f3f6d4e5dadd', data),
   // 选择门店 暂时不用
   chooseStore: data => minRequest.get('/5eb229fe5b435', data),
   // 桌台列表
@@ -16,7 +18,7 @@ export default {
   // 个人资料 1
   userInfo: data => minRequest.get('/5ea1110c67573', data),
   // 门店公告列表
-  storMentList: () => minRequest.get('/5ea152001c50e'),
+  storMentList: data => minRequest.get('/5ea152001c50e', data),
   // 门店公告详情 ?notice_id=1
   storMentDetail: data => minRequest.get('/5ea1520706393', data),
   // 平台活动  {{hosts}}5eb4d3fc8f631?page=1&limit=20 1

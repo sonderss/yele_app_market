@@ -12,19 +12,39 @@
           @eventParent="changeHeadImg"
           arrow
         ></min-cell-item>
-        <min-cell-item title="名字" :tail="userInfo.user_name" :border="true" arrow :isWidth="false"></min-cell-item>
+        <min-cell-item
+          title="名字"
+          :tail="userInfo.user_name"
+          :border="true"
+          :isWidth="false"
+        ></min-cell-item>
         <picker @change="bindPickerChange" :value="index" :range="sex">
-          <min-cell-item title="性别" :tail="sex[index]" :border="true" arrow></min-cell-item>
+          <min-cell-item
+            title="性别"
+            :tail="sex[index]"
+            :border="true"
+            arrow
+          ></min-cell-item>
         </picker>
         <picker @change="bindPickerChange1" :value="index1" :range="minzu">
-          <min-cell-item title="民族" :tail="minzu[index1]" :border="true" arrow></min-cell-item>
+          <min-cell-item
+            title="民族"
+            :tail="minzu[index1]"
+            :border="true"
+            arrow
+          ></min-cell-item>
         </picker>
         <picker mode="date" @change="bindPickerChange2">
-          <min-cell-item title="出生日期" :tail="date" :border="true" arrow></min-cell-item>
+          <min-cell-item
+            title="出生日期"
+            :tail="date"
+            :border="true"
+            arrow
+          ></min-cell-item>
         </picker>
         <min-cell-item
           title="手机"
-          :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无') "
+          :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无')"
           :border="false"
           arrow
           @eventParent="setPhone"
@@ -51,7 +71,7 @@
       <min-cell :card="false">
         <min-cell-item
           title="实名认证"
-          :tail="userInfo.is_certify === 1 ? '已认证':'未认证'"
+          :tail="userInfo.is_certify === 1 ? '已认证' : '未认证'"
           :border="true"
           arrow
           tailType="red"
@@ -62,14 +82,18 @@
           :isWidth="false"
           :border="true"
           arrow
-          :tail="userInfo.bank_card_name ? userInfo.bank_card_name+`(${lastString})` : '未绑定'"
+          :tail="
+            userInfo.bank_card_name
+              ? userInfo.bank_card_name + `(${lastString})`
+              : '未绑定'
+          "
           @eventParent="payMethods(userInfo.bank_card_name)"
         ></min-cell-item>
         <min-cell-item
           title="提现密码"
           :border="false"
           arrow
-          :tail="userInfo.is_cash_pwd ? '已设置':'未设置'"
+          :tail="userInfo.is_cash_pwd ? '已设置' : '未设置'"
           @eventParent="toSetPsd"
         ></min-cell-item>
       </min-cell>
@@ -143,7 +167,7 @@ export default {
         '独龙族',
         '塔塔尔族',
         '赫哲族',
-        '珞巴族',
+        '珞巴族'
       ],
       sex: ['不限', '男', '女'],
       index: 0,
@@ -151,7 +175,7 @@ export default {
       date: '2020/3/20',
       userInfo: {},
       phone: '',
-      lastString: '',
+      lastString: ''
     }
   },
   onLoad() {
@@ -202,18 +226,18 @@ export default {
       this.index1 = e.target.value
       this.setUserInfo()
     },
-    bindPickerChange: function (e) {
+    bindPickerChange: function(e) {
       this.index = e.target.value
       this.setUserInfo()
     },
-    bindPickerChange2: function (e) {
+    bindPickerChange2: function(e) {
       this.date = e.target.value.replace(/-/g, '/')
       this.setUserInfo()
     },
     setPhone() {
       this.$minRouter.push({
         name: 'token-phone',
-        params: { mobile: this.userInfo.mobile },
+        params: { mobile: this.userInfo.mobile }
       })
     },
     changeHeadImg() {
@@ -227,7 +251,7 @@ export default {
             name: 'file',
             header: {
               'access-token': 'AQtlDwvmBDqWFcebiSpFAJCoUeKeTjtp',
-              'api-auth': this.$store.state.user.userInfo.apiAuth,
+              'api-auth': this.$store.state.user.userInfo.apiAuth
             },
             success: uploadFileRes => {
               this.$showToast(JSON.parse(uploadFileRes.data).msg)
@@ -235,9 +259,9 @@ export default {
                 uploadFileRes.data
               ).data[0].http_dir
               this.setUserInfo()
-            },
+            }
           })
-        },
+        }
       })
     },
     toFace() {
@@ -248,8 +272,8 @@ export default {
           id_card: this.userInfo.id_card,
           is_certify: this.userInfo.is_certify,
           name: this.userInfo.user_name,
-          phone: this.userInfo.mobile,
-        },
+          phone: this.userInfo.mobile
+        }
       })
     },
     // 获取银行卡后四位
@@ -265,13 +289,16 @@ export default {
     toSetPsd() {
       this.$minRouter.push({
         name: 'set-cardpsd',
-        params: { phone: this.userInfo.mobile },
+        params: { phone: this.userInfo.mobile }
       })
     },
     // payMethods drawing-way
     payMethods() {
+      // ‘尚未实名认证，不能进入页面
+      if (this.userInfo.is_certify !== 1)
+        return this.$showToast('尚未实名认证，不能进入页面')
       this.$minRouter.push({
-        name: 'drawing-way',
+        name: 'drawing-way'
       })
     },
     // 修改个人资料
@@ -280,7 +307,7 @@ export default {
         head_img: this.userInfo.head_img,
         sex: this.index,
         nation: this.minzu[this.index1],
-        birthday: new Date(this.date).getTime() / 1000,
+        birthday: new Date(this.date).getTime() / 1000
       }
       // uoDateuserInfo  API
       this.$minApi.uoDateuserInfo(data).then(res => {
@@ -292,22 +319,22 @@ export default {
     quit() {
       this.$refs.show.handleShow({
         title: '确认退出？',
-        success: function (res) {
+        success: function(res) {
           if (res.id === 1) {
             uni.removeStorage({
               key: 'minvuexcache',
-              success: function (res) {
+              success: function(res) {
                 console.log('success')
-              },
+              }
             })
             uni.reLaunch({
-              url: '../login/index',
+              url: '../login/index'
             })
           }
-        },
+        }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 

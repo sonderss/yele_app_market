@@ -12,7 +12,7 @@
 			"style": {
 				"app-plus": {
 					"titleNView": false,
-					"bounce":"none"
+					"bounce": "none"
 				},
 				"navigationBarTextStyle": "black"
 			}
@@ -347,12 +347,12 @@
 		},
 		{
 			"path": "pages/invite-rebate/index",
-
 			"style": {
 				"navigationStyle": "custom",
 				"backgroundColor": "#000",
 				"app-plus": {
-					"background": "#000"
+					"background": "#000",
+					"bounce": "none"
 				}
 			}
 		},
@@ -476,6 +476,18 @@
 			}
 		},
 		{
+			"path": "pages/bind-bank-card/userInfo",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleText": "通联协议",
+						"backgroundColor": "#030313",
+						"titleColor": "#FFE001"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/order-detail/index",
 			"style": {
 				"app-plus": {
@@ -494,7 +506,13 @@
 					"titleNView": {
 						"titleText": "门店优惠公告",
 						"backgroundColor": "#030313",
-						"titleColor": "#FFE001"
+						"titleColor": "#FFE001",
+						"buttons": [{
+							"width": "auto",
+							"text": "全部门店\ue6b2",
+							"fontSize": "28rpx",
+							"fontSrc": "/static/font/iconfont.ttf"
+						}]
 					}
 				}
 			}
@@ -648,7 +666,7 @@
 			"style": {
 				"app-plus": {
 					"titleNView": false,
-					"bounce":"none"
+					"bounce": "none"
 				}
 			}
 		},

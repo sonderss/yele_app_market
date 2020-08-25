@@ -1,5 +1,5 @@
 <template>
-<view class="product-details p-tb-20 p-lr-30">
+  <view class="product-details p-tb-20 p-lr-30">
     <swiper
       class="swiper"
       :circular="true"
@@ -7,45 +7,73 @@
       :interval="2000"
       :duration="500"
     >
-      <swiper-item v-for="(item,index) in list.setmeal_images" :key="index">
+      <swiper-item v-for="(item, index) in list.setmeal_images" :key="index">
         <view class="swiper-item">
           <image :src="item" />
         </view>
       </swiper-item>
     </swiper>
     <view class="goods-item p-lr-20 m-bottom-20">
-      <view class="top-view f28 m-top-10 f28">{{list.product_name}}</view>
+      <view class="top-view f28 m-top-10 f28">{{ list.product_name }}</view>
       <view class="botm-view">
         <view class="f22 m-bottom-20">
-          ￥ <text class="price">{{list.price}}</text>
+          ￥
+          <text class="price">{{ list.price }}</text>
         </view>
       </view>
     </view>
-    <view class="introduction " v-for="(item,index) in list.combination" :key="index">
-      <view class="title min-border-bottom m-bottom-30 p-lr-20" v-if="item.necessary === 1">必选商品</view>
-        <view class="content p-bottom-30" v-if="item.necessary === 1">
-          <min-describe  :leftIconValue="list.setmeal_logo"
-          :leftIcon='true'
-          leftTxt='百威兄弟终极套餐12瓶测试'
-          :num="list.combination[0].last_number+''"
-        ></min-describe>
-      </view>
-        <view class="title min-border-bottom m-bottom-30 p-lr-20">
-           <text class="left-txt">请选择{{item.combination_name}}{{item.last_number}}份（{{item.is_check === 1 ? '不可重复选' : ''}}）</text>
-           <text v-if="type !== 3" class="right-txt f26">已选 <text class="num1">{{item.goodsCount}}</text> 份</text>
-        </view>
-        <view class="content p-bottom-30">
-          <min-describe  class="i"
-           v-for="(item2,index2) in item.combination_detail"
+    <view
+      class="introduction"
+      v-for="(item, index) in list.combination"
+      :key="index"
+    >
+      <view
+        class="title min-border-bottom m-bottom-30 p-lr-20"
+        v-if="item.necessary === 1"
+        >必选商品</view
+      >
+      <view class="content p-bottom-30" v-if="item.necessary === 1">
+        <min-describe
+          class="i"
+          v-for="(item2, index2) in item.combination_detail"
           :key="index2"
-          :leftIcon='true'
+          :leftIcon="true"
           :maxStep="item.is_check === 1 ? 1 : 999"
-          @changeCount="changeCount($event,index,index2)"
-          :leftTxt="item2.product_name +'*'+ item2.num "
-          :leftIconValue='item2.comb_type === 1 ? item2.product_img : item2.product_img'
-          :step='type === 3 ? false: true'
-          ></min-describe>
-        </view>
+          :value="item2.step"
+          :leftTxt="item2.product_name + '*' + item2.num"
+          :leftIconValue="item2.product_img"
+          :Animation="true"
+        />
+        <!--
+        <view style="text-align:right;" class="p-right-30">{{item.last_number}}份</view>-->
+      </view>
+      <view class="title min-border-bottom m-bottom-30 p-lr-20">
+        <text class="left-txt"
+          >请选择{{ item.combination_name }}{{ item.last_number }}份（{{
+            item.is_check === 1 ? '不可重复选' : ''
+          }}）</text
+        >
+        <text v-if="type !== 3" class="right-txt f26">
+          已选
+          <text class="num1">{{ item.goodsCount }}</text
+          >份
+        </text>
+      </view>
+      <view class="content ">
+        <min-describe
+          :leftIcon="true"
+          class="i"
+          v-for="(item2, index2) in item.combination_detail"
+          :key="index2"
+          :maxStep="item.is_check === 1 ? 1 : 999"
+          @changeCount="changeCount($event, index, index2)"
+          :leftTxt="item2.product_name + '*' + item2.num"
+          :leftIconValue="
+            item2.comb_type === 1 ? item2.product_img : item2.product_img
+          "
+          :step="type === 3 ? false : true"
+        />
+      </view>
     </view>
     <!-- <view class="introduction">
         <view class="title min-border-bottom m-bottom-30 p-lr-20">
@@ -55,17 +83,17 @@
         <view class="content p-bottom-30">
           <min-describe  class="i" v-for="(item,index) in 3" :key=index :leftIcon='true' leftTxt='冰红茶*25' :step='type === 3 ? false: true'></min-describe>
         </view>
-    </view> -->
+    </view>-->
     <view class="empty_view"></view>
-    <view class="btn"  @click="subMit">确定</view>
-</view>
+    <view class="btn" @click="subMit">确定</view>
+  </view>
 </template>
 
 <script>
 export default {
   name: 'redpackages-detail',
   navigate: ['navigateTo', 'redirectTo'],
-  data () {
+  data() {
     return {
       items: [],
       autoplay: true,
@@ -80,11 +108,15 @@ export default {
       detail: [{ combination_detail: [] }]
     }
   },
-  onLoad () {
+  onLoad() {
     console.log(this.$parseURL())
   },
-  mounted () {
-    this.$minApi.getOriderPackageDetails({store_id:this.$parseURL().data.store.id, setmeal_id: this.$parseURL().data.product_id })
+  mounted() {
+    this.$minApi
+      .getOriderPackageDetails({
+        store_id: this.$parseURL().data.store.id,
+        setmeal_id: this.$parseURL().data.product_id
+      })
       .then(res => {
         res.info.combination.map(item => {
           item.combination_detail.map(item2 => {
@@ -99,7 +131,7 @@ export default {
       })
   },
   computed: {
-    getCount () {
+    getCount() {
       let cou = 0
       this.list.combination.map(item => {
         item.combination_detail.map(item2 => {
@@ -110,12 +142,12 @@ export default {
     }
   },
   watch: {
-    selArr (a) {
+    selArr(a) {
       console.log(a)
     }
   },
   methods: {
-    changeCount (n, index, index2) {
+    changeCount(n, index, index2) {
       // this.num_prducts = n
       this.list.combination[index].combination_detail[index2].step = n
       // this.list.combination[index].goodsCount += 1
@@ -131,14 +163,23 @@ export default {
       item.id = this.list.combination[index].combination_detail[index2].comb_id
       item.combination_detail = []
       const item2 = { id: '' }
-      item2.id = this.list.combination[index].combination_detail[index2].product_id
-      item2.type = this.list.combination[index].combination_detail[index2].comb_type === 1 ? 'product' : 'service'
-      item2.quantity = this.list.combination[index].combination_detail[index2].step
-      item2.sku_id = this.list.combination[index].combination_detail[index2].sku_id
+      item2.id = this.list.combination[index].combination_detail[
+        index2
+      ].product_id
+      item2.type =
+        this.list.combination[index].combination_detail[index2].comb_type === 1
+          ? 'product'
+          : 'service'
+      item2.quantity = this.list.combination[index].combination_detail[
+        index2
+      ].step
+      item2.sku_id = this.list.combination[index].combination_detail[
+        index2
+      ].sku_id
       item.combination_detail.push(item2)
       this.addGoods(item)
     },
-    addGoods (obj) {
+    addGoods(obj) {
       if (this.selArr.length === 0) {
         this.selArr.push(obj)
         return
@@ -163,16 +204,24 @@ export default {
         this.selArr.push(obj)
       }
     },
-    subMit () {
-      this.list.combination.map(item => {
+    subMit() {
+      let result = this.list.combination.some(item => {
         if (item.necessary === 1) {
           if (item.goodsCount !== item.last_number) {
             return this.$showToast('请选择符合要求的份数')
           }
         }
+        if (item.goodsCount > item.last_number) {
+          return true
+        }
+        return false
       })
+      if (result) {
+        return this.$showToast('请选择符合要求的份数')
+      }
       const tempArr = JSON.parse(JSON.stringify(this.selArr))
       tempArr.map((item, index) => {
+        console.log(item)
         item.combination_detail.map((item2, index2) => {
           if (item2.quantity === 0) {
             this.selArr[index].combination_detail.splice(index2, 1)
@@ -183,17 +232,16 @@ export default {
         name: 'redpackage-details',
         type: 'redirectTo',
         params: {
-          page_type:this.$parseURL().data.page_type,
+          page_type: this.$parseURL().data.page_type,
           product_type: this.$parseURL().data.product_type,
-          product_id:this.$parseURL().data.product_id,
+          product_id: this.$parseURL().data.product_id,
           desk: this.$parseURL().data.desk,
-          store:this.$parseURL().data.store,
+          store: this.$parseURL().data.store,
           product: this.selArr
         }
       })
     }
   }
-
 }
 </script>
 
@@ -205,7 +253,7 @@ export default {
     .swiper-item {
       width: 100%;
       height: 100%;
-      image{
+      image {
         width: 100%;
         height: 100%;
       }
@@ -237,42 +285,42 @@ export default {
     width: 100%;
     background: #fff;
     margin-bottom: 20rpx;
-    .title{
+    .title {
       width: 100%;
       height: 86rpx;
       line-height: 86rpx;
       display: flex;
       justify-content: space-between;
-      .right-txt{
+      .right-txt {
         color: #666666;
-        .num{
+        .num {
           color: #333;
           font-weight: bold;
           padding: 0 5rpx;
         }
-        .num1{
+        .num1 {
           padding: 0 5rpx;
         }
       }
     }
-    .i{
+    .i {
       margin: 20rpx 0;
     }
   }
-  .btn{
-    width:100%;
-    height:98rpx;
-    background:rgba(255,224,1,1);
+  .btn {
+    width: 100%;
+    height: 98rpx;
+    background: rgba(255, 224, 1, 1);
     position: fixed;
     bottom: 0;
     left: 0;
-    font-size:32rpx;
-    color:rgba(51,51,51,1);
-    line-height:98rpx;
+    font-size: 32rpx;
+    color: rgba(51, 51, 51, 1);
+    line-height: 98rpx;
     text-align: center;
   }
 }
-.empty_view{
+.empty_view {
   width: 100%;
   height: 100rpx;
 }

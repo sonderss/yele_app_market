@@ -1,11 +1,15 @@
 <template>
-  <view class="yele-grid min-flex min-flex-main-start min-flex-wrap-wrap m-lr-30 m-top-20 p-tb-20">
-    <view class="grid-item min-flex min-flex-dir-top"
-      v-for="(item,index) in list" :key="item.name"
+  <view
+    class="yele-grid min-flex min-flex-main-start min-flex-wrap-wrap m-lr-30 m-top-20 p-tb-20"
+  >
+    <view
+      class="grid-item min-flex min-flex-dir-top"
+      v-for="(item, index) in list"
+      :key="item.name"
       @click="goTo(index)"
     >
       <image class="img" :src="item.img"></image>
-      <view class="f24">{{item.text}}</view>
+      <view class="f24">{{ item.text }}</view>
     </view>
   </view>
 </template>
@@ -19,18 +23,16 @@ export default {
       default: () => []
     }
   },
-  data () {
-    return {
-
-    }
+  data() {
+    return {}
   },
   methods: {
-    goTo (n) {
+    goTo(n) {
       let result = this.$getRoot(this.list[n].root)
-      if(!result) return this.$showToast('抱歉，暂无权限')
-      if(this.list[n].url){
+      if (!result) return this.$showToast('抱歉，暂无权限')
+      if (this.list[n].url) {
         uni.navigateTo({
-          url:this.list[n].url
+          url: this.list[n].url
         })
         return
       }
@@ -41,13 +43,12 @@ export default {
       })
     }
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
 .yele-grid {
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 6px;
   .grid-item {
     padding: 10rpx 0;

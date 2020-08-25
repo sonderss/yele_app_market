@@ -7,32 +7,40 @@
       :autoplay="autoplay"
       :interval="interval"
       :duration="duration"
-       v-if="!noData"
+      v-if="!noData"
     >
       <swiper-item v-for="(item,index) in item" :key="index">
         <view class="swiper-item">
-          <image :src="item"  @error='imgerr' />
+          <image :src="item" @error="imgerr" />
         </view>
       </swiper-item>
     </swiper>
-    <view class="goods-item p-lr-20 m-bottom-20"  v-if="!noData">
-      <view class="top-view f28 m-top-10 f28" >{{list.product_name}}</view>
+    <view class="goods-item p-lr-20 m-bottom-20" v-if="!noData">
+      <view class="top-view f28 m-top-10 f28">{{list.product_name}}</view>
       <!-- <view class="top-view f28 m-top-10 f28">{{list.service_name}}</view> -->
-      <view class="botm-view" >
+      <view class="botm-view">
         <view class="f22">
-          <text class="price" v-if="product_type === 'product' ">￥{{list.sku.length === 0 ? '暂无数据': list.sku[chioceIndex].sku_price}}</text>
+          <text
+            class="price"
+            v-if="product_type === 'product' "
+          >￥{{list.sku.length === 0 ? '暂无数据': list.sku[chioceIndex].sku_price}}</text>
           <text class="price" v-if="product_type === 'service' ">￥{{list.price}}</text>
         </view>
         <!-- @change="alDel($event,n)"
-        <min-stepper  v-if="selArr.length > 0"  v-model="product_num" @change="goodsChange($event)"></min-stepper> -->
-        <min-stepper v-model="list.step"  @change="goodsChange($event)"></min-stepper>
+        <min-stepper  v-if="selArr.length > 0"  v-model="product_num" @change="goodsChange($event)"></min-stepper>-->
+        <min-stepper v-model="list.step" @change="goodsChange($event)"></min-stepper>
       </view>
     </view>
-    <min-describe @chincesku="selSku" sku="750ml*2010年/瓶" leftTxt="规格" v-if="product_type === 'product' "></min-describe>
-    <view class="introduction m-top-20 p-lr-20"  v-if="!noData">
-        <view class="title min-border-bottom m-bottom-30">详细介绍</view>
-        <view class="content p-bottom-30" >{{list.info}}</view>
-        <!-- <view class="content p-bottom-30" v-if="type === 2 || type=== 5">{{list.service_info}}</view> -->
+    <min-describe
+      @chincesku="selSku"
+      sku="750ml*2010年/瓶"
+      leftTxt="规格"
+      v-if="product_type === 'product' "
+    ></min-describe>
+    <view class="introduction m-top-20 p-lr-20" v-if="!noData">
+      <view class="title min-border-bottom m-bottom-30">详细介绍</view>
+      <view class="content p-bottom-30">{{list.info}}</view>
+      <!-- <view class="content p-bottom-30" v-if="type === 2 || type=== 5">{{list.service_info}}</view> -->
     </view>
     <min-goods-submit
       v-if="type != 1 && type != 2 "
@@ -43,92 +51,122 @@
       @leftClick="leftClick"
       @submit="submit"
     ></min-goods-submit>
-     <!-- 选择规格 -->
-    <min-popup :show="isSelSku"  @close='closeSelectedSkuPop'>
+    <!-- 选择规格 -->
+    <min-popup :show="isSelSku" @close="closeSelectedSkuPop">
       <view class="skuPop">
         <view class="skuTop">
           <view class="leftView">
-              <view class="img-view">
-                <image :src="errImg ? '/static/images/goods.png': skuObj.sku[chioceIndex].sku_img" @error="imgerr" />
-              </view>
-              <!-- sku信息 -->
-              <view class="sku-view">
-                <text class="f22">{{skuObj.product_name}}</text>
-                <text class="f22 m-tb-20">已选："{{skuObj.sku[chioceIndex].sku_full_name}}"</text>
-                <text class="f22 m">￥<text class="money">{{skuObj.sku[chioceIndex].sku_price}}</text></text>
-              </view>
+            <view class="img-view">
+              <image
+                :src="errImg ? '/static/images/goods.png': skuObj.sku[chioceIndex].sku_img"
+                @error="imgerr"
+              />
+            </view>
+            <!-- sku信息 -->
+            <view class="sku-view">
+              <text class="f22">{{skuObj.product_name}}</text>
+              <text class="f22 m-tb-10">已选："{{skuObj.sku[chioceIndex].sku_full_name}}"</text>
+              <text class="f22 m">
+                ￥
+                <text class="money">{{skuObj.sku[chioceIndex].sku_price}}</text>
+              </text>
+            </view>
           </view>
         </view>
         <view class="min-border-bottom m-lr-30"></view>
         <!-- 可选择规格项 -->
-        <view class="sku-item">
-            <view class="f26">规格</view>
-            <view class="item-view" >
-                <view :class="chioceIndex ===index ?   'item-active' : 'item' " @click="chioceO(index)" v-for="(item,index) in skuObj.sku" :key="index">{{item.sku_full_name}}</view>
-            </view>
+        <view :class=" skuObj.sku.length <=3 ? 'sku-item-num' : 'sku-item'">
+          <view class="f26">规格</view>
+          <view class="item-view">
+            <view
+              :class="chioceIndex ===index ?   'item-active f28' : 'item f28' "
+              @click="chioceO(index)"
+              v-for="(item,index) in skuObj.sku"
+              :key="index"
+            >{{item.sku_full_name}}</view>
+          </view>
         </view>
         <!-- 数量 -->
-        <view class="sku-item sku-item-num">
-            <view class="f26">数量</view>
-            <view class="m-tb-30">
-                <min-stepper :isAnimation="false" :min='1' v-model="skuObj.step"></min-stepper>
-            </view>
+        <view class="sku-item">
+          <view class="f26">数量</view>
+          <view class="m-tb-30">
+            <min-stepper :isAnimation="false" :min="1" v-model="skuObj.step"></min-stepper>
+          </view>
         </view>
         <view class="min-border-bottom m-lr-30"></view>
         <view class="btn-sku" @click="skuChioce">确定</view>
       </view>
     </min-popup>
     <!-- 已选商品 -->
-  <min-popup :show="selected" @close='closeSelectedSkuPop1'>
-    <view class="popview">
+    <min-popup :show="selected" @close="closeSelectedSkuPop1">
+      <view class="popview">
         <view class="p-lr-20">
-            <view class="top-view min-border-bottom">
-              <text>已选商品</text>
-              <view class="right-view" @click="delAll">
-                <view class="icon-del m-right-10">
-                  <image src='../../static/images/del.png'/>
+          <view class="top-view min-border-bottom">
+            <text>已选商品</text>
+            <view class="right-view" @click="delAll">
+              <view class="icon-del m-right-10">
+                <image src="../../static/images/del.png" />
+              </view>
+              <text class="f22 clear">清空</text>
+            </view>
+          </view>
+        </view>
+        <view class="main-sel-view p-lr-30 p-tb-30">
+          <view class="item" v-for="(item2,n) in selArr" :key="n">
+            <!-- <view v-if="!item2.test"> -->
+            <image
+              :src="errImg ? '/static/images/goods.png': item2.product_img"
+              mode
+              @error="imgerr"
+            />
+            <view class="content-view">
+              <view class="right-view-title">
+                <text class="f28 t" style="display:block">{{item2.product_name}}</text>
+                <text
+                  class="f26"
+                  style="color:#666666"
+                  v-if="item2.type === 'product'"
+                >规格：{{item2.sku.sku_full_name}}</text>
+              </view>
+              <view class="right-view-bottom">
+                <view class="right-view-bottom-desc">
+                  <text class="f20 t" v-if="item2.type === 'product'">
+                    ￥
+                    <text style="color:#FF0000;font-size:30">{{item2.sku.sku_price}}</text>
+                  </text>
+                  <text class="f20 t" v-if="item2.type === 'service'">
+                    ￥
+                    <text style="color:#FF0000;font-size:30">{{item2.price}}</text>
+                  </text>
                 </view>
-                <text class="f22 clear">清空</text>
+                <view class="steper">
+                  <min-stepper
+                    v-model="item2.step"
+                    :isAnimation="false"
+                    :min="0"
+                    @change="aleradyGood($event,n)"
+                  ></min-stepper>
+                  <!-- <view v-if="!isDel" @click="delItem(n)">删除</view> -->
+                </view>
               </view>
             </view>
-        </view>
-        <view class="main-sel-view p-lr-30 p-tb-30" >
-            <view class="item" v-for="(item2,n) in selArr" :key="n" >
-              <!-- <view v-if="!item2.test"> -->
-                  <image   :src="errImg ? '/static/images/goods.png': item2.product_img" mode=""  @error="imgerr"/>
-                  <view   class="content-view">
-                    <view class="right-view-title">
-                      <text class="f28 t" style="display:block">{{item2.product_name}}</text>
-                      <text class="f26" style="color:#666666" v-if="item2.type === 'product'">规格：{{item2.sku.sku_full_name}}</text>
-                    </view>
-                    <view class="right-view-bottom">
-                      <view class="right-view-bottom-desc" >
-                        <text class="f20 t" v-if="item2.type === 'product'">￥<text  style="color:#FF0000;font-size:30">{{item2.sku.sku_price}}</text></text>
-                      <text class="f20 t" v-if="item2.type === 'service'">￥<text  style="color:#FF0000;font-size:30">{{item2.price}}</text></text>
-                      </view>
-                      <view class="steper">
-                        <min-stepper v-model="item2.step" :isAnimation="false" :min='0' @change="aleradyGood($event,n)"></min-stepper>
-                        <!-- <view v-if="!isDel" @click="delItem(n)">删除</view> -->
-                      </view>
-                    </view>
-                  </view>
-              <!-- </view> -->
-            </view>
+            <!-- </view> -->
+          </view>
         </view>
         <!-- <view class="empty-view"></view> -->
         <view class="bottom-view-t">
           <min-goods-submit
-          style="position:fixed"
-          leftText="已选"
-          :totalAmount='totalAmountE'
-          :goodsCount="countNums"
-          buttonText='选好了'
-          @submit="submit"
+            style="position:fixed"
+            leftText="已选"
+            :totalAmount="totalAmountE"
+            :goodsCount="countNums"
+            buttonText="选好了"
+            @submit="submit"
           ></min-goods-submit>
         </view>
-    </view>
-  </min-popup>
-    <min-404 v-if="noData" id='none'></min-404>
+      </view>
+    </min-popup>
+    <min-404 v-if="noData" id="none"></min-404>
   </view>
 </template>
 
@@ -136,7 +174,7 @@
 export default {
   name: 'product-details',
   navigate: ['navigateTo'],
-  data () {
+  data() {
     return {
       item: [],
       autoplay: true,
@@ -156,31 +194,31 @@ export default {
       errImg: false,
       lastStep: 0,
       flag: true,
-      store_id:"",
-      delArr:[]
+      store_id: '',
+      delArr: [],
     }
   },
   watch: {
     selArr: {
-      handler (a, b) {
-        a.map((item,index) => {
-          if(item.step === 0){
-             return this.delArr.push(index)
+      handler(a, b) {
+        a.map((item, index) => {
+          if (item.step === 0) {
+            return this.delArr.push(index)
           }
         })
         this.$store.dispatch('goods/setOrderSelArr', a)
       },
-      deep: true
+      deep: true,
     },
-    delArr(a){
+    delArr(a) {
       a.map(item => {
-        this.selArr.splice(item,1)
+        this.selArr.splice(item, 1)
       })
-    }
+    },
   },
   computed: {
     // 合计金额
-    totalAmountE () {
+    totalAmountE() {
       let sum = 0
       this.selArr.map(item => {
         if (item.type === 'product') {
@@ -194,7 +232,7 @@ export default {
       return sum.toFixed(2)
     },
     // 监听所选数量
-    countNums () {
+    countNums() {
       let num = 0
       for (let i = 0; i < this.selArr.length; i++) {
         num += this.selArr[i].step
@@ -203,7 +241,7 @@ export default {
     },
     // 详情商品初始值
     product_num: {
-      get () {
+      get() {
         let num = 1
         // num = this.list.step
         // 这里是商品有sku
@@ -234,15 +272,15 @@ export default {
 
         return num
       },
-      set (v) { }
-    }
+      set(v) {},
+    },
   },
-  onLoad () {
+  onLoad() {
     // type为1时  电子菜单商品详情
     this.product_id = this.$parseURL().product_id
     this.product_type = this.$parseURL().product_type
     this.store_id = this.$parseURL().store.id
-    console.log(" this.$parseURL()", this.$parseURL())
+    console.log(' this.$parseURL()', this.$parseURL())
     // this.type = this.$parseURL().type
     console.log('商品信息', this.$parseURL())
     if (this.$store.state.goods.orderSelArr.length > 0) {
@@ -250,14 +288,18 @@ export default {
       console.log(this.selArr)
     }
   },
-  mounted () {
+  mounted() {
     console.log(this.product_type)
     if (this.product_type === 'product') {
       // store_id=3&product_id=11
-      this.$minApi.getOriderProductDetail({store_id: this.store_id, product_id: this.product_id })
+      this.$minApi
+        .getOriderProductDetail({
+          store_id: this.store_id,
+          product_id: this.product_id,
+        })
         .then(res => {
           this.list = res.info
-          this.list.step =0
+          this.list.step = 0
           this.list.type = 'product'
           console.log(this.list)
           this.item = []
@@ -267,7 +309,11 @@ export default {
           this.noData = true
         })
     } else if (this.product_type === 'service') {
-      this.$minApi.getOriderServeDetail({store_id: this.store_id, service_id: this.product_id })
+      this.$minApi
+        .getOriderServeDetail({
+          store_id: this.store_id,
+          service_id: this.product_id,
+        })
         .then(res => {
           this.list = res.info
           this.list.step = 0
@@ -283,17 +329,17 @@ export default {
   },
   methods: {
     // 选择规格事件
-    selSku (index, index2) {
+    selSku(index, index2) {
       this.isSelSku = true
       this.skuObj = this.list
       this.skuObj.step = 1
     },
     /**  关闭选择规格弹出层 */
-    closeSelectedSkuPop () {
+    closeSelectedSkuPop() {
       this.isSelSku = false
     },
     // 选择规格确定
-    skuChioce () {
+    skuChioce() {
       this.closeSelectedSkuPop()
       const obj = {}
       Object.assign(obj, this.skuObj)
@@ -301,15 +347,15 @@ export default {
       this.addGoods(obj)
     },
     // 选择规格
-    chioceO (index) {
+    chioceO(index) {
       this.chioceIndex = index
     },
     // 已选商品关闭
-    closeSelectedSkuPop1 () {
+    closeSelectedSkuPop1() {
       this.selected = false
     },
     // 已选商品统一列表方法
-    addGoods (obj) {
+    addGoods(obj) {
       if (this.selArr.length === 0) return this.selArr.push(obj)
       const result = this.selArr.some(item => {
         if (obj.type === 'service') {
@@ -339,23 +385,35 @@ export default {
       // })
     },
     // 已选商品删除事件
-    aleradyGood (e, index) {
-       let id = Number
-              if(this.selArr[index].type === 'service'){id = this.selArr[index].id}
-              if(this.selArr[index].type === 'product'){id = this.selArr[index].sku.id }
-              console.log("  this.list",  this.list);
-                    if(this.list.type === 'service' && id === this.list.id){
-                         this.$set(this.list,"step",e)
-                    }
-                    if(this.list.type === 'product' && this.list.sku.length === 1 && id === this.list.sku[0].id){
-                       this.$set(this.list,"step",e)
-                    } 
-                    if(this.list.type === 'product' && this.list.sku.length > 1 && id === this.list.sku[this.chioceIndex].id){
-                       this.$set(this.list,"step",e)
-                    }
+    aleradyGood(e, index) {
+      let id = Number
+      if (this.selArr[index].type === 'service') {
+        id = this.selArr[index].id
+      }
+      if (this.selArr[index].type === 'product') {
+        id = this.selArr[index].sku.id
+      }
+      console.log('  this.list', this.list)
+      if (this.list.type === 'service' && id === this.list.id) {
+        this.$set(this.list, 'step', e)
+      }
+      if (
+        this.list.type === 'product' &&
+        this.list.sku.length === 1 &&
+        id === this.list.sku[0].id
+      ) {
+        this.$set(this.list, 'step', e)
+      }
+      if (
+        this.list.type === 'product' &&
+        this.list.sku.length > 1 &&
+        id === this.list.sku[this.chioceIndex].id
+      ) {
+        this.$set(this.list, 'step', e)
+      }
     },
     // 图片错误
-    imgerr (e) {
+    imgerr(e) {
       if (e.type === 'error') {
         this.item = []
         this.item.push('../../static/images/bid-goods.png')
@@ -363,17 +421,17 @@ export default {
       }
     },
     // 已选商品
-    leftClick () {
+    leftClick() {
       this.selected = true
     },
     // 已选商品清空
-    delAll () {
+    delAll() {
       this.selArr = []
       this.$store.dispatch('goods/setOrderSelArr', this.selArr)
       this.list.step = 0
     },
     // 提交
-    submit () {
+    submit() {
       console.log('已选商品')
       console.log(this.$parseURL())
       if (this.selArr.length === 0) return this.$showToast('请选择商品')
@@ -407,27 +465,33 @@ export default {
         products.push(obj)
       })
       console.log(products)
-        
-          this.$minApi.setOrder({
-            desk_id: this.$parseURL().desk.id,
-            products: JSON.stringify(products)
-          }).then(res => {
-            if (res.orderId) {
-              this.$showToast('提交成功')
-              setTimeout(() => {
-                this.selArr= []
-                  this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-                  console.log(this.$parseURL())
-                  this.$minRouter.push({
-                    name:'order-make',
-                    params:{store:this.$parseURL().store,desk:this.$parseURL().desk,orderId:res.orderId}
-                  })
-              },2000)
-            }
-          })
+
+      this.$minApi
+        .setOrder({
+          desk_id: this.$parseURL().desk.id,
+          products: JSON.stringify(products),
+        })
+        .then(res => {
+          if (res.orderId) {
+            this.$showToast('提交成功')
+            setTimeout(() => {
+              this.selArr = []
+              this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+              console.log(this.$parseURL())
+              this.$minRouter.push({
+                name: 'order-make',
+                params: {
+                  store: this.$parseURL().store,
+                  desk: this.$parseURL().desk,
+                  orderId: res.orderId,
+                },
+              })
+            }, 2000)
+          }
+        })
     },
     // 商品详情计数器
-    goodsChange (e) {
+    goodsChange(e) {
       this.$set(this.list, 'step', e)
       if (this.product_type === 'service') {
         const obj = {}
@@ -445,8 +509,8 @@ export default {
         this.addGoods(obj)
         console.log(this.selArr)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -455,6 +519,8 @@ export default {
   .swiper {
     width: 690rpx;
     height: 690rpx;
+    border-radius: 10rpx 10rpx 0 0;
+    overflow: hidden;
     .swiper-item {
       width: 100%;
       height: 100%;
@@ -467,6 +533,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    border-radius: 10rpx;
     .top-view {
       color: #333333;
       font-weight: bold;
@@ -476,7 +543,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10rpx;
-      .btn{
+      .btn {
         width: 100rpx;
         height: 48rpx;
         background: #ffe001;
@@ -497,162 +564,193 @@ export default {
     width: 100%;
     background: #fff;
     margin-bottom: 100rpx;
-    .title{
+    .title {
       width: 100%;
       height: 86rpx;
       line-height: 86rpx;
     }
   }
 }
-  // 选择规格弹出
-  .skuTop {
-    width: 100%;
-    height: 180rpx;
-    margin: 30rpx 0;
+// 选择规格弹出
+.skuTop {
+  width: 100%;
+  height: 180rpx;
+  margin: 30rpx 0;
+  display: flex;
+  padding: 0 30rpx;
+
+  .leftView {
+    flex: 1;
     display: flex;
-    padding: 0 30rpx;
 
-    .leftView {
-      flex: 1;
-      display: flex;
-
-      .img-view {
-        width: 180rpx;
-        height: 180rpx;
-        margin-right: 20rpx;
-
-        image {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .sku-view {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-content: flex-end;
-
-        .m {
-          color: #ff0000;
-
-          .money {
-            font-weight: bold;
-            color: #ff0000;
-          }
-        }
-      }
-    }
-
-    .rightView {
-      width: 34rpx;
-      height: 34rpx;
+    .img-view {
+      width: 180rpx;
+      height: 180rpx;
+      margin-right: 20rpx;
 
       image {
         width: 100%;
         height: 100%;
       }
     }
-  }
 
-  .sku-item {
-    margin: 0 30rpx;
-    padding: 30rpx 0;
-    padding-bottom: 10rpx;
-    height: 300rpx;
-    overflow: auto;
-
-    .item-view {
-      margin-top: 20rpx;
-      width: 100%;
+    .sku-view {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-content: flex-end;
 
-      .item {
-        padding: 0 20rpx;
-        word-wrap: none;
-        height: 58rpx;
-        border: 1px solid rgba(51, 51, 51, 1);
-        border-radius: 10rpx;
-        margin-right: 20rpx;
-        margin-bottom: 20rpx;
-        text-align: center;
-        line-height: 58rpx;
-      }
+      .m {
+        color: #ff0000;
 
-      .item-active {
-        padding: 0 20rpx;
-        word-wrap: none;
-        height: 58rpx;
-        border: 1px solid #fe432a;
-        border-radius: 10rpx;
-        margin-right: 20rpx;
-        margin-bottom: 20rpx;
-        text-align: center;
-        line-height: 58rpx;
+        .money {
+          font-weight: bold;
+          color: #ff0000;
+        }
       }
     }
   }
 
-  .sku-item-num {
-    height: 200rpx;
-  }
+  .rightView {
+    width: 34rpx;
+    height: 34rpx;
 
-  .btn-sku {
-    width: 100%;
-    height: 98rpx;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    background: #ffe001;
-    text-align: center;
-    line-height: 98rpx;
-    font-size: 32rpx;
-    color: #333;
+    image {
+      width: 100%;
+      height: 100%;
+    }
   }
-.popview{
-  .top-view{
+}
+
+.sku-item {
+  margin: 0 30rpx;
+  padding: 30rpx 0;
+  padding-bottom: 10rpx;
+  height: 300rpx;
+  overflow: auto;
+  .item-view {
+    margin-top: 20rpx;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .item {
+      padding: 0 10rpx;
+      word-wrap: none;
+      height: 58rpx;
+      border: 1px solid rgba(51, 51, 51, 1);
+      border-radius: 10rpx;
+      margin-right: 20rpx;
+      margin-bottom: 20rpx;
+      text-align: center;
+      line-height: 58rpx;
+    }
+
+    .item-active {
+      padding: 0 10rpx;
+      word-wrap: none;
+      height: 58rpx;
+      border: 1px solid #fe432a;
+      border-radius: 10rpx;
+      margin-right: 20rpx;
+      margin-bottom: 20rpx;
+      text-align: center;
+      line-height: 58rpx;
+    }
+  }
+}
+
+.sku-item-num {
+  margin: 0 30rpx;
+  padding: 30rpx 0;
+  padding-bottom: 10rpx;
+  height: 160rpx;
+  .item-view {
+    margin-top: 20rpx;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    .item {
+      padding: 0 10rpx;
+      word-wrap: none;
+      height: 58rpx;
+      border: 1px solid rgba(51, 51, 51, 1);
+      border-radius: 10rpx;
+      margin-right: 20rpx;
+      margin-bottom: 20rpx;
+      text-align: center;
+      line-height: 58rpx;
+    }
+
+    .item-active {
+      padding: 0 10rpx;
+      word-wrap: none;
+      height: 58rpx;
+      border: 1px solid #fe432a;
+      border-radius: 10rpx;
+      margin-right: 20rpx;
+      margin-bottom: 20rpx;
+      text-align: center;
+      line-height: 58rpx;
+    }
+  }
+}
+
+.btn-sku {
+  width: 100%;
+  height: 98rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #ffe001;
+  text-align: center;
+  line-height: 98rpx;
+  font-size: 32rpx;
+  color: #333;
+}
+.popview {
+  .top-view {
     width: 100%;
     height: 83rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .clear{
-      color: #666
+    .clear {
+      color: #666;
     }
-    .right-view{
+    .right-view {
       display: flex;
       justify-content: space-between;
       align-items: center;
       height: 100%;
-      .icon-del{
+      .icon-del {
         width: 22rpx;
         height: 22rpx;
         display: flex;
         justify-content: center;
         align-items: center;
-        image{
+        image {
           width: 100%;
           height: 100%;
         }
       }
     }
-
   }
-  .main-sel-view{
+  .main-sel-view {
     width: 100%;
     height: 620rpx;
     overflow: auto;
-    .item{
+    .item {
       display: flex;
       margin-bottom: 10rpx;
       height: 140rpx;
-      &>image{
+      & > image {
         width: 140rpx;
         height: 140rpx;
         margin-right: 16rpx;
       }
-      .content-view{
+      .content-view {
         flex: 1;
         height: 100%;
         display: flex;
@@ -662,39 +760,37 @@ export default {
         color: #333333;
         align-content: space-between;
         margin-bottom: 120rpx;
-        .right-view-title{
-          .t{
-            width: 100%
+        .right-view-title {
+          .t {
+            width: 100%;
           }
         }
-        .right-view-bottom{
-            height: 48rpx;
+        .right-view-bottom {
+          height: 48rpx;
+          display: flex;
+          // position: relative;
+          justify-content: space-between;
+          .right-view-bottom-desc {
             display: flex;
-            // position: relative;
-            justify-content: space-between;
-            .right-view-bottom-desc{
-              display: flex;
-              align-items: center;
-            }
-            .steper{
-              // position: absolute;
-              // right:0;
-              display: flex;
-              justify-content: flex-end;
-              align-items: center;
-            }
+            align-items: center;
+          }
+          .steper {
+            // position: absolute;
+            // right:0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+          }
         }
       }
     }
-
   }
-  .bottom-view-t{
+  .bottom-view-t {
     position: fixed;
     left: 0;
     bottom: 0;
-
   }
-  .empty-view{
+  .empty-view {
     width: 100%;
     height: 50rpx;
   }
