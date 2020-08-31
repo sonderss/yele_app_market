@@ -135,8 +135,7 @@ export default {
         // 返回数组
         getDataChange() {
             return this.filterData(this.list.desks).length > 0 ?
-                this.filterData(this.list.desks) :
-                []
+                this.filterData(this.list.desks) : []
         }
     },
     methods: {
@@ -239,16 +238,21 @@ export default {
             let now_day = now.getDay()
             let now_time = now.getTime()
             let result = [0, 1, 2, 3, 4, 5, 6]
-            return result.map(
-                i =>
-                `${new Date(
+            return result.map(i => `${new Date(
             now_time + 24 * 60 * 60 * 1000 * i - now_day
-          ).getFullYear()}-${new Date(
+          ).getFullYear()}-${(new Date(
             now_time + 24 * 60 * 60 * 1000 * i - now_day
-          ).getMonth() + 1}-${new Date(
+          ).getMonth() + 1)*1 >= 10 ? (new Date(
             now_time + 24 * 60 * 60 * 1000 * i - now_day
-          ).getDate()}`
-            )
+          ).getMonth() + 1)*1 : '0'+(new Date(
+            now_time + 24 * 60 * 60 * 1000 * i - now_day
+          ).getMonth() + 1)*1}-${(new Date(
+            now_time + 24 * 60 * 60 * 1000 * i - now_day
+          ).getDate())*1 >= 10 ? (new Date(
+            now_time + 24 * 60 * 60 * 1000 * i - now_day
+          ).getDate()) : '0'+(new Date(
+            now_time + 24 * 60 * 60 * 1000 * i - now_day
+          ).getDate())}`)
         },
         // 日期选择器关闭
         close() {
