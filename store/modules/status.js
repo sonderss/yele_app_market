@@ -8,7 +8,9 @@ export default {
     id:'',
     dev:false,
     payMethods:[],
-    isGetUser:false
+    isGetUser:false,
+    isReloadUserInfo:false,
+    location:{longitude:'',latitude:''}
   },
   mutations: {
     setStatus: (state, data) => {
@@ -29,6 +31,14 @@ export default {
     setisGetUser: (state,data) => {
       state.isGetUser = data
       console.log(state.isGetUser)
+    },
+    setisReloadUserInfo: (state, data) => {
+      state.isReloadUserInfo = data
+      console.log("改变头像",  state.isReloadUserInfo)
+    },
+    setLocation: (state,data) => {
+      state.location = data
+      console.log(state.location)
     }
   },
   actions: {
@@ -49,6 +59,12 @@ export default {
     },
     setisGetUser ({ commit }, data) {
       commit('setisGetUser',data)
+    },
+    setisReloadUserInfo({ commit }, data) {
+      commit('setisReloadUserInfo', data)
+    },
+    setLocation ({ commit }, data) {
+      commit('setLocation',data)
     }
   }
 }

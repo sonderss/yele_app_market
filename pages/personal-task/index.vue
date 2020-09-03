@@ -61,7 +61,7 @@
               style="width:30rpx;height:30rpx;margin-left:10rpx"
               @click="eye"
               :src="
-                flag ? '/static/images/eyes_.png' : '/static/images/eyes.png'
+                flag ? '/static/images/eyes.png' : '/static/images/eyes_.png'
               "
             />
           </view>

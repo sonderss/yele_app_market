@@ -12,26 +12,32 @@
         <text>友</text>
         <view class="desc_view">好友下单 · 你获佣金 · 奖励无上限</view>
       </view> -->
+        <scroll-view class="code_view" scroll-y :style="{
+        transition: top === 0 ? 'transform 300ms' : '',
+        transform: 'translateY(' + top + 'rpx' + ')'
+      }">
 
-        <view class="code_view">
-            <view class="top_view">
-                <text class="o1"></text>
-                <text class="o"></text>
-                <text class="t">规 &nbsp;&nbsp;&nbsp;则</text>
-                <text class="o"></text>
-                <text class="o1"></text>
+            <view @touchstart="start" @touchmove="move" @touchend="end">
+                <view class="top_view">
+                    <text class="o1"></text>
+                    <text class="o"></text>
+                    <text class="t">规 &nbsp;&nbsp;&nbsp;则</text>
+                    <text class="o"></text>
+                    <text class="o1"></text>
+                </view>
+                <view class="desc_view_d m-tb-10">
+                    <view class="f24">参与平台拉新活动</view>
+                    <view class="f24 m-tb-10">邀请好友还可获得额外金额奖励</view>
+                    <view class="f24">(具体奖励以平台的拉新活动规则为准)</view>
+                </view>
+                <view class="code_">
+                    <min-qrcode cid="qrcode2307" :text="$store.state.status.url" :size="sizeCNM" makeOnLoad />
+                </view>
+                <view class="desc_hrlp m-tb-20 f20">长按识别二维码/扫一扫</view>
+                <view class="btn" @click="showPop">立即分享给好友</view>
             </view>
-            <view class="desc_view_d m-tb-10">
-                <view class="f24">参与平台拉新活动</view>
-                <view class="f24 m-tb-10">邀请好友还可获得额外金额奖励</view>
-                <view class="f24">(具体奖励以平台的拉新活动规则为准)</view>
-            </view>
-            <view class="code_">
-                <min-qrcode cid="qrcode2307" :text="$store.state.status.url" :size="sizeCNM" makeOnLoad />
-            </view>
-            <view class="desc_hrlp m-tb-20 f20">长按识别二维码/扫一扫</view>
-            <view class="btn" @click="showPop">立即分享给好友</view>
-        </view>
+
+        </scroll-view>
     </view>
     <view class="desc_yele m-tb-20">
         <text class="white">本活动最终解释权归夜乐科技所有</text>
@@ -64,7 +70,8 @@ export default {
             isShow: false,
             url: '',
             height_view: true,
-            sizeCNM: 140
+            sizeCNM: 140,
+            top: ""
         }
     },
     onLoad() {
@@ -110,7 +117,24 @@ export default {
                     this.$showToast('复制成功!')
                 }
             })
-        }
+        },
+        start(e) {
+            this.lastY = e.changedTouches[0].pageY
+        },
+        move(e) {
+            let currentY = e.changedTouches[0].pageY
+            if (this.top < currentY - this.lastY) {
+                // 像下滚动
+                this.top = currentY - this.lastY
+            } else {
+                // 向上滚动
+                //  this.top = 0
+                this.top = currentY - this.lastY
+            }
+        },
+        end(e) {
+            return (this.top = 0)
+        },
     },
     mounted() {
         uni.getSystemInfo({

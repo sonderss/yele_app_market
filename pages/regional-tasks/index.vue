@@ -44,6 +44,11 @@
             @click="left(1)"
             >成员业绩</view
           >
+          <view
+            :class="index === 2 ? 'top_view-active' : ' top_view_right'"
+            @click="left(2)"
+            >团队业绩</view
+          >
         </view>
         <view class="main p-top-20" v-if="index === 0">
           <view class="item">任务名称：{{ list.mission_name }}</view>
@@ -72,13 +77,13 @@
               style="width:30rpx;height:30rpx;margin-left:10rpx"
               @click="eye"
               :src="
-                flag ? '/static/images/eyes_.png' : '/static/images/eyes.png'
+                 flag ? '/static/images/eyes.png' : '/static/images/eyes_.png'
               "
             />
           </view>
         </view>
 
-        <view class="main p-top-20" v-if="index === 1">
+        <view class="main p-top-20" v-if="index === 1 || index === 2">
           <view class="item_table" v-for="(n, i) in users" :key="i">
             <view
               :class="

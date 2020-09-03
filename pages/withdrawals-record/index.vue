@@ -1,7 +1,7 @@
 <template>
 <view class="withdrawals-record p-lr-30 p-tb-20">
     <view class="top_view">
-        <view class="botm">
+        <view class="botm m-bottom-20">
             <text class="f30" style="color:#333">{{time}}</text>
             <text class="f26" @click="changeTime">切换时间 ></text>
         </view>

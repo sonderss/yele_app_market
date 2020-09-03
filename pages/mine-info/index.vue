@@ -15,7 +15,7 @@
                     <min-cell-item title="民族" :tail="minzu[index1]" :border="true" arrow></min-cell-item>
                 </picker>
                 <picker mode="date" @change="bindPickerChange2">
-                    <min-cell-item title="出生日期" :tail="date" :border="true" arrow></min-cell-item>
+                    <min-cell-item title="出生日期" :isWidth="false" :tail="date" :border="true" arrow></min-cell-item>
                 </picker>
                 <min-cell-item title="手机" :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无')" :border="false" arrow @eventParent="setPhone"></min-cell-item>
             </min-cell>
@@ -145,6 +145,7 @@ export default {
         this.$minApi.userInfo().then(res => {
             console.log(res)
             this.userInfo = res
+            this.$store.dispatch('user/setUserInfos', res)
             this.userInfo.birthday = this.userInfo.birthday.replace(/00:00:00/g, '')
             if (this.userInfo.bank_card_num) {
                 this.getCardLast(this.userInfo.bank_card_num)
@@ -201,6 +202,7 @@ export default {
                                 uploadFileRes.data
                             ).data[0].http_dir
                             this.setUserInfo()
+                            this.$store.dispatch('status/setisReloadUserInfo', true)
                         }
                     })
                 }

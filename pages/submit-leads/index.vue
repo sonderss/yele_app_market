@@ -5,7 +5,7 @@
         <view class="m-tb-20"></view>
         <min-cell class="mid-view" :card="false">
             <min-desc-input desc="客户姓名" v-model="name1" sign="*" placeholder="请输入姓名"></min-desc-input>
-            <min-desc-input desc="联系电话" v-model="phone" sign="*" placeholder="请输入联系电话"></min-desc-input>
+            <min-desc-input desc="联系电话" :maxlength="11" v-model="phone" sign="*" placeholder="请输入联系电话"></min-desc-input>
 
             <view @click="goChioce">
                 <min-desc-input sign="*" desc="预约时间" :isRightRrrow="true" :value="dates" placeholder="请选择预约日期" :disabled="true"></min-desc-input>
@@ -150,7 +150,7 @@ export default {
             var endTie = '2020/3/19' + ' ' + end
             const endTiemeDate = new Date(endTie)
             const startimeDate = new Date(startime)
-            var night = new Date('2020/3/18 24:00:00')
+            var night = new Date('2020/3/18 23:59:59')
             var tom = new Date('2020/3/19 00:00:00')
             const nightLine = night.getTime()
             const tommorw = tom.getTime()

@@ -22,6 +22,10 @@ export default {
     mTop:{
       type:Boolean,
       default:true
+    },
+    storeId:{
+      type:Number || String,
+      default:''
     }
   },
   data(){
@@ -36,8 +40,11 @@ export default {
       }
   },
   mounted(){
-    if(this.$store.state.status.payMethods.length >= 1) return this.payM = this.$store.state.status.payMethods
-    this.$minApi.getPayMethods().then(res=>{
+    // if(this.$store.state.status.payMethods.length >= 1) return this.payM = this.$store.state.status.payMethods
+    this.$minApi.getPayMethods({
+      store_id:this.storeId,
+      isLoading:true
+    }).then(res=>{
       this.payM = res.list
     })
   }

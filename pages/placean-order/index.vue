@@ -12,11 +12,17 @@
         <scroll-view enable-back-to-top :style="{ height: scrollHeight }" scroll-y @scroll="mainScroll" :scroll-into-view="scrollInto" :scroll-with-animation="true">
             <view v-for="(item, index) in mainArray" :key="index" :id="`item-${index}`">
                 <view v-for="(item2, index2) in item.product" :key="index2" @click.stop="goDetails(index, index2)">
-                    <min-goods-chioce :image="item2.product_img" :discount="item2.is_limited === 1 ? true : false" :title="item2.product_name" :badgeTxt="item2.type === 'setmeal' ? '套餐' : ''" :badge="item2.type === 'setmeal' ? true : false" @changes="changeChioce(index, index2)" v-model="item2.step" @changesPop="changesPopNoStep(index, index2, item2.type)" :desc="
-                item2.sku.length >= 1 ? item2.sku[0].sku_full_name : item2.info
-              " :price="
-                item2.sku.length >= 1 ? item2.sku[0].sku_price : item2.price
-              " :isFlag="item2.isFlag">
+                    <min-goods-chioce 
+                        :image="item2.product_img" 
+                        :discount="item2.is_limited === 1 ? true : false" 
+                        :title="item2.product_name" :badgeTxt="item2.type === 'setmeal' ? '套餐' : ''" 
+                        :badge="item2.type === 'setmeal' ? true : false" 
+                        @changes="changeChioce(index, index2)" v-model="item2.step" 
+                        @changesPop="changesPopNoStep(index, index2, item2.type)" 
+                        :desc="item2.sku.length >= 1 ? item2.sku[0].sku_full_name : item2.info" 
+                        :price="item2.sku.length >= 1 ? item2.sku[0].sku_price : item2.price" 
+                        :isFlag="item2.isFlag"
+                    >
                     </min-goods-chioce>
                 </view>
             </view>
@@ -47,22 +53,14 @@
                     <image :src="errImg ? '/static/images/goods.png' : item2.product_img" mode="" @error="imageErro" />
                     <view class="content-view">
                         <view class="right-view-title">
-                            <text class="f28 t" style="display:block">{{
-                  item2.product_name
-                }}</text>
+                            <text class="f28 t" style="display:block">{{item2.product_name}}</text>
                             <text class="f26" style="color:#666666" v-if="item2.type === 'product'">规格：{{ item2.sku.sku_full_name }}</text>
                         </view>
                         <view class="right-view-bottom">
                             <view class="right-view-bottom-desc">
-                                <text class="f20 t" v-if="item2.type === 'product'">￥<text style="color:#FF0000;font-size:30">{{
-                      item2.sku.sku_price
-                    }}</text></text>
-                                <text class="f20 t" v-if="item2.type === 'service'">￥<text style="color:#FF0000;font-size:30">{{
-                      item2.price
-                    }}</text></text>
-                                <text class="f20 t" v-if="item2.type === 'setmeal'">￥<text style="color:#FF0000;font-size:30">{{
-                      item2.price
-                    }}</text></text>
+                                <text class="f20 t" v-if="item2.type === 'product'">￥<text style="color:#FF0000;font-size:30">{{item2.sku.sku_price}}</text></text>
+                                <text class="f20 t" v-if="item2.type === 'service'">￥<text style="color:#FF0000;font-size:30">{{item2.price}}</text></text>
+                                <text class="f20 t" v-if="item2.type === 'setmeal'">￥<text style="color:#FF0000;font-size:30">{{item2.price}}</text></text>
                             </view>
                             <view class="steper">
                                 <min-stepper :isAnimation="false" v-model="item2.step" :min="0" @change="alDel($event, n)"></min-stepper>
@@ -79,7 +77,7 @@
     </min-popup>
 
     <!-- 选择规格 -->
-    <min-popup :show="isSelSku" @close="closeSelectedSkuPop">
+    <min-popup :show="isSelSku" @close="closeSelectedSkuPop" :heightSize="skuObj.sku.length < 3 ? '700' : '830' ">
         <!--  -->
         <view class="skuPop">
             <view class="skuTop">
@@ -97,7 +95,7 @@
             </view>
             <view class="min-border-bottom m-lr-30"></view>
             <!-- 可选择规格项 -->
-            <view :class="skuObj.sku.length <= 3 ? 'sku-item-num' : 'sku-item'">
+            <view :class="skuObj.sku.length < 3 ? 'sku-item-num' : 'sku-item'">
                 <view class="f26">规格</view>
                 <view class="item-view">
                     <view :class="chioceIndex === index ? 'item-active f28' : 'item f28'" @click="chioceO(index)" v-for="(item, index) in skuObj.sku" :key="index">{{ item.sku_full_name }}</view>
@@ -555,7 +553,7 @@ export default {
                     if (res.orderId) {
                         this.$showToast('提交成功')
                         this.selArr = []
-                        this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+                        this.$store.dispatch('goods/setOrderSelArr', [])
 
                         setTimeout(() => {
                             // 在C页面内 navigateBack，将返回A页面
@@ -568,7 +566,7 @@ export default {
                                     orderId: res.orderId
                                 }
                             })
-                        })
+                        },2000)
                     }
                 })
         },

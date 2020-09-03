@@ -225,7 +225,7 @@
 			"style": {
 				"app-plus": {
 					"titleNView": {
-						"titleText": "线索用户(批量编辑)",
+						"titleText": "线索用户",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001",
 						"buttons": [{
@@ -419,6 +419,7 @@
 			"path": "pages/store/order-store",
 			"style": {
 				"app-plus": {
+					"bounce": "none",
 					"titleNView": {
 						"titleText": "选择门店",
 						"backgroundColor": "#030313",

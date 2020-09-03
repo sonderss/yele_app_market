@@ -8,9 +8,9 @@
     <view class="m-lr-30 p-lr-30">
         <view class="inp p-left-30 min-flex min-flex-main-start min-border-bottom">
             <image class="icon" src="/static/images/login/user.png"></image>
-            <input type="number" v-model="mobile" placeholder="请输入手机号码" maxlength="11" :adjust-position="false" />
-            <view class="clear-icon" v-show="mobile" @click="mobile = ''">
-                <image src="/static/images/clear.png"></image>
+            <input type="number" v-model="mobile" placeholder="请输入手机号码" :focus="isFouce" @focus="cnmd" maxlength="11" @blur="gnm" :adjust-position="false" />
+            <view :class="isFouce && mobile ? 'clear-icon-bg  clear-icon' : 'clear-icon'" @click="aa">
+                <!-- <image src="/static/images/clear.png"></image> -->
             </view>
         </view>
         <view class="inp p-left-30 min-flex min-flex-main-between min-border-bottom">
@@ -38,7 +38,8 @@ export default {
         return {
             countDown: 0,
             code: '',
-            mobile: ''
+            mobile: '',
+            isFouce: false,
         }
     },
     onLoad() {
@@ -60,6 +61,17 @@ export default {
         }
     },
     methods: {
+        gnm() {
+            this.isFouce = false
+
+        },
+        cnmd() {
+            this.isFouce = true
+        },
+        aa() {
+            this.isFouce = false
+            this.mobile = ''
+        },
         getVerificationCode() {
             // 获取验证码
             if (!this.$minCommon.checkMobile(this.mobile)) {
@@ -150,6 +162,13 @@ export default {
             position: absolute;
             right: 0rpx;
             top: -4rpx;
+            background-repeat: no-repeat;
+            background-size: 50%;
+            background-position: center;
+        }
+
+        .clear-icon-bg {
+            background-image: url('/static/images/clear.png');
         }
     }
 
