@@ -113,7 +113,7 @@ export default {
             var endTie = '2020/3/19' + ' ' + end
             const endTiemeDate = new Date(endTie)
             const startimeDate = new Date(startime)
-            var night = new Date('2020/3/18 24:00:00')
+            var night = new Date('2020/3/18 23:59:59')
             var tom = new Date('2020/3/19 00:00:00')
             const nightLine = night.getTime()
             const tommorw = tom.getTime()
@@ -199,7 +199,8 @@ export default {
                             data: res,
                             store: this.$parseURL().store,
                             group_name: this.$parseURL().group.group_name,
-                            remaks: this.value
+                            remaks: this.value,
+                            isshengri: this.isShengri
                         }
                     })
                 }, 2000)

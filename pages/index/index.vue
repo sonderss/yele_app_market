@@ -142,11 +142,11 @@ export default {
                             root: 'finance',
                             name: 'my-income'
                         },
-                        {
-                            img: "/static/images/index/data_.png",
-                            text: "数据统计",
-                            root: 'statistics'
-                        },
+                        // {
+                        //     img: "/static/images/index/data_.png",
+                        //     text: "数据统计",
+                        //     root: 'statistics'
+                        // },
                         {
                             name: "mine-info",
                             img: "/static/images/index/person_user.png",

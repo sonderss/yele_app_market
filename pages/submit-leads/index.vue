@@ -1,7 +1,7 @@
 <template>
 <view>
     <view class="submit-leads p-lr-30 p-tb-20" v-if="isData">
-        <min-pcitem :list="list" :showArray="false"></min-pcitem>
+        <min-pcitem :list="list" :showArray="false" :isBorder="false"></min-pcitem>
         <view class="m-tb-20"></view>
         <min-cell class="mid-view" :card="false">
             <min-desc-input desc="客户姓名" v-model="name1" sign="*" placeholder="请输入姓名"></min-desc-input>

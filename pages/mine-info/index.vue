@@ -241,8 +241,7 @@ export default {
         // payMethods drawing-way
         payMethods() {
             // ‘尚未实名认证，不能进入页面
-            if (this.userInfo.is_certify !== 1)
-                return this.$showToast('尚未实名认证，不能进入页面')
+            if (this.userInfo.is_certify !== 1) return this.$showToast('尚未实名认证，不能进入页面')
             this.$minRouter.push({
                 name: 'drawing-way'
             })

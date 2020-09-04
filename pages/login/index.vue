@@ -87,29 +87,34 @@ export default {
             })
         },
         login() {
-            if (!this.$minCommon.checkMobile(this.mobile) || this.code.length !== 6)
-                return this.$showToast('请正确填写信息')
+            if (!this.$minCommon.checkMobile(this.mobile) || this.code.length !== 6) return this.$showToast('请正确填写信息')
+            if (this.flag) return
+            this.flag = true
             this.$minApi.login({
-                mobile: this.mobile,
-                code: this.code
-            }).then(res => {
-                this.$showToast('登录成功')
-                uni.setStorage({
-                    key: 'userInfo',
-                    data: JSON.stringify({
-                        phone: this.mobile
-                    }),
-                    success: function () {
-                        console.log('success')
-                    }
-                })
-                setTimeout(() => {
-                    this.$store.dispatch('user/setUserInfo', res)
-                    uni.redirectTo({
-                        url: '../index/index'
+                    mobile: this.mobile,
+                    code: this.code
+                }).then(res => {
+                    this.$showToast('登录成功')
+                    this.flag = false
+                    uni.setStorage({
+                        key: 'userInfo',
+                        data: JSON.stringify({
+                            phone: this.mobile
+                        }),
+                        success: function () {
+                            console.log('success')
+                        }
                     })
-                }, 1000)
-            })
+                    setTimeout(() => {
+                        this.$store.dispatch('user/setUserInfo', res)
+                        uni.redirectTo({
+                            url: '../index/index'
+                        })
+                    }, 1000)
+                })
+                .catch(() => {
+                    this.flag = false
+                })
         }
     }
 }

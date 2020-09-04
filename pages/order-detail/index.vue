@@ -33,6 +33,10 @@
             <view class="item">下单人员：{{list.confirm_user_name ? list.confirm_user_name : '暂无'}}
                 {{$minCommon.formatDate(new Date(list.create_time * 1000),'yyyy/MM/dd hh:mm:ss')}}
             </view>
+
+            <view class="item">应付金额：￥{{list.actual_total}}</view>
+            <view class="item">待付金额：￥{{list.unpay_price}}</view>
+
             <view class="item">订单金额：￥{{ list.order_total }}</view>
             <view class="item">已付金额：￥{{ list.pay_price }}</view>
             <view class="item" v-if="list.order_status !== 0 && list.order_status !== 1">确认时间：{{ list.confirm_user_name }} {{ list.confirm_time }}</view>
@@ -98,7 +102,7 @@
                 </view>
                 <view class="f28 m-top-20 p-bottom-20" style="font-weight: bolder;">支付方式</view>
             </view>
-            <min-pay :isTitle="false" :mTop="false" v-model="payType"  :storeId="list.store_id" />
+            <min-pay :isTitle="false" :mTop="false" v-model="payType" :storeId="list.store_id" />
             <view class="btn_pay" @click="pay_money">支付</view>
         </view>
 
