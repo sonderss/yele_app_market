@@ -42,7 +42,7 @@
             <view class="item" v-if="list.order_status !== 0 && list.order_status !== 1">确认时间：{{ list.confirm_user_name }} {{ list.confirm_time }}</view>
             <view class="item">
                 支付状态：
-                <text :class="$minCommon.getOrderStatus(list.order_status).color">{{list.pay_status === 0 ? '未付清' : '已付清'}}</text>
+                <text :class="list.pay_status ? 'fcolor':'red'">{{list.pay_status === 0 ? '未付清' : '已付清'}}</text>
             </view>
         </view>
     </view>

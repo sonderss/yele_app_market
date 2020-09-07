@@ -20,11 +20,11 @@
         <template v-for="item in newData">
             <view class="main-content min-border-top" :key="item.id">
                 <view class="creat-time t">
-                    <text>{{item.create_time}}</text>
+                    <text class="f28">{{item.create_time}}</text>
                 </view>
                 <view class="creat-info t">
-                    <text>{{item.user_name}}</text>
-                    <text class="p-top-10">{{item.mobile}}</text>
+                    <text class="f28">{{item.user_name}}</text>
+                    <text class="p-top-10 f28">{{item.mobile}}</text>
                 </view>
                 <view class="creat-money t">
                     <view>

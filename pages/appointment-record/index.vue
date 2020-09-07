@@ -48,10 +48,10 @@ export default {
                             this.data[1].push(item)
                             break;
                         case 2:
-                            this.data[2].push(item)
+                            this.data[3].push(item)
                             break;
                         case 3:
-                            this.data[3].push(item)
+                            this.data[2].push(item)
                             break;
                         case 4:
                             this.data[4].push(item)

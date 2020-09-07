@@ -31,16 +31,16 @@
             <text class="f28">活动名称</text>
             <text class="f26">{{list.activity_name}}</text>
         </view>
-        <view class="m-bottom-10 m-top-20 t" style="width:100%;display: flex;justify-content: space-between;">
+        <view class="m-bottom-10 m-top-10 t" style="width:100%;display: flex;justify-content: space-between;">
             <text class="f28">活动内容</text>
             <text class="f26">{{list.activity_content}}</text>
         </view>
-        <view class="m-bottom-10 m-top-20 t" style="width:100%;display: flex;justify-content: space-between;" v-if="list.commission_type !== 6">
+        <view class="m-bottom-10 m-top-10 t" style="width:100%;display: flex;justify-content: space-between;" v-if="list.commission_type !== 6">
             <text class="f28">活动业绩</text>
             <text class="f26">{{list.activity_performance_total}}元</text>
         </view>
-        <view class="f24 m-top-20" style="text-align:right;color:#666666">活动详情请去后台查看</view>
     </view>
+    <view v-if="list.commission_type !== 2 && list.commission_type !== 1 && list.commission_type !== 3 && list.commission_type !== 5" class="f24 m-top-20 p-left-20" style="color:#666666">活动详情请去后台查看</view>
     <!-- 订单信息 -->
     <view class="card p-lr-20 p-bottom-10 m-bottom-20" v-if="list.commission_type === 2 || list.commission_type === 1 || list.commission_type === 3 || list.commission_type === 5 || list.commission_type === 4 ">
         <view class="p-tb-30 min-border-bottom q">订单信息</view>

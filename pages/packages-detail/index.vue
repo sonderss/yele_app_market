@@ -11,8 +11,8 @@
         <view class="top-view f28 m-top-10 f28">{{ list.product_name }}</view>
         <view class="botm-view">
             <view class="f22 m-bottom-20">
-                ￥
-                <text class="price">{{ list.price }}</text>
+
+                <text class="price">￥{{ list.price }}</text>
             </view>
         </view>
     </view>
@@ -24,7 +24,11 @@
         <view style="text-align:right;" class="p-right-30">{{item.last_number}}份</view>-->
         </view>
         <view class="title min-border-bottom m-bottom-30 p-lr-20">
-            <text class="left-txt min-ellipsis">请选择{{ item.combination_name }}{{ item.last_number }}份</text><text class="f28">（{{item.is_check === 1 ? '不可重复选' : ''}}）</text>
+            <span>
+                <span class="left-txt min-ellipsis" style="width:200rpx;display:block;float:left">{{ item.combination_name }}</span>
+                <text>{{item.combination_detail.length}}选{{ item.last_number }}</text>
+                <text class="f28">（{{item.is_check === 1 ? '不可重复选' : ''}}）</text>
+            </span>
             <text v-if="type !== 3" class="right-txt f26">
                 已选
                 <text class="num1">{{ item.goodsCount }}</text>份
@@ -134,19 +138,11 @@ export default {
             const item2 = {
                 id: ''
             }
-            item2.id = this.list.combination[index].combination_detail[
-                index2
-            ].product_id
-            item2.type =
-                this.list.combination[index].combination_detail[index2].comb_type === 1 ?
-                'product' :
-                'service'
-            item2.quantity = this.list.combination[index].combination_detail[
-                index2
-            ].step
-            item2.sku_id = this.list.combination[index].combination_detail[
-                index2
-            ].sku_id
+            item2.id = this.list.combination[index].combination_detail[index2].product_id
+            item2.type = this.list.combination[index].combination_detail[index2].comb_type === 1 ? 'product' : 'service'
+            item2.quantity = this.list.combination[index].combination_detail[index2].step
+            item2.sku_id = this.list.combination[index].combination_detail[index2].sku_id
+            item2.name = this.list.combination[index].combination_detail[index2].product_name
             item.combination_detail.push(item2)
             this.addGoods(item)
         },
@@ -177,15 +173,16 @@ export default {
         },
         subMit() {
             let result = this.list.combination.some(item => {
-                if (item.necessary === 1) {
-                    if (item.goodsCount !== item.last_number) {
-                        return this.$showToast('请选择符合要求的份数')
-                    }
-                }
-                if (item.goodsCount > item.last_number) {
+                // if (item.necessary === 1) {
+                if (item.goodsCount !== item.last_number) {
+                    // return this.$showToast('请选择符合要求的份数')
                     return true
                 }
-                return false
+                // }
+                // if (item.goodsCount > item.last_number) {
+                //     return true
+                // }
+                // return false
             })
             if (result) {
                 return this.$showToast('请选择符合要求的份数')
@@ -311,6 +308,6 @@ export default {
 }
 
 .left-txt {
-    width: 300rpx;
+    width: 100rpx;
 }
 </style>

@@ -1,68 +1,70 @@
 <template>
-<view class="order-make p-tb-20 p-lr-30">
-    <min-pcitem desk :list="$parseURL().store" :isBorder="false" @emitE="toChioceStore" />
-    <view class="goods-wrap m-top-20 p-lr-20">
-        <view class="p-tb-30 min-border-bottom">
-            商品
-            <view class="status" v-if="products.length >= 1" @click="toOrder"></view>
-        </view>
-        <view class="content p-top-10" v-if="products.length === 0">
-            <view class="product_btn" @click="toOrder">去选购商品 >></view>
-        </view>
-        <view class="goods-list p-top-10" v-if="products.length >= 1">
-            <view class="m-tb-20" v-for="item in products" :key="item.id">
-                <min-goods-item :name="item.product_name" :price="item.order_price" :icon="item.product_img" :specification="item.sku" :value="item.quantity"></min-goods-item>
+<view class="order-make p-tb-20 p-lr-30" style=" margin-bottom: 50rpx;">
+    <view class="qwe">
+        <min-pcitem desk :list="$parseURL().store" :isBorder="false" @emitE="toChioceStore" />
+        <view class="goods-wrap m-top-20 p-lr-20">
+            <view class="p-tb-30 min-border-bottom">
+                商品
+                <view class="status" v-if="products.length >= 1" @click="toOrder"></view>
             </view>
-        </view>
-    </view>
-
-    <view class="card p-lr-20 m-tb-20">
-        <view class="p-tb-30 min-border-bottom desk_info_titel">
-            <view>台位信息</view>
-            <view class="bg_arrow" @click="toChioceDesk"></view>
-        </view>
-        <view class="main p-tb-20">
-            <view>
-                台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
-                <text class="emp">{{$parseURL().desk.desk_name}}</text>
+            <view class="content p-top-10" v-if="products.length === 0">
+                <view class="product_btn" @click="toOrder">去选购商品 >></view>
             </view>
-            <view>低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{$parseURL().desk.minimum_consume}}</view>
-        </view>
-    </view>
-
-    <view class="card p-lr-20 m-tb-20">
-        <view class="p-tb-30 min-border-bottom">客户信息</view>
-        <view class="main p-tb-20">
-            <view>
-                客户姓名：
-                <text class>{{$parseURL().desk.client_name?$parseURL().desk.client_name:"暂无"}}</text>
-            </view>
-            <view>联系电话：{{$parseURL().desk.client_mobile?$parseURL().desk.client_mobile:'暂无'}}</view>
-        </view>
-    </view>
-
-    <min-goods-submit buttonText="去支付" :bgCor="products.length !== 0 ?  '' : '#CCC' " :totalAmount="totalAmountE" @submit="submit" />
-    <!-- 支付弹窗 -->
-    <min-popup :show="showPayPop" @close="closePayPop" heightSize="800">
-        <view class="p-lr-30">
-            <view class="top_view">
-                <text class="title">请选择支付方式</text>
-                <view class="close_pay" @click="closePayPop"></view>
-                <!-- <view class="f26">本次支付</view>
-          <view class="money">￥{{totalAmountE}}</view>-->
-            </view>
-            <view class="min-border-bottom mid_view">
-                <view class="moey_desc min-border-bottom p-bottom-30">金额</view>
-                <view class="main_view">
-                    <view class="f28 m-top-20">订单金额：￥{{actual_total}}</view>
-                    <view class="f28 m-top-10">应付金额：￥{{totalAmountE}}</view>
+            <view class="goods-list p-top-10" v-if="products.length >= 1">
+                <view class="m-tb-20" v-for="item in products" :key="item.id">
+                    <min-goods-item :name="item.product_name" :price="item.order_price" :icon="item.product_img" :specification="item.sku" :value="item.quantity"></min-goods-item>
                 </view>
-                <view class="f28 m-top-20 p-bottom-20" style="font-weight: bolder;">支付方式</view>
             </view>
-            <min-pay :isTitle="false" :mTop="false" v-model="payType" :storeId="$parseURL().store.id" />
-            <view class="btn_pay" @click="pay_money">支付</view>
         </view>
-    </min-popup>
+
+        <view class="card p-lr-20 m-tb-20">
+            <view class="p-tb-30 min-border-bottom desk_info_titel">
+                <view>台位信息</view>
+                <view class="bg_arrow" @click="toChioceDesk"></view>
+            </view>
+            <view class="main p-tb-20">
+                <view>
+                    台&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+                    <text class="emp">{{$parseURL().desk.desk_name}}</text>
+                </view>
+                <view>低&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消：￥{{$parseURL().desk.minimum_consume}}</view>
+            </view>
+        </view>
+
+        <view class="card p-lr-20 m-tb-20">
+            <view class="p-tb-30 min-border-bottom">客户信息</view>
+            <view class="main p-tb-20">
+                <view>
+                    客户姓名：
+                    <text class>{{$parseURL().desk.client_name?$parseURL().desk.client_name:"暂无"}}</text>
+                </view>
+                <view>联系电话：{{$parseURL().desk.client_mobile?$parseURL().desk.client_mobile:'暂无'}}</view>
+            </view>
+        </view>
+
+        <min-goods-submit buttonText="去支付" :bgCor="products.length !== 0 ?  '' : '#CCC' " :totalAmount="totalAmountE" @submit="submit" />
+        <!-- 支付弹窗 -->
+        <min-popup :show="showPayPop" @close="closePayPop" heightSize="800">
+            <view class="p-lr-30">
+                <view class="top_view">
+                    <text class="title">请选择支付方式</text>
+                    <view class="close_pay" @click="closePayPop"></view>
+                    <!-- <view class="f26">本次支付</view>
+            <view class="money">￥{{totalAmountE}}</view>-->
+                </view>
+                <view class="min-border-bottom mid_view">
+                    <view class="moey_desc min-border-bottom p-bottom-30">金额</view>
+                    <view class="main_view">
+                        <view class="f28 m-top-20">订单金额：￥{{actual_total}}</view>
+                        <view class="f28 m-top-10">应付金额：￥{{totalAmountE}}</view>
+                    </view>
+                    <view class="f28 m-top-20 p-bottom-20" style="font-weight: bolder;">支付方式</view>
+                </view>
+                <min-pay :isTitle="false" :mTop="false" v-model="payType" :storeId="$parseURL().store.id" />
+                <view class="btn_pay" @click="pay_money">支付</view>
+            </view>
+        </min-popup>
+    </view>
 </view>
 </template>
 
@@ -152,16 +154,14 @@ export default {
                         })
                     } else {
                         this.closePayPop()
-                        this.$showToast('支付成功')
-                        setTimeout(() => {
-                            this.$minRouter.push({
-                                name: 'redreservation-success',
-                                type: 'redirectTo',
-                                params: {
-                                    order_id: this.$parseURL().orderId
-                                },
-                            })
-                        }, 2000)
+                        // this.$showToast('支付成功')
+                        this.$minRouter.push({
+                            name: 'redreservation-success',
+                            type: 'redirectTo',
+                            params: {
+                                order_id: this.$parseURL().orderId
+                            },
+                        })
                     }
                 })
         },
@@ -200,6 +200,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.qwe {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin-bottom: 50rpx;
+}
+
 .goods-wrap {
     background: #fff;
     padding-bottom: 20rpx;

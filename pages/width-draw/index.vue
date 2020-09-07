@@ -21,7 +21,7 @@
             </view>
         </view>
     </view>
-    <text class="warn">本次提现手续费：￥{{ tixianInfo.fee ? tixianInfo.fee : '1' }}</text>
+    <text class="warn" v-if="money">本次提现手续费：￥{{ tixianInfo.fee ? tixianInfo.fee : '1' }}</text>
     <view class="submit" @click="submit">提现</view>
     <view class="btm_descsss" @click="toVipInfo">《通联用户协议》</view>
 </view>
@@ -129,7 +129,7 @@ export default {
 <style lang="scss" scoped>
 .main {
     width: 100%;
-    height: auto;
+    height: 258rpx;
     background: #fff;
     border-radius: 10rpx;
     display: flex;
@@ -162,7 +162,7 @@ export default {
 
         .top {
             flex: 1;
-            margin-top: 30rpx;
+            margin-top: 10rpx;
         }
 
         .money {
@@ -170,8 +170,6 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30rpx;
-            padding-bottom: 30rpx;
 
             input {
                 flex: 1;
@@ -195,6 +193,7 @@ export default {
     height: 88rpx;
     background: rgba(255, 224, 1, 1);
     border-radius: 10rpx;
+    margin: 70rpx auto;
     line-height: 88rpx;
     text-align: center;
 }

@@ -1,9 +1,6 @@
 <template>
 <view class="mine-info" @touchstart="start" @touchmove="move" @touchend="end">
-    <scroll-view scroll-y :style="{
-        transition: top === 0 ? 'transform 300ms' : '',
-        transform: 'translateY(' + top + 'rpx' + ')'
-      }">
+    <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')'}">
         <view class="cell-wrap p-lr-30 p-tb-20">
             <min-cell :card="false">
                 <min-cell-item :img="userInfo.head_img" :title="userInfo.store_name" tail="编辑头像" imgSize="sm" :border="true" :isWidth="false" @eventParent="changeHeadImg" arrow></min-cell-item>
@@ -17,7 +14,7 @@
                 <picker mode="date" @change="bindPickerChange2">
                     <min-cell-item title="出生日期" :isWidth="false" :tail="date" :border="true" arrow></min-cell-item>
                 </picker>
-                <min-cell-item title="手机" :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无')" :border="false" arrow @eventParent="setPhone"></min-cell-item>
+                <min-cell-item title="手机" :tail="$minCommon.hideTel(userInfo.mobile ? userInfo.mobile : '暂无')" :border="false"></min-cell-item>
             </min-cell>
             <view class="m-top-20"></view>
             <min-cell :card="false">
@@ -27,11 +24,7 @@
             <view class="m-top-20"></view>
             <min-cell :card="false">
                 <min-cell-item title="实名认证" :tail="userInfo.is_certify === 1 ? '已认证' : '未认证'" :border="true" arrow tailType="red" @eventParent="toFace"></min-cell-item>
-                <min-cell-item title="提现银行卡" :isWidth="false" :border="true" arrow :tail="
-            userInfo.bank_card_name
-              ? userInfo.bank_card_name + `(${lastString})`
-              : '未绑定'
-          " @eventParent="payMethods(userInfo.bank_card_name)"></min-cell-item>
+                <min-cell-item title="提现银行卡" :isWidth="false" :border="true" arrow :tail="userInfo.bank_card_name ? userInfo.bank_card_name + `(${lastString})` : '未绑定' " @eventParent="payMethods(userInfo.bank_card_name)"></min-cell-item>
                 <min-cell-item title="提现密码" :border="false" arrow :tail="userInfo.is_cash_pwd ? '已设置' : '未设置'" @eventParent="toSetPsd"></min-cell-item>
             </min-cell>
         </view>
@@ -264,12 +257,13 @@ export default {
         quit() {
             this.$refs.show.handleShow({
                 title: '确认退出？',
-                success: function (res) {
+                success: (res) => {
                     if (res.id === 1) {
                         uni.removeStorage({
                             key: 'minvuexcache',
-                            success: function (res) {
+                            success: (res) => {
                                 console.log('success')
+                                this.$store.dispatch('status/setisGetUser', true)
                             }
                         })
                         uni.reLaunch({

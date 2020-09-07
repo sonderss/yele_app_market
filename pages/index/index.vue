@@ -138,7 +138,7 @@ export default {
                 {
                     grid: [{
                             img: "/static/images/index/my_money.png",
-                            text: "我的钱包",
+                            text: "我的收入",
                             root: 'finance',
                             name: 'my-income'
                         },
@@ -257,12 +257,10 @@ export default {
     },
     onShow() {
         if (this.$store.state.status.isReloadUserInfo) {
-            console.log(21331212231111)
             this.$minApi.userInfo({
                 isLoading: true
             }).then(res => {
                 res.apiAuth = this.$store.state.user.userInfo.apiAuth
-                console.log("this.$store.state.user.userInfos.apiAuth", this.$store.state.user.userInfo.apiAuth)
                 this.$store.dispatch('user/setUserInfo', res)
                 this.$store.dispatch('status/setisReloadUserInfo', false)
             })

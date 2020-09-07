@@ -161,7 +161,7 @@
 			"style": {
 				"app-plus": {
 					"titleNView": {
-						"titleText": "验证原手机号",
+						"titleText": "修改手机号码",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}
@@ -724,7 +724,7 @@
 			"style": {
 				"app-plus": {
 					"titleNView": {
-						"titleText": "修改手机号码",
+						"titleText": "绑定手机号码",
 						"backgroundColor": "#030313",
 						"titleColor": "#FFE001"
 					}

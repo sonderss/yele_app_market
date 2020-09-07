@@ -12,6 +12,7 @@
             <input v-model="code" class="m-top-20" placeholder="验证码" type="number" maxlength="6" />
         </view>
     </min-cell>
+    <view class="desc f22" v-if="flag">我们已经向尾号为{{$minCommon.getPhoneLastNum(mobile) }}的手机号发送验证码</view>
     <view class="btn" @click="submit">提交</view>
 </view>
 </template>
@@ -26,7 +27,8 @@ export default {
             name: '',
             card: '',
             code: '',
-            mobile: ''
+            mobile: '',
+            flag: false
         }
     },
     mounted() {
@@ -35,7 +37,7 @@ export default {
     methods: {
         getVerificationCode() { // 获取验证码
             if (!this.$minCommon.checkMobile(this.mobile)) {
-                this.$showToast('请输入正确的手机号码')
+                this.$showToast('请检查手机号码是否正确')
                 return
             }
             if (!this.name || !this.card) return this.$showToast("请输入密码")
@@ -44,6 +46,7 @@ export default {
                 phone: this.mobile
             }).then(res => {
                 this.$showToast('发送成功')
+                this.flag = true
                 this.$minCommon.setCountDown((num) => { // 倒计时
                     this.countDown = num
                 })
@@ -102,5 +105,14 @@ export default {
     text-align: center;
     line-height: 88rpx;
     margin-top: 50rpx;
+}
+
+.desc {
+
+    font-family: PingFang SC;
+    font-weight: 400;
+    color: #9A9A9A;
+    line-height: 9rpx;
+    text-align: right;
 }
 </style>

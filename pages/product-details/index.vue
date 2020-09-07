@@ -80,34 +80,50 @@
                     </view>
                 </view>
             </view>
-            <view class="main-sel-view p-lr-30 p-tb-30">
-                <view class="item" v-for="(item2,n) in selArr" :key="n">
-                    <!-- <view v-if="!item2.test"> -->
-                    <image :src="errImg ? '/static/images/goods.png': item2.product_img" @error="imgerr" />
-                    <view class="content-view">
-                        <view class="right-view-title">
-                            <text class="f28 t" style="display:block">{{item2.product_name}}</text>
-                            <text class="f26" style="color:#666666" v-if="item2.type === 'product'">规格：{{item2.sku.sku_full_name}}</text>
-                        </view>
-                        <view class="right-view-bottom">
-                            <view class="right-view-bottom-desc">
-                                <text class="f20 t" v-if="item2.type === 'product'">
-                                    ￥
-                                    <text style="color:#FF0000;font-size:30">{{item2.sku.sku_price}}</text>
+            <view class="main-sel-view p-lr-30 m-top-20" style="margin-bottom:300rpx" @touchstart="start" @touchmove="move" @touchend="end">
+                <scroll-view scroll-y :style="{
+        transition: top === 0 ? 'transform 300ms' : '',
+        transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'
+      }">
+                    <view class="item" v-for="(item2,n) in selArr" :key="n">
+                        <!-- <view v-if="!item2.test"> -->
+                        <image :src="errImg ? '/static/images/goods.png': item2.product_img" @error="imgerr" />
+                        <view class="content-view">
+                            <view class="right-view-title">
+                                <text class="f28 t" style="display:block">{{item2.product_name}}</text>
+                                <text class="f26 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'product'">规格：{{item2.sku.sku_full_name}}</text>
+                                <text class="f24 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'setmeal'">
+                                    规格：
+                                    <template v-for="desc in item2.combination">
+                                        <template v-for="(desc1) in desc.combination_detail">
+                                            <span :key="desc1.id" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
+                                        </template>
+                                    </template>
+
                                 </text>
-                                <text class="f20 t" v-if="item2.type === 'service'">
-                                    ￥
-                                    <text style="color:#FF0000;font-size:30">{{item2.price}}</text>
-                                </text>
+                                <text class="f26 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'service'">规格：{{ item2.info }}</text>
                             </view>
-                            <view class="steper">
-                                <min-stepper v-model="item2.step" :isAnimation="false" :min="0" @change="aleradyGood($event,n)"></min-stepper>
-                                <!-- <view v-if="!isDel" @click="delItem(n)">删除</view> -->
+                            <view class="right-view-bottom">
+                                <view class="right-view-bottom-desc">
+                                    <text class="f20 t" v-if="item2.type === 'product'">
+
+                                        <text style="color:#FF0000;font-size:30">￥{{item2.sku.sku_price}}</text>
+                                    </text>
+                                    <text class="f20 t" v-if="item2.type === 'service'">
+
+                                        <text style="color:#FF0000;font-size:30">￥{{item2.price}}</text>
+                                    </text>
+                                    <text class="f20 t" v-if="item2.type === 'setmeal'"><text style="color:#FF0000;font-size:30">￥{{item2.price}}</text></text>
+                                </view>
+                                <view class="steper">
+                                    <min-stepper v-model="item2.step" :isAnimation="false" :min="0" @change="aleradyGood($event,n)"></min-stepper>
+                                    <!-- <view v-if="!isDel" @click="delItem(n)">删除</view> -->
+                                </view>
                             </view>
                         </view>
+                        <!-- </view> -->
                     </view>
-                    <!-- </view> -->
-                </view>
+                </scroll-view>
             </view>
             <!-- <view class="empty-view"></view> -->
             <view class="bottom-view-t">
@@ -133,6 +149,8 @@ export default {
             product_id: Number,
             type: Number,
             product_type: 'product',
+            lastY: '',
+            top: '',
             list: {
                 sku: []
             },
@@ -465,6 +483,23 @@ export default {
                 console.log(this.selArr)
             }
         },
+        start(e) {
+            this.lastY = e.changedTouches[0].pageY
+        },
+        move(e) {
+            let currentY = e.changedTouches[0].pageY
+            if (this.top < currentY - this.lastY) {
+                // 像下滚动
+                this.top = currentY - this.lastY
+            } else {
+                // 向上滚动
+                //  this.top = 0
+                this.top = currentY - this.lastY
+            }
+        },
+        end(e) {
+            return (this.top = 0)
+        },
     },
 }
 </script>
@@ -714,12 +749,12 @@ export default {
 
     .main-sel-view {
         width: 100%;
-        height: 620rpx;
+        // height: 620rpx;
         overflow: auto;
 
         .item {
             display: flex;
-            margin-bottom: 10rpx;
+            margin-bottom: 20rpx;
             height: 140rpx;
 
             &>image {
@@ -741,7 +776,11 @@ export default {
 
                 .right-view-title {
                     .t {
-                        width: 100%;
+                        font-weight: bold;
+                        width: 500rpx;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
                     }
                 }
 

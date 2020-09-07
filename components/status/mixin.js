@@ -12,6 +12,11 @@ export default {
         params: { id: this.idNum }
       })
       console.log('id', this.idNum)
+    },
+    callPhone(phone) {
+        uni.makePhoneCall({
+            phoneNumber: phone
+        });
     }
   },
   mounted () {

@@ -98,7 +98,7 @@ export default {
 
     .main {
         .item {
-            margin-top: 20rpx;
+            margin-top: 10rpx;
             font-size: 28rpx;
 
             &:first-child {
