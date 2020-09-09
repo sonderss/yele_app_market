@@ -18,7 +18,8 @@
         },
         "modules" : {
             "Payment" : {},
-            "Share" : {}
+            "Share" : {},
+            "Push" : {}
         },
         /* 模块配置 */
         "distribute" : {
@@ -56,9 +57,15 @@
             /* ios打包配置 */
             "sdkConfigs" : {
                 "ad" : {},
-                "share" : {},
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx0e040d8383f21cce",
+                        "UniversalLinks" : ""
+                    }
+                },
                 "geolocation" : {},
-                "maps" : {}
+                "maps" : {},
+                "push" : {}
             },
             "icons" : {
                 "android" : {

@@ -104,7 +104,7 @@ export default {
   // 获取H5页面路径
   getH5HTML: () => minRequest.get('/5eeb09055a53c'),
   // 获取支付方式 5ece2648aefc0
-  getPayMethods: () => minRequest.get('/5ece2648aefc0'),
+  getPayMethods: data => minRequest.get('/5ece2648aefc0',data),
   // 发起支付 5ed7732591714
   postPay: data => minRequest.post('/5ed7732591714', data),
   // 身份验证cardYanZ

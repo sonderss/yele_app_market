@@ -114,7 +114,7 @@ export default {
             uni.setClipboardData({
                 data: this.$store.state.status.url,
                 success: () => {
-                    this.$showToast('复制成功!')
+                    this.$showToast('复制成功')
                 }
             })
         },

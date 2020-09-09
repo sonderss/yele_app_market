@@ -42,7 +42,7 @@
             </view>
             <view class="m-bottom-10">当天生日：{{$parseURL().isshengri ? '是' :'否'}}</view>
             <view class="m-bottom-10">预抵时间：{{$parseURL().data.arrival_time? $minCommon.formatDate(new Date($parseURL().data.arrival_time*1000),'yyyy-MM-dd hh:mm') :'暂无数据'}}
-                <span class="f26 m-left-20">({{$minCommon.getDay(new Date($parseURL().data.arrival_time*1000).getDate()) }})</span>
+                <span class="f26 m-left-20">({{$minCommon.getDay(new Date($parseURL().data.arrival_time*1000).getDay()) }})</span>
             </view>
         </view>
     </view>
