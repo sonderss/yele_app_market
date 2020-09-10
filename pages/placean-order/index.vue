@@ -41,7 +41,7 @@
             <view class="main-sel-view p-lr-30 m-top-20" style="margin-bottom:300rpx" @touchstart="start" @touchmove="move" @touchend="end">
                 <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'}">
                     <view class="item" v-for="(item2, n) in selArr" :key="n">
-                        <image :src="errImg ? '/static/images/goods.png' : item2.product_img" mode="" @error="imageErro" />
+                        <image :src="item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img " mode="" @error="imageErros($event,n)" />
                         <view class="content-view">
                             <view class="right-view-title">
                                 <text class="f28 t" style="display:block">{{item2.product_name}}</text>
@@ -96,14 +96,16 @@
                 </view>
             </view>
             <view class="min-border-bottom m-lr-30"></view>
-            <!-- 可选择规格项 -->
-            <view :class="skuObj.sku.length < 3 ? 'sku-item-num' : 'sku-item'">
-                <view class="f26">规格</view>
-                <view class="item-view">
-                    <view :class="chioceIndex === index ? 'item-active f28' : 'item f28'" @click="chioceO(index)" v-for="(item, index) in skuObj.sku" :key="index">{{ item.sku_full_name }}</view>
+            <scroll-view :class=" skuObj.sku.length < 3 ? 'sku-item-num' : 'sku-item'" scroll-y :style="{ transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')'}">
+                <!-- 可选择规格项 :class="skuObj.sku.length < 3 ? 'sku-item-num' : 'sku-item'"-->
+                <view>
+                    <view class="f26">规格</view>
+                    <view class="item-view">
+                        <view :class="chioceIndex === index ? 'item-active f28 t' : 'item f28 t'" @click="chioceO(index)" v-for="(item, index) in skuObj.sku" :key="index">{{ item.sku_full_name }}</view>
+                    </view>
                 </view>
-            </view>
-            <view class="min-border-bottom m-lr-30 m-tb-20"></view>
+            </scroll-view>
+            <view class="min-border-bottom m-lr-30"></view>
             <!-- 数量 -->
             <view class="sku-item">
                 <view class="f26">数量</view>
@@ -358,8 +360,12 @@ export default {
         // 图片错误
         imageErro(e) {
             if (e.type === 'error') {
-                this.skuObj.product_img = '/static/images/goods.png'
-                this.errImg = true
+                this.skuObj.sku[this.chioceIndex].sku_img = '/static/images/goods.png'
+            }
+        },
+        imageErros(e, n) {
+            if (e.type === 'error') {
+                this.$set(this.selArr[n], 'product_img', '/static/images/goods.png')
             }
         },
         /** 清空已选商品 */
@@ -887,39 +893,48 @@ uni-page-body {
         margin: 0 30rpx;
         padding: 30rpx 0;
         padding-bottom: 10rpx;
-        height: 300rpx;
         overflow: auto;
+        height: 220rpx;
 
         .item-view {
             margin-top: 20rpx;
             width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             flex-wrap: wrap;
 
+            .t {
+                width: 320rpx;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
             .item {
-                padding: 0 10rpx;
+                padding: 0 18rpx;
                 word-wrap: none;
                 height: 58rpx;
                 border: 1px solid rgba(51, 51, 51, 1);
                 border-radius: 10rpx;
-                margin-right: 20rpx;
+                margin-right: 40rpx;
                 margin-bottom: 20rpx;
                 text-align: center;
                 line-height: 58rpx;
+                font-size: 26rpx;
             }
 
             .item-active {
-                padding: 0 10rpx;
+                padding: 0 18rpx;
                 word-wrap: none;
                 height: 58rpx;
                 border: 1px solid #fe432a;
-                color: #fe432a;
                 border-radius: 10rpx;
-                margin-right: 20rpx;
+                margin-right: 40rpx;
                 margin-bottom: 20rpx;
                 text-align: center;
                 line-height: 58rpx;
+                color: #fe432a;
+                font-size: 26rpx;
             }
         }
     }
@@ -928,13 +943,20 @@ uni-page-body {
         margin: 0 30rpx;
         padding: 30rpx 0;
         padding-bottom: 10rpx;
-        height: 160rpx;
+        height: 120rpx;
 
         .item-view {
             margin-top: 20rpx;
             width: 100%;
             display: flex;
             flex-wrap: wrap;
+
+            .t {
+                width: 320rpx;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             .item {
                 padding: 0 10rpx;
