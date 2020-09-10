@@ -60,7 +60,7 @@ export default {
   // 预约记录 5eb52f40e43f8
   getBookList: () => minRequest.get('/5eb52f40e43f8'),
   // 下单记录 5eaa4a95b36c0
-  getOrderList: () => minRequest.get('/5eaa4a95b36c0'),
+  getOrderList: data => minRequest.get('/5eaa4a95b36c0',data),
   // 下单详情 5eb621dda3e3f
   getOrderDetailDown: data => minRequest.get('/5eb621dda3e3f', data),
   // 取消订单 5eaa4aa6df9f2

@@ -22,7 +22,7 @@
     </view>
     <!-- 底部按钮 -->
     <view class="bottom-view" v-if="mainArray.length !== 0">
-        <min-goods-submit @leftClick="selectedEvent" icon="../../static/images/cart.png" :totalAmount="totalAmountE" :goodsCount="countNums" buttonText="选好了" @submit="submit">
+        <min-goods-submit @leftClick="selectedEvent" icon="/static/images/cart.png" :totalAmount="totalAmountE" :goodsCount="countNums" buttonText="选好了" @submit="submit">
         </min-goods-submit>
     </view>
     <!-- 已选商品 -->
@@ -32,17 +32,14 @@
                 <view>已选商品</view>
                 <view class="right-view" @click="delAll">
                     <view class="icon-del m-right-10">
-                        <image src="../../static/images/del.png" />
+                        <image src="/static/images/del.png" />
                     </view>
                     <view class="f22 clear">清空</view>
                 </view>
             </view>
 
             <view class="main-sel-view p-lr-30 m-top-20" style="margin-bottom:300rpx" @touchstart="start" @touchmove="move" @touchend="end">
-                <scroll-view scroll-y :style="{
-        transition: top === 0 ? 'transform 300ms' : '',
-        transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'
-      }">
+                <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'}">
                     <view class="item" v-for="(item2, n) in selArr" :key="n">
                         <image :src="errImg ? '/static/images/goods.png' : item2.product_img" mode="" @error="imageErro" />
                         <view class="content-view">
@@ -379,6 +376,7 @@ export default {
         /**  关闭选择规格弹出层 */
         closeSelectedSkuPop() {
             this.isSelSku = false
+            this.chioceIndex = 0 // 初始化选中索引
         },
         // 删除选择项
         delItem(n) {
@@ -427,6 +425,8 @@ export default {
             console.log('商品规格弹窗', this.skuObj)
         },
         changeChioce(index, index2) {
+            this.tempId.index = index
+            this.tempId.index2 = index2
             // 服务商品
             if (this.mainArray[index].product[index2].type === 'service') {
                 // 直接放入已选商品
@@ -461,9 +461,13 @@ export default {
                     this.mainArray[index].product[index2].sku.length > 1
                 ) {
                     const obj = {}
-                    const skuOne = this.mainArray[index].product[index2].sku[
-                        this.chioceIndex
-                    ]
+                    // const skuOne = this.mainArray[index].product[index2].sku[this.chioceIndex]
+                    let skuOne = {}
+                    if (this.mainArray[index].product[index2].suoyin >= 0) {
+                        skuOne = this.mainArray[index].product[index2].sku[this.mainArray[index].product[index2].suoyin]
+                    } else {
+                        skuOne = this.mainArray[index].product[index2].sku[this.chioceIndex]
+                    }
                     Object.assign(obj, this.mainArray[index].product[index2])
                     obj.sku = skuOne
                     this.addGoods(obj)
@@ -513,6 +517,7 @@ export default {
             const obj = {}
             Object.assign(obj, this.skuObj)
             obj.sku = this.skuObj.sku[this.chioceIndex]
+            this.$set(this.mainArray[this.tempId.index].product[this.tempId.index2], "suoyin", this.chioceIndex)
             this.addGoods(obj)
             this.closeSelectedSkuPop()
             console.log('选择规格确定', this.selArr)

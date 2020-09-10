@@ -467,6 +467,7 @@
 		{
 			"path": "pages/order-recode/index",
 			"style": {
+				"enablePullDownRefresh": true,
 				"app-plus": {
 					"titleNView": {
 						"titleText": "下单记录",
