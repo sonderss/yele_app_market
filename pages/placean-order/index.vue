@@ -12,7 +12,7 @@
         <scroll-view enable-back-to-top :style="{ height: scrollHeight }" scroll-y @scroll="mainScroll" :scroll-into-view="scrollInto" :scroll-with-animation="true">
             <view v-for="(item, index) in mainArray" :key="index" :id="`item-${index}`">
                 <view v-for="(item2, index2) in item.product" :key="index2" @click.stop="goDetails(index, index2)">
-                    <min-goods-chioce :image="item2.product_img" :discount="item2.is_limited === 1 ? true : false" :title="item2.product_name" :badgeTxt="item2.type === 'setmeal' ? '套餐' : ''" :badge="item2.type === 'setmeal' ? true : false" @changes="changeChioce(index, index2)" v-model="item2.step" @changesPop="changesPopNoStep(index, index2, item2.type)" :desc="item2.sku.length >= 1 ? item2.sku[0].sku_full_name : item2.info" :price="item2.sku.length >= 1 ? item2.sku[0].sku_price : item2.price" :isFlag="item2.isFlag">
+                    <min-goods-chioce :image="item2.type !== 'setmeal' ? (item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img  ):item2.product_img " :discount="item2.is_limited === 1 ? true : false" :title="item2.product_name" :badgeTxt="item2.type === 'setmeal' ? '套餐' : ''" :badge="item2.type === 'setmeal' ? true : false" @changes="changeChioce(index, index2)" v-model="item2.step" @changesPop="changesPopNoStep(index, index2, item2.type)" :desc="item2.sku.length >= 1 ? item2.sku[0].sku_full_name : item2.info" :price="item2.sku.length >= 1 ? item2.sku[0].sku_price : item2.price" :isFlag="item2.isFlag">
                     </min-goods-chioce>
                 </view>
             </view>
@@ -41,7 +41,7 @@
             <view class="main-sel-view p-lr-30 m-top-20" style="margin-bottom:300rpx" @touchstart="start" @touchmove="move" @touchend="end">
                 <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'}">
                     <view class="item" v-for="(item2, n) in selArr" :key="n">
-                        <image :src="item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img " mode="" @error="imageErros($event,n)" />
+                        <image :src="item2.type !== 'setmeal' ? (item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img  ):item2.product_img  " mode="" @error="imageErros($event,n)" />
                         <view class="content-view">
                             <view class="right-view-title">
                                 <text class="f28 t" style="display:block">{{item2.product_name}}</text>
@@ -196,7 +196,6 @@ export default {
     watch: {
         selArr: {
             handler(a, b) {
-                console.log(a)
                 if (a.length === 0) {
                     this.mainArray.map(item => {
                         if (item.product && item.product.length > 0) {
@@ -442,9 +441,6 @@ export default {
             }
             // 套餐
             if (this.mainArray[index].product[index2].type === 'setmeal') {
-                console.log(213313213)
-                console.log(this.$store.state.goods.orderSelArr)
-
                 // 进入套餐详情页
                 // 进入商品套餐详情
                 this.$minRouter.push({
@@ -568,11 +564,13 @@ export default {
                     products: JSON.stringify(products)
                 })
                 .then(res => {
-                    if (res.orderId) {
-                        this.$showToast('提交成功')
-                        this.selArr = []
+                    this.selArr = []
+                    this.$nextTick(() => {
                         this.$store.dispatch('goods/setOrderSelArr', [])
 
+                    })
+                    if (res.orderId) {
+                        this.$showToast('提交成功')
                         setTimeout(() => {
                             // 在C页面内 navigateBack，将返回A页面
                             console.log(this.$parseURL())
@@ -593,8 +591,6 @@ export default {
             const _self = this
             // let type
             if (_self.mainArray[index].product[index2].type === 'setmeal') {
-                console.log(_self.$store.state.goods.orderSelArr)
-                console.log(_self.mainArray)
                 // 进入商品套餐详情
                 _self.$minRouter.push({
                     name: 'package-details',

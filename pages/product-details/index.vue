@@ -86,7 +86,7 @@
                 <scroll-view scroll-y :style="{ transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'}">
                     <view class="item" v-for="(item2,n) in selArr" :key="n">
                         <!-- <view v-if="!item2.test"> -->
-                        <image :src="item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img " @error="imgerrss($event,n)" />
+                        <image :src="item2.type !== 'setmeal' ? (item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img  ):item2.product_img " @error="imgerrss($event,n)" />
                         <view class="content-view">
                             <view class="right-view-title">
                                 <text class="f28 t" style="display:block">{{item2.product_name}}</text>
@@ -171,22 +171,29 @@ export default {
         }
     },
     watch: {
-        selArr: {
-            handler(a, b) {
-                a.map((item, index) => {
-                    if (item.step === 0) {
-                        return this.delArr.push(index)
-                    }
-                })
-                this.$store.dispatch('goods/setOrderSelArr', a)
-            },
-            deep: true,
-        },
-        delArr(a) {
-            a.map(item => {
-                this.selArr.splice(item, 1)
-            })
-        },
+        // selArr: {
+        //     handler(a, b) {
+        //         a.map((item, index) => {
+        //             if (item.step === 0) {
+        //                 // this.delArr.push(index)
+        //                 this.$nextTick(() => {
+        //                     a.splice(index, 1)
+        //                     this.$store.dispatch('goods/setOrderSelArr', a)
+        //                 })
+
+        //             }
+        //         })
+        //        this.$store.dispatch('goods/setOrderSelArr', a)
+
+        //     },
+        //     deep: true,
+        // },
+        // delArr(a) {
+        //     a.map(item => {
+        //         this.selArr.splice(item, 1)
+        //     })
+
+        // },
     },
     computed: {
         // 合计金额
@@ -257,7 +264,6 @@ export default {
         console.log('商品信息', this.$parseURL())
         if (this.$store.state.goods.orderSelArr.length > 0) {
             this.selArr = this.$store.state.goods.orderSelArr
-            console.log(this.selArr)
         }
     },
     mounted() {
@@ -292,7 +298,7 @@ export default {
                     this.list.type = 'service'
                     console.log(this.list)
                     this.itemsss = []
-                    this.itemsss.push(this.list.main_img)
+                    this.itemsss.push(this.list.product_img)
                 })
                 .catch(() => {
                     this.noData = true
@@ -407,8 +413,19 @@ export default {
         },
         // 已选商品清空
         delAll() {
-            this.selArr = []
-            this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            let arr = []
+            for (let i = this.selArr.length - 1; i >= 0; i--) {
+                arr.push(i)
+            }
+            arr.map(item => {
+                this.selArr.splice(item, 1)
+                this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            })
+            // this.selArr = []
+            // this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            // this.selArr.map((item, index) => {
+            //     this.selArr.splice(index, 1)
+            // })
             this.list.step = 0
         },
         // 提交
@@ -445,19 +462,22 @@ export default {
                 }
                 products.push(obj)
             })
-            console.log(products)
-
             this.$minApi
                 .setOrder({
                     desk_id: this.$parseURL().desk.id,
                     products: JSON.stringify(products),
                 })
                 .then(res => {
+                    // this.$store.dispatch('goods/setOrderSelArr', [])
+                    // this.selArr = []
+                    // this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+                    this.selArr.map((item, index) => {
+                        this.selArr.splice(index, 1)
+                    })
+                    // this.delAll()
                     if (res.orderId) {
                         this.$showToast('提交成功')
                         setTimeout(() => {
-                            this.selArr = []
-                            this.$store.dispatch('goods/setOrderSelArr', this.selArr)
                             console.log(this.$parseURL())
                             this.$minRouter.push({
                                 name: 'order-make',

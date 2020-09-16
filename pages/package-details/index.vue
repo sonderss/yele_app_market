@@ -14,8 +14,8 @@
 
                 <text class="price"> ￥{{ list.price }}</text>
             </view>
-            <min-stepper v-if="list.step" @change="changeChioce($event, list.id)" v-model="list.step"></min-stepper>
-            <view v-else class="m-right-10 m-bottom-20" style="width:40rpx;height:40rpx;" @click.stop="changeChioceT">
+            <!-- <min-stepper v-if="list.step" @change="changeChioce($event, list.id)" v-model="list.step"></min-stepper> -->
+            <view class="m-right-10 m-bottom-20" style="width:40rpx;height:40rpx;" @click.stop="toDeatil">
                 <image src="/static/images/yellow-add.png" style="width:100%" />
             </view>
         </view>
@@ -43,7 +43,7 @@
             <view class="main-sel-view p-lr-30 m-top-20" style="margin-bottom:300rpx" @touchstart="start" @touchmove="move" @touchend="end">
                 <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')','height':'600rpx'}">
                     <view class="item" v-for="(item2, n) in selArr" :key="n">
-                        <image :src="item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img " mode="aspectFit" />
+                        <image :src="item2.type !== 'setmeal' ? (item2.sku.sku_img ? item2.sku.sku_img  : item2.product_img  ):item2.product_img " mode="aspectFit" />
                         <view class="content-view">
                             <view class="right-view-title">
                                 <text class="f28 t" style="display:block">{{item2.product_name}}</text>
@@ -75,7 +75,7 @@
                                     </text>
                                 </view>
                                 <view class="steper">
-                                    <min-stepper :isAnimation="false" v-model="item2.step" :min="0" @change="alDel($event, n)"></min-stepper>
+                                    <min-stepper :isAnimation="false" v-model="item2.step" :min="0" @change.stop="alDel($event, n)"></min-stepper>
                                 </view>
                             </view>
                         </view>
@@ -139,12 +139,26 @@ export default {
         //   },
         //   deep: true
         // },
-        selArr(v) {
-            console.log(v)
-        }
+        // selArr: {
+        //     handler(a, b) {
+        //         a.map((item, index) => {
+        //             if (item.step === 0) {
+        //                 // this.delArr.push(index)
+        //                 this.$nextTick(() => {
+        //                     a.splice(index, 1)
+        //                     this.$store.dispatch('goods/setOrderSelArr', a)
+        //                 })
+
+        //             }
+        //         })
+        //         // return this.$store.dispatch('goods/setOrderSelArr', a)
+
+        //     },
+        //     deep: true,
+        // },
     },
     onShow() {
-        this.selArr = this.$store.state.goods.orderSelArr
+        return this.selArr = this.$store.state.goods.orderSelArr
     },
     mounted() {
         this.$minApi
@@ -207,13 +221,33 @@ export default {
                 // if (item.type === 'setmeal') {
                 if (item.id !== obj.id) {
                     return true
-                } else {
-                    item.combination = obj.combination
+                } else if (item.id === obj.id) {
+                    console.log(2133211111111111111111111111)
+                    // 这里是ID相同的情况
+                    // item.combination = obj.combination
+                    const aaaa = item.combination.some(objItem => {
+                        const bbbb = obj.combination.some(itemItem => {
+                            if (objItem.id !== itemItem.id) {
+                                return true
+                            } else if (objItem.id === itemItem.id) {
+                                return objItem.combination_detail.some(detail => {
+                                    return itemItem.combination_detail.some(combination_detail => {
+                                        if (detail.sku_id !== combination_detail.sku_id) {
+                                            return true
+                                        }
+                                    })
+                                })
+                            }
+                        })
+                        return bbbb
+                    })
+                    if (aaaa) return true
                 }
                 // }
             })
             if (result) {
                 this.selArr.push(obj)
+                this.selArr = this.$minCommon.arrSet(this.selArr)
                 this.$store.dispatch('goods/setOrderSelArr', this.selArr)
                 console.log(this.selArr)
             }
@@ -267,8 +301,16 @@ export default {
             // })
         },
         delAll() {
-            this.selArr = []
-            this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            // this.selArr = []
+            // this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            let arr = []
+            for (let i = this.selArr.length - 1; i >= 0; i--) {
+                arr.push(i)
+            }
+            arr.map(item => {
+                this.selArr.splice(item, 1)
+                this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+            })
         },
         // 已选弹出层删除事件
         alDel(n, index) {
@@ -282,10 +324,7 @@ export default {
         },
         // 提交
         submit() {
-            console.log('已选商品')
-            console.log(this.$parseURL())
             if (this.selArr.length === 0) return this.$showToast('请选择商品')
-            console.log('准备提交', this.selArr)
             // [{"id":1,"type":"service","quantity":1,"sku_id":0,"combination":[]}
             const products = []
             this.selArr.map(item => {
@@ -314,8 +353,6 @@ export default {
                 }
                 products.push(obj)
             })
-            console.log('this.$parseURL().desk.id', this.$parseURL())
-
             this.$minApi
                 .setOrder({
                     desk_id: this.$parseURL().desk.id,
@@ -324,10 +361,12 @@ export default {
                 .then(res => {
                     if (res.orderId) {
                         this.$showToast('提交成功')
+                        // this.selArr = []
+                        // this.$store.dispatch('goods/setOrderSelArr', [])
+                        this.selArr.map((item, index) => {
+                            this.selArr.splice(index, 1)
+                        })
                         setTimeout(() => {
-                            this.selArr = []
-                            this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-                            console.log(this.$parseURL())
                             this.$minRouter.push({
                                 name: 'order-make',
                                 params: {

@@ -16,7 +16,7 @@
                     <view class="name">{{ item.desk_name }}</view>
                     <view class="status">{{ statusArr[item.desk_status].name }}</view>
                     <view class="count">{{
-              item.amount ? `$ ${item.amount}` : '未消费'
+              item.amount ? `￥ ${item.amount}` : '未消费'
             }}</view>
                 </view>
             </view>

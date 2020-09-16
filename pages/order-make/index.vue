@@ -82,9 +82,6 @@ export default {
             actual_total: '',
         }
     },
-    mounted() {
-        // this.products = this.$store.state.goods.orderSelArr
-    },
     onShow() {
         console.log(this.$parseURL())
         if (this.$parseURL().orderId) {

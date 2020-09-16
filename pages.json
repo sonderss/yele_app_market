@@ -478,6 +478,18 @@
 			}
 		},
 		{
+			"path": "pages/user-agreement/index",
+			"style": {
+			  "app-plus": {
+				"titleNView": {
+				  "titleText": "用户协议",
+				  "backgroundColor": "#030313",
+				  "titleColor": "#FFE001"
+				}
+			  }
+			}
+		  },
+		{
 			"path": "pages/bind-bank-card/userInfo",
 			"style": {
 				"app-plus": {
