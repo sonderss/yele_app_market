@@ -229,6 +229,24 @@ export default {
                     }
                 })
             })
+            let myIsSetID = {}
+            let u = []
+            let lastStr = ''
+            this.selArr.map((iytem, index) => {
+                iytem.combination_detail.map((ite, ina) => {
+                    // myIsSetID.sku_id = iytem.id + '_' + ite.sku_id + '_'
+                    // myIsSetID.quantity = ite.quantity + ''
+                    u.push({
+                        sku_id: iytem.id + '_' + ite.sku_id + '_',
+                        quantity: ite.quantity + ''
+                    })
+                })
+                u.map(itemq => {
+                    lastStr += itemq.sku_id + itemq.quantity + '_'
+                })
+                // iytem.myIsSetID = lastStr
+                iytem.myIsSetID = this.$minCommon.getMySkuID(lastStr)
+            })
             // 有必选的情况
             if (this.isHaveBi) {
                 const result = this.selArr.some(item => {

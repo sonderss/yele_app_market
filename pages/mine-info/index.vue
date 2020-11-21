@@ -3,7 +3,7 @@
     <scroll-view scroll-y :style="{transition: top === 0 ? 'transform 300ms' : '',transform: 'translateY(' + top + 'rpx' + ')'}">
         <view class="cell-wrap p-lr-30 p-tb-20">
             <min-cell :card="false">
-                <min-cell-item :img="userInfo.head_img" :title="userInfo.store_name" tail="编辑头像" imgSize="sm" :border="true" :isWidth="false" @eventParent="changeHeadImg" arrow></min-cell-item>
+                <min-cell-item :img="userInfo.head_img ? userInfo.head_img : '/static/images/head.png' " :title="userInfo.store_name" tail="编辑头像" imgSize="sm" :border="true" :isWidth="false" @eventParent="changeHeadImg" arrow></min-cell-item>
                 <min-cell-item title="名字" :tail="userInfo.user_name" :border="true" :isWidth="false"></min-cell-item>
                 <picker @change="bindPickerChange" :value="index" :range="sex">
                     <min-cell-item title="性别" :tail="sex[index]" :border="true" arrow></min-cell-item>
@@ -26,6 +26,11 @@
                 <min-cell-item title="实名认证" :tail="userInfo.is_certify === 1 ? '已认证' : '未认证'" :border="true" arrow tailType="red" @eventParent="toFace"></min-cell-item>
                 <min-cell-item title="提现银行卡" :isWidth="false" :border="true" arrow :tail="userInfo.bank_card_name ? userInfo.bank_card_name + `(${lastString})` : '未绑定' " @eventParent="payMethods(userInfo.bank_card_name)"></min-cell-item>
                 <min-cell-item title="提现密码" :border="false" arrow :tail="userInfo.is_cash_pwd ? '已设置' : '未设置'" @eventParent="toSetPsd"></min-cell-item>
+            </min-cell>
+        </view>
+        <view class="cell-wrap p-lr-30">
+            <min-cell :card="false">
+                <min-cell-item title="版本" :border="false" :isWidth="false" :tail="version ? `v ${version}` : 'H5无法获取' "></min-cell-item>
             </min-cell>
         </view>
         <view class="m-top-30 p-lr-30">
@@ -108,11 +113,19 @@ export default {
             phone: '',
             lastString: '',
             lastY: '',
-            top: ''
+            top: '',
+            version: ''
         }
     },
     onLoad() {
         // this.phone = this.$store.state.user.userInfo.mobile
+        // #ifdef APP-PLUS
+        // 获取本地应用资源版本号
+        plus.runtime.getProperty(plus.runtime.appid, (inf) => {
+            this.version = inf.version;
+            console.log(inf);
+        });
+        // #endif
     },
     onShow() {
         if (!this.$store.state.status.isGetUser) {

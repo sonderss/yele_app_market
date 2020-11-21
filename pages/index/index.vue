@@ -5,14 +5,14 @@
         <view class="back-img-box">
             <view class="info min-flex min-flex-main-between m-lr-30">
                 <view class="min-flex min-flex-main-start">
-                    <min-avatar size="md" :url="userInfo.head_img"></min-avatar>
+                    <min-avatar size="md" :url="userInfo.head_img ? userInfo.head_img  : '/static/images/head.png'"></min-avatar>
                     <view class="m-left-20">
                         <view class="f28">{{ userInfo.user_name }}</view>
                         <view class="f22 m-top-20">{{ userInfo.position_name }}</view>
                     </view>
                 </view>
             </view>
-            <view class="code_" @click="toMyCode('invitationCode')">
+            <view class="code_" @click="toMyCode('invitationCode')" v-if="$store.state.status.url">
                 <image src="/static/images/code_admin.png" />
                 <text>邀请码</text>
             </view>
@@ -225,7 +225,7 @@ export default {
             })
             let url = unescape(res.url)
             this.$store.dispatch('status/setUrl', url)
-            console.log(url)
+            console.log('sadsa', url)
         },
         start(e) {
             this.lastY = e.changedTouches[0].pageY;

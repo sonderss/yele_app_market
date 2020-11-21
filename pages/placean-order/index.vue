@@ -48,10 +48,12 @@
                                 <text class="f26 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'product'">规格：{{ item2.sku.sku_full_name }}</text>
                                 <text class="f24 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'setmeal'">
                                     规格：
-                                    <template v-for="desc in item2.combination">
-                                        <template v-for="(desc1) in desc.combination_detail">
-                                            <span :key="desc1.id" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
-                                        </template>
+                                    <template v-for="(desc,aa) in item2.combination">
+                                        <span :key="aa">
+                                            <template v-for="(desc1,abc) in desc.combination_detail">
+                                                <span :key="abc" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
+                                            </template>
+                                        </span>
                                     </template>
 
                                 </text>
@@ -328,22 +330,39 @@ export default {
             }
         },
         /* 主区域滚动监听 */
+        // mainScroll(e) {
+        //     const top = e.detail.scrollTop
+        //     // console.log(top)
+        //     if (top === 0) {
+        //         this.leftIndex = 0
+        //     }
+        //     let index = 0
+        //     /* 查找当前滚动距离 */
+        //     for (let i = this.topArr.length - 1; i >= 0; i--) {
+        //         /* 在部分安卓设备上，因手机逻辑分辨率与rpx单位计算不是整数，滚动距离与有误差，增加2px来完善该问题 */
+        //         if (top + 2 >= this.topArr[i]) {
+        //             index = i + 1
+        //             break
+        //         }
+        //     }
+        //     this.leftIndex = index < 0 ? 0 : index
+        // },
+        /* 主区域滚动监听 */
         mainScroll(e) {
-            const top = e.detail.scrollTop
-            // console.log(top)
+            // this.$minCommon.debounce(this.testHua(e))
+            const top = e.detail.scrollTop;
             if (top === 0) {
-                this.leftIndex = 0
+                this.leftIndex = 0;
             }
-            let index = 0
+            let index = 0;
             /* 查找当前滚动距离 */
             for (let i = this.topArr.length - 1; i >= 0; i--) {
-                /* 在部分安卓设备上，因手机逻辑分辨率与rpx单位计算不是整数，滚动距离与有误差，增加2px来完善该问题 */
-                if (top + 2 >= this.topArr[i]) {
-                    index = i + 1
-                    break
+                if (top + 100 >= this.topArr[i]) {
+                    index = i;
+                    break;
                 }
             }
-            this.leftIndex = index < 0 ? 0 : index
+            this.leftIndex = index < 0 ? 0 : index;
         },
         /* 左侧导航点击 */
         leftTap(index) {

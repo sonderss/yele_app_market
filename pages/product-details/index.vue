@@ -93,10 +93,12 @@
                                 <text class="f26 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'product'">规格：{{item2.sku.sku_full_name}}</text>
                                 <text class="f24 t  m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'setmeal'">
                                     规格：
-                                    <template v-for="desc in item2.combination">
-                                        <template v-for="(desc1) in desc.combination_detail">
-                                            <span :key="desc1.id" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
-                                        </template>
+                                    <template v-for="(desc,aa) in item2.combination">
+                                        <span :key="aa">
+                                            <template v-for="(desc1,abc) in desc.combination_detail">
+                                                <span :key="abc" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
+                                            </template>
+                                        </span>
                                     </template>
 
                                 </text>

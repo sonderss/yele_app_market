@@ -50,10 +50,12 @@
                                 <text class="f26 t m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'product'">规格：{{ item2.sku.sku_full_name }}</text>
                                 <text class="f24 t m-top-10" style="color:#666666;display:block;font-weight:normal" v-if="item2.type === 'setmeal'">
                                     规格：
-                                    <template v-for="desc in item2.combination">
-                                        <template v-for="(desc1) in desc.combination_detail">
-                                            <span :key="desc1.id" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
-                                        </template>
+                                    <template v-for="(desc,aa) in item2.combination">
+                                        <span :key="aa">
+                                            <template v-for="(desc1,abc) in desc.combination_detail">
+                                                <span :key="abc" class="m-left-10">{{desc1.name}}*{{desc1.quantity}}</span>
+                                            </template>
+                                        </span>
                                     </template>
 
                                 </text>
@@ -75,7 +77,7 @@
                                     </text>
                                 </view>
                                 <view class="steper">
-                                    <min-stepper :isAnimation="false" v-model="item2.step" :min="0" @change.stop="alDel($event, n)"></min-stepper>
+                                    <min-stepper :isAnimation="false" v-model="item2.step" :min="0" @change="alDel($event, n)"></min-stepper>
                                 </view>
                             </view>
                         </view>
@@ -169,12 +171,22 @@ export default {
             .then(res => {
                 this.list = res.info
                 this.list.type = 'setmeal'
+                if (this.list.setmeal_images.length <= 0) {
+                    this.list.setmeal_images.push(this.list.product_img)
+                }
                 if (this.$parseURL().product && this.$parseURL().product.length > 0) {
                     this.product = this.$parseURL().product
                     this.list.step = 1
                     const obj = {}
                     Object.assign(obj, this.list)
                     obj.combination = this.product
+                    console.log("  obj.combination ", obj.combination)
+                    let aaaaa = ''
+                    obj.combination.map((item1, index1) => {
+                        // aaaaa += item1.myIsSetID.quantity + '_' + item1.myIsSetID.sku_id
+                        aaaaa = item1.myIsSetID
+                    })
+                    obj.aaaaa = aaaaa
                     this.addGoods(obj)
                 }
                 console.log(this.list)
@@ -214,42 +226,22 @@ export default {
             })
         },
         addGoods(obj) {
-            console.log(obj)
+            console.log("这里是obj", obj)
+            let kaiguan = true
             if (this.selArr.length === 0) return this.selArr.push(obj)
-            const result = this.selArr.some(item => {
-                console.log('item', item)
+            let a = true
+            this.selArr.map((item, index) => {
                 // if (item.type === 'setmeal') {
-                if (item.id !== obj.id) {
-                    return true
-                } else if (item.id === obj.id) {
-                    console.log(2133211111111111111111111111)
-                    // 这里是ID相同的情况
-                    // item.combination = obj.combination
-                    const aaaa = item.combination.some(objItem => {
-                        const bbbb = obj.combination.some(itemItem => {
-                            if (objItem.id !== itemItem.id) {
-                                return true
-                            } else if (objItem.id === itemItem.id) {
-                                return objItem.combination_detail.some(detail => {
-                                    return itemItem.combination_detail.some(combination_detail => {
-                                        if (detail.sku_id !== combination_detail.sku_id) {
-                                            return true
-                                        }
-                                    })
-                                })
-                            }
-                        })
-                        return bbbb
-                    })
-                    if (aaaa) return true
+                if (item.aaaaa === obj.aaaaa) {
+                    this.$set(item, "step", item.step += 1)
+                    return a = false
                 }
-                // }
             })
-            if (result) {
+            if (a) {
                 this.selArr.push(obj)
                 this.selArr = this.$minCommon.arrSet(this.selArr)
                 this.$store.dispatch('goods/setOrderSelArr', this.selArr)
-                console.log(this.selArr)
+                console.log("我的serlArr", this.selArr)
             }
         },
         /** 已选商品弹出事件 */
@@ -318,8 +310,11 @@ export default {
                 this.list.step = n
             }
             if (n === 0) {
-                this.selArr.splice(index, 1)
-                this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+                this.$nextTick(() => {
+                    this.selArr.splice(index, 1)
+                    this.$store.dispatch('goods/setOrderSelArr', this.selArr)
+                })
+
             }
         },
         // 提交

@@ -214,11 +214,8 @@ uni-page-body {
 
             text {
                 font-size: 123rpx;
-                background: linear-gradient(to right,
-                        rgba(204, 204, 204, 1),
-                        rgba(255, 255, 255, 1),
-                        rgba(57, 57, 57, 1));
-                -webkit-background-clip: text;
+                background: linear-gradient(to right, rgba(204, 204, 204, 1), rgba(255, 255, 255, 1), rgba(57, 57, 57, 1));
+                background-clip: text;
                 color: transparent;
                 font-weight: 700;
                 width: auto;
